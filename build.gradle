@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'it.sersapessi'
-version = '1.0-B'
+version = '1.0-A'
 
 repositories {
     mavenCentral()
