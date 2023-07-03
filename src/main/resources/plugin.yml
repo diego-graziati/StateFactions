@@ -1,0 +1,10 @@
+name: StateFactions
+version: '${version}'
+main: it.sersapessi.sf.StateFactions
+api-version: 1.19
+author: SerSapessi
+
+commands:
+  sf:
+    description: State Factions plugin's command prefix.
+    usage: /<command>

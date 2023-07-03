@@ -1,0 +1,12 @@
+#Supported DBMS: mysql (default)
+supported-DBMS: mysql
+
+#Path to the db used + port used, if any is used (ex1. /sql/db)(ex2. localhost:11111/db)
+path-DB: localhost:3306
+
+#DBMS credentials (default: none)
+DBMS-user:
+DBMS-pwd:
+
+#Supported lang: en-US (fallback/default), it-IT
+lang: en-US

@@ -1,0 +1,45 @@
+{
+  "string.log.lang-logger-config-startup.ok": "Il Logger, i Configs e la Lingua sono stati caricati correttamente",
+  "string.log.db.startup.sql-exception": "L'avvio del DB è fallito",
+  "string.log.db.startup.io-exception": "Il file SQL per l'avvio o non è presente, o non può essere letto oppure è corrotto",
+  "string.log.db.no-db-specified": "Nessun DB è stato specificato correttamente. Per favore, controlla la sintassi nel file config",
+  "string.log.db.startup.ok": "L'avvio del DB ha avuto successo",
+  "string.log.loggedin-players-list-init": "La lista dei giocatori che hanno effettuato l'accesso è stata inizializzata",
+  "string.log.startup-successful": "L'avvio del plugin ha avuto successo",
+
+  "string.log.db.successful-check-if-person-exists": "L'esistenza della persona è stata controllata con successo",
+  "string.log.db.successful-check-if-state-exists": "L'esistenza dello stato è stata controllata con successo",
+  "string.log.db.successful-person-registration": "La registrazione della persona è avvenuta con successo",
+  "string.log.db.successful-pwd-check": "Il controllo della password della persona è avvenuto con successo",
+  "string.log.db.successful-state-creation": "Stato creato con successo",
+
+  "string.log.db.failed-to-check-if-person-exists": "Il controllo dell'esistenza della persona è fallito",
+  "string.log.db.failed-to-register-person": "La registrazione della persona è fallita",
+  "string.log.db.failed-pwd-check": "Il controllo della password della persona è fallito",
+  "string.log.db.failed-id-check": "Il controllo dell'id della persona è fallito",
+  "string.log.db.failed-state-creation": "La creazione di uno stato è fallita",
+
+
+  "string.command.error.pwd-contains-blank-spaces": "La password non può contenere spazi vuoti",
+  "string.command.error.pwd-confirmpwd-not-equal": "La password e la password di conferma devono essere identiche",
+  "string.command.error.already-registered": "Questo utente risulta già registrato",
+  "string.command.error.wrong-pwd": "La password inserita è sbagliata",
+  "string.command.error.already-loggedin": "Hai già eseguito l'accesso",
+  "string.command.error.not-registered": "Non sembra che tu sia registrato",
+  "string.command.error.not-loggedin": "Devi aver effettuato l'accesso per usare il comando",
+  "string.command.error.no-coords-specified": "Devi specificare le coordinate del blocco",
+  "string.command.error.state-already-exists": "Questo stato esiste di già",
+  "string.command.error.state-doesnt-exists": "Lo stato inserito non esiste",
+  "string.command.error.area-already-claimed.single-state": "Quest'area è stata già claimata da un altro stato: ",
+
+  "string.command.success.player-registered": "Sei stato registrato con successo",
+  "string.command.success.player-loggedin": "Hai eseguito l'accesso con successo",
+  "string.command.success.state-created": "Hai creato lo stato: ",
+  "string.command.success.claim-created": "Claim creato con successo",
+
+  "string.command.error.too-many-words": "Hai scritto troppe parole",
+  "string.command.error.not-enough-args": "Mancano degli argomenti",
+  "string.command.error.illegal-char": "Un carattere illegale è stato trovato all'interno degli argomenti: \"§&\"",
+
+  "string.title.exiting-state": "Stai lasciando "
+}

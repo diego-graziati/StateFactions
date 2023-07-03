@@ -1,0 +1,45 @@
+{
+  "string.log.lang-logger-config-startup.ok": "Logger, Configs and Language correctly loaded",
+  "string.log.db.startup.sql-exception": "The DB startup has failed",
+  "string.log.db.startup.io-exception": "The SQL startup file is either absent, can't be read or is corrupted",
+  "string.log.db.no-db-specified": "No DB has been specified correctly. Please, check the syntax inside the config's file",
+  "string.log.db.startup.ok": "The DB startup was successful",
+  "string.log.loggedin-players-list-init": "The logged in player list has been initialized",
+  "string.log.startup-successful": "The plugin startup succeeded",
+
+  "string.log.db.successful-check-if-person-exists": "Person existence successfully checked",
+  "string.log.db.successful-check-if-state-exists": "State existence successfully checked",
+  "string.log.db.successful-person-registration": "Person registration successfully executed",
+  "string.log.db.successful-pwd-check": "Person's pwd successfully checked",
+  "string.log.db.successful-state-creation": "State successfully created",
+
+  "string.log.db.failed-to-check-if-person-exists": "Failed to check if person exists",
+  "string.log.db.failed-to-register-person": "Failed to register the person",
+  "string.log.db.failed-pwd-check": "Person's pwd check failed",
+  "string.log.db.failed-id-check": "Person's id check failed",
+  "string.log.db.failed-state-creation": "State's creation failed",
+
+
+  "string.command.error.pwd-contains-blank-spaces": "The password can't contain blank spaces",
+  "string.command.error.pwd-confirmpwd-not-equal": "The password and the confirm password must be identical",
+  "string.command.error.already-registered": "This user has already been registered",
+  "string.command.error.wrong-pwd": "The inserted password is wrong",
+  "string.command.error.already-loggedin": "You're already logged in",
+  "string.command.error.not-registered": "You don't seem to be registered",
+  "string.command.error.not-loggedin": "You must be logged in to send this command",
+  "string.command.error.no-coords-specified": "You must specify the block coordinates",
+  "string.command.error.state-already-exists": "This state already exists",
+  "string.command.error.state-doesnt-exists": "The specified state doesn't exists",
+  "string.command.error.area-already-claimed.single-state": "This area has already been claimed by another state: ",
+
+  "string.command.success.player-registered": "You've been successfully registered",
+  "string.command.success.player-loggedin": "You've successfully logged in",
+  "string.command.success.state-created": "You've successfully created the state: ",
+  "string.command.success.claim-created": "Claim successfully created",
+
+  "string.command.error.too-many-words": "You've typed too many words",
+  "string.command.error.not-enough-args": "You're missing some arguments",
+  "string.command.error.illegal-char": "Illegal char found inside the args: \"§&\"",
+
+  "string.title.exiting-state": "You're exiting "
+}
