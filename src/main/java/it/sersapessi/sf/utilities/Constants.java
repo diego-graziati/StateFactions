@@ -43,6 +43,13 @@ public final class Constants {
         public static final String GET_CLAIM_OWNER = "get_claim_owner";
         public static final String GET_STATE_NAME_BY_ID = "get_state_name_by_id";
         public static final String GET_STATE_ID_BY_NAME = "get_state_id_by_name";
+        public static final String GET_MULTIPLE_SECTORS_CLAIM_OWNER = "get_multiple_sectors_claim_owner";
+        public static final String INTELLIGENT_MULTIREGION_CLAIM = "intelligent_multiregion_claim";
+        public static final String ADD_CITIZEN = "add_citizen";
+        public static final String ADD_CITIZENSHIP_REQUEST = "add_citizenship_request";
+        public static final String REMOVE_CITIZENSHIP_REQUEST = "remove_citizenship_request";
+        public static final String CHECK_IF_CITIZEN_EXISTS = "check_if_citizen_exists";
+        public static final String CHECK_IF_CITIZENSHIP_REQUEST_ALREADY_EXISTS = "check_if_citizenship_request_already_exists";
     }
     public static final class DB_Tables{
         public static final class SF_Person{
@@ -67,6 +74,9 @@ public final class Constants {
         public static final String LOGIN = "login";
         public static final String FACTION = "faction";
         public static final String CLAIM = "claim";
+        public static final String CIT_REQUEST = "cit-request";
+        public static final String CIT_REQUEST_ACCEPT = "cit-request-accept";
+        public static final String CIT_REQUEST_DENY = "cit-request-deny";
     }
     public static final class Configs{
         public static final String LANG = "lang";
@@ -125,6 +135,7 @@ public final class Constants {
                     public static final String ALREADY_REGISTERED= "string.command.error.already-registered";
                     public static final String TOO_MANY_WORDS= "string.command.error.too-many-words";
                     public static final String WRONG_PWD= "string.command.error.wrong-pwd";
+                    public static final String YOU_MUST_BE_A_PLAYER = "string.command.error.you-must-be-a-player";
                     public static final String ALREADY_LOGGEDIN= "string.command.error.already-loggedin";
                     public static final String NOT_ENOUGH_ARGS= "string.command.error.not-enough-args";
                     public static final String NOT_REGISTERED = "string.command.error.not-registered";
@@ -134,12 +145,25 @@ public final class Constants {
                     public static final String STATE_DOESNT_EXISTS = "string.command.error.state-doesnt-exists";
                     public static final String ILLEGAL_CHAR = "string.command.error.illegal-char";
                     public static final String AREA_ALREADY_CLAIMED_SINGLE_STATE= "string.command.error.area-already-claimed.single-state";
+                    public static final String YOU_MUST_INSERT_COORDS_CORRECTLY= "string.command.error.you-must-insert-coords-correctly";
+                    public static final String YOU_MUST_CLAIM_ONE_BLOCK = "string.command.error.you-must-claim-one-block";
+                    public static final String ALREADY_A_CITIZEN = "string.command.error.already-a-citizen";
+                    public static final String PERSON_ALREADY_A_CITIZEN = "string.command.error.person-already-a-citizen";
+                    public static final String CIT_REQ_ALREADY_SENT = "string.command.error.cit-req-already-sent";
+                    public static final String PERSON_DOESNT_EXISTS = "string.command.error.person-doesnt-exists";
+                    public static final String NOT_A_CITIZEN = "string.command.error.not-a-citizen";
+                    public static final String PERSON_HAS_NO_CIT_REQ_SENT = "string.command.error.person-has-no-cit-req-sent";
                 }
                 public static final class Success{
                     public static final String PLAYER_REGISTERED = "string.command.success.player-registered";
                     public static final String PLAYER_LOGGEDIN = "string.command.success.player-loggedin";
                     public static final String STATE_CREATED = "string.command.success.state-created";
                     public static final String CLAIM_CREATED= "string.command.success.claim-created";
+                    public static final String CIT_REQ_SENT= "string.command.success.cit-req-sent";
+                    public static final String CIT_REQ_ACCEPTED = "string.command.success.cit-req-accepted";
+                    public static final String CIT_REQ_DENIED = "string.command.success.cit-req-denied";
+                    public static final String NEW_CIT = "string.command.success.new-cit";
+                    public static final String CIT_DENIED = "string.command.success.cit-denied";
                 }
             }
             public static final class Title{
@@ -164,6 +188,13 @@ public final class Constants {
             public static final String DB_GET_CLAIM_OWNER = DB_MYSQL_FOLDER+"/GetClaimOwner_query_sql.sql";
             public static final String DB_GET_STATE_NAME_BY_ID = DB_MYSQL_FOLDER+"/GetStateNameById_query_sql.sql";
             public static final String DB_GET_STATE_ID_BY_NAME = DB_MYSQL_FOLDER+"/GetStateIdByName_query_sql.sql";
+            public static final String DB_GET_MULTIPLE_SECTORS_CLAIM_OWNER = DB_MYSQL_FOLDER+"/GetMultipleSectorsClaimOwner_query_sql.sql";
+            public static final String DB_INTELLIGENT_MULTIREGION_CLAIM = DB_MYSQL_FOLDER+"/IntelligentMultiregionClaim_query_sql.sql";
+            public static final String DB_ADD_CITIZEN = DB_MYSQL_FOLDER+"/AddCitizen_query_sql.sql";
+            public static final String DB_ADD_CITIZENSHIP_REQUEST = DB_MYSQL_FOLDER+"/AddCitizenshipRequest_query_sql.sql";
+            public static final String DB_REMOVE_CITIZENSHIP_REQUEST = DB_MYSQL_FOLDER+"/RemoveCitizenshipRequest_query_sql.sql";
+            public static final String DB_CHECK_IF_CITIZEN_EXISTS = DB_MYSQL_FOLDER+"/CheckIfCitizenExists_query_sql.sql";
+            public static final String DB_CHECK_IF_CITIZENSHIP_REQUEST_ALREADY_EXISTS = DB_MYSQL_FOLDER+"/CheckIfCitizenshipRequestAlreadyExists_query_sql.sql";
         }
     }
 }

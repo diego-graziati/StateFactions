@@ -74,6 +74,20 @@ public class Database {
                 StateFactions.logger.log(new LogRecord(Level.INFO,"Test9"));
                 queryMap.put(Constants.QueryMap.GET_STATE_ID_BY_NAME,getSQL(Constants.Resources.MYSQL.DB_GET_STATE_ID_BY_NAME));
                 StateFactions.logger.log(new LogRecord(Level.INFO,"Test10"));
+                queryMap.put(Constants.QueryMap.GET_MULTIPLE_SECTORS_CLAIM_OWNER,getSQL(Constants.Resources.MYSQL.DB_GET_MULTIPLE_SECTORS_CLAIM_OWNER));
+                StateFactions.logger.log(new LogRecord(Level.INFO,"Test11"));
+                queryMap.put(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM,getSQL(Constants.Resources.MYSQL.DB_INTELLIGENT_MULTIREGION_CLAIM));
+                StateFactions.logger.log(new LogRecord(Level.INFO,"Test12"));
+                queryMap.put(Constants.QueryMap.ADD_CITIZEN,getSQL(Constants.Resources.MYSQL.DB_ADD_CITIZEN));
+                StateFactions.logger.log(new LogRecord(Level.INFO,"Test13"));
+                queryMap.put(Constants.QueryMap.ADD_CITIZENSHIP_REQUEST,getSQL(Constants.Resources.MYSQL.DB_ADD_CITIZENSHIP_REQUEST));
+                StateFactions.logger.log(new LogRecord(Level.INFO,"Test14"));
+                queryMap.put(Constants.QueryMap.REMOVE_CITIZENSHIP_REQUEST,getSQL(Constants.Resources.MYSQL.DB_REMOVE_CITIZENSHIP_REQUEST));
+                StateFactions.logger.log(new LogRecord(Level.INFO,"Test15"));
+                queryMap.put(Constants.QueryMap.CHECK_IF_CITIZEN_EXISTS,getSQL(Constants.Resources.MYSQL.DB_CHECK_IF_CITIZEN_EXISTS));
+                StateFactions.logger.log(new LogRecord(Level.INFO,"Test16"));
+                queryMap.put(Constants.QueryMap.CHECK_IF_CITIZENSHIP_REQUEST_ALREADY_EXISTS,getSQL(Constants.Resources.MYSQL.DB_CHECK_IF_CITIZENSHIP_REQUEST_ALREADY_EXISTS));
+                StateFactions.logger.log(new LogRecord(Level.INFO,"Test17"));
 
                 break;
         }
@@ -248,6 +262,34 @@ public class Database {
 
                     claimOwners.add(set.getString(Constants.DB_Tables.SF_State.STATE_NAME));
                 }
+            }else{
+                PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_MULTIPLE_SECTORS_CLAIM_OWNER));
+                StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_MULTIPLE_SECTORS_CLAIM_OWNER)));
+                ps.setInt(1,region.getSector1().getX1());
+                ps.setInt(2,region.getSector2().getX2());
+                ps.setInt(3,region.getSector1().getZ1());
+                ps.setInt(4,region.getSector2().getZ2());
+
+                ResultSet set = ps.executeQuery();
+
+                StateFactions.logger.log(new LogRecord(Level.INFO,"ResultSet set = "+(set==null?"null":set)));
+                if(set!=null){
+
+                    while(set.next()){
+                        int stateId = set.getInt(Constants.DB_Tables.SF_State_Space.STATE_ID);
+
+                        StateFactions.logger.log(new LogRecord(Level.INFO, "StateId: "+stateId));
+
+                        ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_NAME_BY_ID));
+                        StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_NAME_BY_ID)));
+                        ps.setInt(1,stateId);
+                        set = ps.executeQuery();
+
+                        set.next();
+
+                        claimOwners.add(set.getString(Constants.DB_Tables.SF_State.STATE_NAME));
+                    }
+                }
             }
 
         } catch (SQLException e) {
@@ -263,7 +305,7 @@ public class Database {
         try{
             ArrayList<String> claimOwners = getClaimOwners(region);
 
-            if(claimOwners.isEmpty()){
+            if(claimOwners.isEmpty()){ //single region claim
                 PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
                 StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
                 ps.setString(1,stateName);
@@ -286,9 +328,298 @@ public class Database {
                     ps.execute();
 
                     sender.sendPlainMessage(Constants.ChatStyling.Colors.GREEN+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Success.CLAIM_CREATED));
+                }else{ //multiregion claim
+
+                    if(region.getSector1().getX1()<region.getSector2().getX2() && region.getSector1().getZ1()<region.getSector2().getZ2()){
+                        StateFactions.logger.log(new LogRecord(Level.INFO,"Case 1"));
+
+                        ClaimSector claimSector = new ClaimSector(region.getSector1().getX1(),region.getSector1().getZ1(),region.getSector1().getX2(),region.getSector1().getZ2());
+
+                        while(claimSector.getZ2()!=region.getSector2().getZ2()+1){
+
+                            int originalX1=claimSector.getX1();
+
+                            while(claimSector.getX2()!=region.getSector2().getX2()+1){
+                                ps = db.prepareStatement(queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM));
+                                StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM)));
+                                ps.setInt(1,stateId);
+                                ps.setInt(2,claimSector.getX1());
+                                ps.setInt(3,claimSector.getZ1());
+                                ps.setInt(4,claimSector.getX2());
+                                ps.setInt(5,claimSector.getZ2());
+
+                                ps.execute();
+
+                                int x1=claimSector.getX1();
+                                int x2=claimSector.getX2();
+                                claimSector.setX1(++x1);
+                                claimSector.setX2(++x2);
+                            }
+
+                            claimSector.setX1(originalX1);
+                            claimSector.setX2(++originalX1);
+
+                            int z1=claimSector.getZ1();
+                            int z2=claimSector.getZ2();
+                            claimSector.setZ1(++z1);
+                            claimSector.setZ2(++z2);
+                        }
+                    }else if(region.getSector1().getX1()<region.getSector2().getX2() && region.getSector1().getZ1()>region.getSector2().getZ2()){
+                        StateFactions.logger.log(new LogRecord(Level.INFO,"Case 2"));
+
+                        ClaimSector claimSector = new ClaimSector(region.getSector1().getX1(),region.getSector1().getZ1(),region.getSector1().getX2(),region.getSector1().getZ2());
+
+                        while(claimSector.getZ2()!=region.getSector2().getZ2()-1){
+
+                            int originalX1=claimSector.getX1();
+
+                            while(claimSector.getX2()!=region.getSector2().getX2()+1){
+                                ps = db.prepareStatement(queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM));
+                                StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM)));
+                                ps.setInt(1,stateId);
+                                ps.setInt(2,claimSector.getX1());
+                                ps.setInt(3,claimSector.getZ1());
+                                ps.setInt(4,claimSector.getX2());
+                                ps.setInt(5,claimSector.getZ2());
+
+                                ps.execute();
+
+                                int x1=claimSector.getX1();
+                                int x2=claimSector.getX2();
+                                claimSector.setX1(++x1);
+                                claimSector.setX2(++x2);
+                            }
+
+                            claimSector.setX1(originalX1);
+                            claimSector.setX2(++originalX1);
+
+                            int z1=claimSector.getZ1();
+                            int z2=claimSector.getZ2();
+                            claimSector.setZ1(--z1);
+                            claimSector.setZ2(--z2);
+                        }
+                    }else if(region.getSector1().getX1()>region.getSector2().getX2() && region.getSector1().getZ1()<region.getSector2().getZ2()){
+                        StateFactions.logger.log(new LogRecord(Level.INFO,"Case 3"));
+
+                        ClaimSector claimSector = new ClaimSector(region.getSector1().getX1(),region.getSector1().getZ1(),region.getSector1().getX2(),region.getSector1().getZ2());
+
+                        while(claimSector.getZ2()!=region.getSector2().getZ2()+1){
+
+                            int originalX1=claimSector.getX1();
+
+                            while(claimSector.getX2()!=region.getSector2().getX2()-1){
+                                ps = db.prepareStatement(queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM));
+                                StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM)));
+                                ps.setInt(1,stateId);
+                                ps.setInt(2,claimSector.getX1());
+                                ps.setInt(3,claimSector.getZ1());
+                                ps.setInt(4,claimSector.getX2());
+                                ps.setInt(5,claimSector.getZ2());
+
+                                ps.execute();
+
+                                int x1=claimSector.getX1();
+                                int x2=claimSector.getX2();
+                                claimSector.setX1(--x1);
+                                claimSector.setX2(--x2);
+                            }
+
+                            claimSector.setX1(originalX1);
+                            claimSector.setX2(--originalX1);
+
+                            int z1=claimSector.getZ1();
+                            int z2=claimSector.getZ2();
+                            claimSector.setZ1(++z1);
+                            claimSector.setZ2(++z2);
+                        }
+                    }else{
+                        StateFactions.logger.log(new LogRecord(Level.INFO,"Case 4"));
+
+                        ClaimSector claimSector = new ClaimSector(region.getSector1().getX1(),region.getSector1().getZ1(),region.getSector1().getX2(),region.getSector1().getZ2());
+
+                        while(claimSector.getZ2()!=region.getSector2().getZ2()-1){
+
+                            int originalX1=claimSector.getX1();
+
+                            while(claimSector.getX2()!=region.getSector2().getX2()-1){
+                                ps = db.prepareStatement(queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM));
+                                StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM)));
+                                ps.setInt(1,stateId);
+                                ps.setInt(2,claimSector.getX1());
+                                ps.setInt(3,claimSector.getZ1());
+                                ps.setInt(4,claimSector.getX2());
+                                ps.setInt(5,claimSector.getZ2());
+
+                                ps.execute();
+
+                                int x1=claimSector.getX1();
+                                int x2=claimSector.getX2();
+                                claimSector.setX1(--x1);
+                                claimSector.setX2(--x2);
+                            }
+
+                            claimSector.setX1(originalX1);
+                            claimSector.setX2(--originalX1);
+
+                            int z1=claimSector.getZ1();
+                            int z2=claimSector.getZ2();
+                            claimSector.setZ1(--z1);
+                            claimSector.setZ2(--z2);
+                        }
+                    }
                 }
-            }else{
-                sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.AREA_ALREADY_CLAIMED_SINGLE_STATE)+claimOwners.get(0));
+            }else{ //If all or a single sector of the region is claimed, then if it's singular mode it will return the claim owner, otherwise it will use an intelligent claim method
+                if(region.isSingularMode()){
+                    sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.AREA_ALREADY_CLAIMED_SINGLE_STATE)+claimOwners.get(0));
+                }else{
+                    PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
+                    StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
+                    ps.setString(1,stateName);
+
+                    ResultSet set = ps.executeQuery();
+
+                    set.next();
+
+                    int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
+
+                    if(region.getSector1().getX1()<region.getSector2().getX2() && region.getSector1().getZ1()<region.getSector2().getZ2()){
+                        StateFactions.logger.log(new LogRecord(Level.INFO,"Case 1"));
+
+                        ClaimSector claimSector = new ClaimSector(region.getSector1().getX1(),region.getSector1().getZ1(),region.getSector1().getX2(),region.getSector1().getZ2());
+
+                        while(claimSector.getZ2()!=region.getSector2().getZ2()+1){
+
+                            int originalX1=claimSector.getX1();
+
+                            while(claimSector.getX2()!=region.getSector2().getX2()+1){
+                                ps = db.prepareStatement(queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM));
+                                StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM)));
+                                ps.setInt(1,stateId);
+                                ps.setInt(2,claimSector.getX1());
+                                ps.setInt(3,claimSector.getZ1());
+                                ps.setInt(4,claimSector.getX2());
+                                ps.setInt(5,claimSector.getZ2());
+
+                                ps.execute();
+
+                                int x1=claimSector.getX1();
+                                int x2=claimSector.getX2();
+                                claimSector.setX1(++x1);
+                                claimSector.setX2(++x2);
+                            }
+
+                            claimSector.setX1(originalX1);
+                            claimSector.setX2(++originalX1);
+
+                            int z1=claimSector.getZ1();
+                            int z2=claimSector.getZ2();
+                            claimSector.setZ1(++z1);
+                            claimSector.setZ2(++z2);
+                        }
+                    }else if(region.getSector1().getX1()<region.getSector2().getX2() && region.getSector1().getZ1()>region.getSector2().getZ2()){
+                        StateFactions.logger.log(new LogRecord(Level.INFO,"Case 2"));
+
+                        ClaimSector claimSector = new ClaimSector(region.getSector1().getX1(),region.getSector1().getZ1(),region.getSector1().getX2(),region.getSector1().getZ2());
+
+                        while(claimSector.getZ2()!=region.getSector2().getZ2()-1){
+
+                            int originalX1=claimSector.getX1();
+
+                            while(claimSector.getX2()!=region.getSector2().getX2()+1){
+                                ps = db.prepareStatement(queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM));
+                                StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM)));
+                                ps.setInt(1,stateId);
+                                ps.setInt(2,claimSector.getX1());
+                                ps.setInt(3,claimSector.getZ1());
+                                ps.setInt(4,claimSector.getX2());
+                                ps.setInt(5,claimSector.getZ2());
+
+                                ps.execute();
+
+                                int x1=claimSector.getX1();
+                                int x2=claimSector.getX2();
+                                claimSector.setX1(++x1);
+                                claimSector.setX2(++x2);
+                            }
+
+                            claimSector.setX1(originalX1);
+                            claimSector.setX2(++originalX1);
+
+                            int z1=claimSector.getZ1();
+                            int z2=claimSector.getZ2();
+                            claimSector.setZ1(--z1);
+                            claimSector.setZ2(--z2);
+                        }
+                    }else if(region.getSector1().getX1()>region.getSector2().getX2() && region.getSector1().getZ1()<region.getSector2().getZ2()){
+                        StateFactions.logger.log(new LogRecord(Level.INFO,"Case 3"));
+
+                        ClaimSector claimSector = new ClaimSector(region.getSector1().getX1(),region.getSector1().getZ1(),region.getSector1().getX2(),region.getSector1().getZ2());
+
+                        while(claimSector.getZ2()!=region.getSector2().getZ2()+1){
+
+                            int originalX1=claimSector.getX1();
+
+                            while(claimSector.getX2()!=region.getSector2().getX2()-1){
+                                ps = db.prepareStatement(queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM));
+                                StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM)));
+                                ps.setInt(1,stateId);
+                                ps.setInt(2,claimSector.getX1());
+                                ps.setInt(3,claimSector.getZ1());
+                                ps.setInt(4,claimSector.getX2());
+                                ps.setInt(5,claimSector.getZ2());
+
+                                ps.execute();
+
+                                int x1=claimSector.getX1();
+                                int x2=claimSector.getX2();
+                                claimSector.setX1(--x1);
+                                claimSector.setX2(--x2);
+                            }
+
+                            claimSector.setX1(originalX1);
+                            claimSector.setX2(--originalX1);
+
+                            int z1=claimSector.getZ1();
+                            int z2=claimSector.getZ2();
+                            claimSector.setZ1(++z1);
+                            claimSector.setZ2(++z2);
+                        }
+                    }else{
+                        StateFactions.logger.log(new LogRecord(Level.INFO,"Case 4"));
+
+                        ClaimSector claimSector = new ClaimSector(region.getSector1().getX1(),region.getSector1().getZ1(),region.getSector1().getX2(),region.getSector1().getZ2());
+
+                        while(claimSector.getZ2()!=region.getSector2().getZ2()-1){
+
+                            int originalX1=claimSector.getX1();
+
+                            while(claimSector.getX2()!=region.getSector2().getX2()-1){
+                                ps = db.prepareStatement(queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM));
+                                StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM)));
+                                ps.setInt(1,stateId);
+                                ps.setInt(2,claimSector.getX1());
+                                ps.setInt(3,claimSector.getZ1());
+                                ps.setInt(4,claimSector.getX2());
+                                ps.setInt(5,claimSector.getZ2());
+
+                                ps.execute();
+
+                                int x1=claimSector.getX1();
+                                int x2=claimSector.getX2();
+                                claimSector.setX1(--x1);
+                                claimSector.setX2(--x2);
+                            }
+
+                            claimSector.setX1(originalX1);
+                            claimSector.setX2(--originalX1);
+
+                            int z1=claimSector.getZ1();
+                            int z2=claimSector.getZ2();
+                            claimSector.setZ1(--z1);
+                            claimSector.setZ2(--z2);
+                        }
+                    }
+                }
             }
 
         }catch (SQLException e){
@@ -302,7 +633,6 @@ public class Database {
 
         try{
             PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_CLAIM_OWNER));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_CLAIM_OWNER)));
             ps.setInt(1,sector.getX1());
             ps.setInt(2,sector.getZ1());
             ps.setInt(3,sector.getX2());
@@ -314,7 +644,6 @@ public class Database {
                 int stateId = set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
 
                 ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_NAME_BY_ID));
-                StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_NAME_BY_ID)));
                 ps.setInt(1,stateId);
 
                 set = ps.executeQuery();
@@ -330,6 +659,194 @@ public class Database {
 
         return stateClaimOwner;
     }
+
+    public boolean checkIfCitRequestAlreadyExists(String stateName, String personName){
+        try {
+            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_PERSON_ID));
+            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_PERSON_ID)));
+            ps.setString(1,personName);
+
+            ResultSet set = ps.executeQuery();
+
+            set.next();
+
+            int personId=set.getInt(Constants.DB_Tables.SF_Person.PERSON_ID);
+
+            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
+            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
+            ps.setString(1,stateName);
+
+            set = ps.executeQuery();
+
+            set.next();
+
+            int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
+
+            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.CHECK_IF_CITIZENSHIP_REQUEST_ALREADY_EXISTS));
+            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.CHECK_IF_CITIZENSHIP_REQUEST_ALREADY_EXISTS)));
+            ps.setInt(1,personId);
+            ps.setInt(2,stateId);
+
+            set = ps.executeQuery();
+
+            if(set!=null && set.next()){
+                return true;
+            }
+            return false;
+        }catch(SQLException e){
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean checkIfPersonIsCitizen(String stateName, String personName){
+        try {
+            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_PERSON_ID));
+            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_PERSON_ID)));
+            ps.setString(1,personName);
+
+            ResultSet set = ps.executeQuery();
+
+            set.next();
+
+            int personId=set.getInt(Constants.DB_Tables.SF_Person.PERSON_ID);
+
+            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
+            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
+            ps.setString(1,stateName);
+
+            set = ps.executeQuery();
+
+            set.next();
+
+            int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
+
+            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.CHECK_IF_CITIZEN_EXISTS));
+            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.CHECK_IF_CITIZEN_EXISTS)));
+            ps.setInt(1,personId);
+            ps.setInt(2,stateId);
+
+            set = ps.executeQuery();
+
+            if(set!=null && set.next()){
+                return true;
+            }
+            return false;
+        }catch(SQLException e){
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void refuseCitizenshipRequest(String stateName, String personName){
+        try {
+            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
+            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
+            ps.setString(1,stateName);
+
+            ResultSet set = ps.executeQuery();
+
+            set.next();
+
+            int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
+
+            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_PERSON_ID));
+            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_PERSON_ID)));
+            ps.setString(1,personName);
+
+            set = ps.executeQuery();
+
+            set.next();
+
+            int personId=set.getInt(Constants.DB_Tables.SF_Person.PERSON_ID);
+
+            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.REMOVE_CITIZENSHIP_REQUEST));
+            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.REMOVE_CITIZENSHIP_REQUEST)));
+            ps.setInt(1,stateId);
+            ps.setInt(2,personId);
+
+            ps.execute();
+        }catch(SQLException e){
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void acceptCitizenshipRequest(String stateName, String personName){
+        try {
+            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
+            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
+            ps.setString(1,stateName);
+
+            ResultSet set = ps.executeQuery();
+
+            set.next();
+
+            int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
+
+            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_PERSON_ID));
+            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_PERSON_ID)));
+            ps.setString(1,personName);
+
+            set = ps.executeQuery();
+
+            set.next();
+
+            int personId=set.getInt(Constants.DB_Tables.SF_Person.PERSON_ID);
+
+            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.ADD_CITIZEN));
+            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.ADD_CITIZEN)));
+            ps.setInt(1,stateId);
+            ps.setInt(2,personId);
+
+            ps.execute();
+
+            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.REMOVE_CITIZENSHIP_REQUEST));
+            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.REMOVE_CITIZENSHIP_REQUEST)));
+            ps.setInt(1,stateId);
+            ps.setInt(2,personId);
+
+            ps.execute();
+        }catch(SQLException e){
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void addCitizenshipRequest(String stateName, String personName){
+        try {
+            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
+            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
+            ps.setString(1,stateName);
+
+            ResultSet set = ps.executeQuery();
+
+            set.next();
+
+            int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
+
+            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_PERSON_ID));
+            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_PERSON_ID)));
+            ps.setString(1,personName);
+
+            set = ps.executeQuery();
+
+            set.next();
+
+            int personId=set.getInt(Constants.DB_Tables.SF_Person.PERSON_ID);
+
+            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.ADD_CITIZENSHIP_REQUEST));
+            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.ADD_CITIZENSHIP_REQUEST)));
+            ps.setInt(1,stateId);
+            ps.setInt(2,personId);
+
+            ps.execute();
+        }catch(SQLException e){
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
     private String getStartupSQL(@NotNull String type) throws IOException {
         StringBuilder startupSQL= new StringBuilder(Constants.SQL.USE)
                                                     .append(dbName)
@@ -375,10 +892,8 @@ public class Database {
 
     private String getSQL(@NotNull String path) throws IOException {
         StringBuilder sql = new StringBuilder();
-        StateFactions.logger.log(new LogRecord(Level.INFO,"SQL StringBuilder: "+((sql==null)?"null":"Not null")));
 
         InputStream inStream = StateFactions.class.getResourceAsStream(path);
-        StateFactions.logger.log(new LogRecord(Level.INFO,"InputStream inStream: "+((inStream==null)?"null":"Not null")));
         assert inStream != null;
         BufferedReader br = new BufferedReader(new InputStreamReader(inStream,StandardCharsets.UTF_8));
 
@@ -390,7 +905,6 @@ public class Database {
         br.close();
         inStream.close();
 
-        StateFactions.logger.log(new LogRecord(Level.INFO,"\n\nSQL:\n"+sql.toString()));
         return sql.toString();
     }
 }

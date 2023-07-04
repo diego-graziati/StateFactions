@@ -4,12 +4,14 @@ import it.sersapessi.sf.StateFactions;
 import it.sersapessi.sf.utilities.Constants;
 import it.sersapessi.sf.utilities.models.ClaimRegion;
 import it.sersapessi.sf.utilities.models.ClaimSector;
+import it.sersapessi.sf.utilities.models.PluginPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.plaf.nimbus.State;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -53,17 +55,27 @@ public class SFCommands implements CommandExecutor {
     private void parseStateCommands(@NotNull CommandSender sender, @NotNull ArrayList<String> args){
         String stateName= args.get(1);
         if(args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CREATE) && args.size()==3){
-            if(StateFactions.loggedInPlayers.contains(sender.getName())){
-                if(!StateFactions.db.checkIfStateExists(stateName)){
-                    StateFactions.db.createState(stateName,sender.getName());
-                    sender.sendPlainMessage(Constants.ChatStyling.Colors.GREEN+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Success.STATE_CREATED)+stateName);
+            if(sender instanceof Player){
+
+                Player p = (Player) sender;
+
+                if(StateFactions.loggedInPlayers.contains(sender.getName())){
+                    if(!StateFactions.db.checkIfStateExists(stateName)){
+                        StateFactions.db.createState(stateName,sender.getName());
+                        sender.sendPlainMessage(Constants.ChatStyling.Colors.GREEN+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Success.STATE_CREATED)+stateName);
+
+                        StateFactions.db.addCitizenshipRequest(stateName, p.getName());
+                        StateFactions.db.acceptCitizenshipRequest(stateName,p.getName());
+                    }else{
+                        sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.STATE_ALREADY_EXISTS));
+                    }
                 }else{
-                    sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.STATE_ALREADY_EXISTS));
+                    sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_LOGGEDIN));
                 }
             }else{
-                sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_LOGGEDIN));
+                sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.YOU_MUST_BE_A_PLAYER));
             }
-        }else if(args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CLAIM)){ //TODO: implements second claim possibility
+        }else if(args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CLAIM)){
 
             if(args.size()==3){
                 if(StateFactions.db.checkIfStateExists(stateName)){
@@ -72,9 +84,35 @@ public class SFCommands implements CommandExecutor {
                         Player p = (Player) sender;
 
                         if(StateFactions.loggedInPlayers.contains(p.getName())){
-                            ClaimRegion region = new ClaimRegion(new ClaimSector(p.getLocation().getBlockX(),p.getLocation().getBlockZ(),p.getLocation().getBlockX()+1,p.getLocation().getBlockZ()+1));
 
-                            StateFactions.db.createClaim(sender,stateName,region);
+                            if(StateFactions.db.checkIfPersonIsCitizen(stateName,p.getName())){
+                                double px=p.getLocation().x();
+                                double pz=p.getLocation().z();
+
+                                int x1= (int)px;
+                                int z1= (int)pz;
+
+                                int x2;
+                                int z2;
+                                if(px>=x1){
+                                    x2=x1+1;
+                                }else{
+                                    x2=x1-1;
+                                }
+
+                                if(pz>=z1){
+                                    z2=z1+1;
+                                }else{
+                                    z2=z1-1;
+                                }
+
+                                ClaimRegion region = new ClaimRegion(new ClaimSector(x1,z1,x2,z2));
+
+                                StateFactions.db.createClaim(sender,stateName,region);
+                                sender.sendPlainMessage(Constants.ChatStyling.Colors.GREEN+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Success.CLAIM_CREATED));
+                            }else{
+                                p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_A_CITIZEN)+"\""+stateName+"\"");
+                            }
                         }else{
                             p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_LOGGEDIN));
                         }
@@ -86,7 +124,225 @@ public class SFCommands implements CommandExecutor {
                     sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.STATE_DOESNT_EXISTS));
                 }
             } else if (args.size()==7) {
-                
+                if(StateFactions.db.checkIfStateExists(stateName)){
+                    if(sender instanceof Player){
+
+                        Player p = (Player) sender;
+
+                        if(StateFactions.loggedInPlayers.contains(p.getName())){
+                            if(StateFactions.db.checkIfPersonIsCitizen(stateName,p.getName())){
+                                try{
+                                    int sec1x1=Integer.parseInt(args.get(3));
+                                    int sec1z1=Integer.parseInt(args.get(4));
+                                    int sec2x2=Integer.parseInt(args.get(5));
+                                    int sec2z2=Integer.parseInt(args.get(6));
+
+                                    StateFactions.logger.log(new LogRecord(Level.INFO, "Claim coordinates: sec1x1->"+sec1x1
+                                            +"\tsec1z1->"+sec1z1+"\tsec2x2->"+sec2x2+"\tsec2z2->"+sec2z2));
+
+                                    if(sec1x1==sec2x2 && sec1z1==sec2z2){
+                                        sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.YOU_MUST_CLAIM_ONE_BLOCK));
+                                    }else{
+                                        ClaimRegion region;
+
+                                        if(sec1x1<sec2x2 && sec1z1<sec2z2){
+                                            region = new ClaimRegion(new ClaimSector(sec1x1,sec1z1,sec1x1+1,sec1z1+1),
+                                                    new ClaimSector(sec2x2-1,sec2z2-1,sec2x2,sec2z2));
+                                        }else if(sec1x1>sec2x2 && sec1z1<=sec2z2){
+                                            region = new ClaimRegion(new ClaimSector(sec1x1,sec1z1,sec1x1-1,sec1z1+1),
+                                                    new ClaimSector(sec2x2+1,sec2z2-1,sec2x2,sec2z2));
+                                        }else if(sec1x1<sec2x2){
+                                            region = new ClaimRegion(new ClaimSector(sec1x1,sec1z1,sec1x1+1,sec1z1-1),
+                                                    new ClaimSector(sec2x2-1,sec2z2+1,sec2x2,sec2z2));
+                                        }else{
+                                            region = new ClaimRegion(new ClaimSector(sec1x1,sec1z1,sec1x1-1,sec1z1-1),
+                                                    new ClaimSector(sec2x2+1,sec2z2+1,sec2x2,sec2z2));
+                                        }
+
+                                        StateFactions.db.createClaim(sender,stateName,region);
+                                        sender.sendPlainMessage(Constants.ChatStyling.Colors.GREEN+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Success.CLAIM_CREATED));
+                                    }
+                                }catch(NumberFormatException e){
+                                    sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.YOU_MUST_INSERT_COORDS_CORRECTLY));
+                                }
+                            }else{
+                                p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_A_CITIZEN)+"\""+stateName+"\"");
+                            }
+                        }else{
+                            p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_LOGGEDIN));
+                        }
+
+                    }else{ //The server is sending the command
+                        sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.YOU_MUST_BE_A_PLAYER));
+                    }
+                }else{
+                    sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.STATE_DOESNT_EXISTS));
+                }
+            }else{
+                sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_ENOUGH_ARGS));
+            }
+        }else if(args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CIT_REQUEST)){
+            if(args.size()==3){
+
+                if(StateFactions.db.checkIfStateExists(stateName)){
+                    if(sender instanceof Player){
+
+                        Player p = (Player) sender;
+
+                        if(StateFactions.loggedInPlayers.contains(p.getName())){
+
+                            if(!StateFactions.db.checkIfPersonIsCitizen(stateName,p.getName())){
+
+                                if(!StateFactions.db.checkIfCitRequestAlreadyExists(stateName,p.getName())){
+
+                                    StateFactions.db.addCitizenshipRequest(stateName,p.getName());
+
+                                    p.sendPlainMessage(Constants.ChatStyling.Colors.GREEN+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Success.CIT_REQ_SENT)+"\""+stateName+"\"");
+                                }else{
+                                    p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.CIT_REQ_ALREADY_SENT)+"\""+stateName+"\"");
+                                }
+
+                            }else{
+                                p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.ALREADY_A_CITIZEN)+"\""+stateName+"\"");
+                            }
+
+                        }else{
+                            p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_LOGGEDIN));
+                        }
+
+                    }else{//The server is sending the command
+                        sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.YOU_MUST_BE_A_PLAYER));
+                    }
+                }else{
+                    sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.STATE_DOESNT_EXISTS));
+                }
+
+            }else{
+                sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_ENOUGH_ARGS));
+            }
+        }else if(args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CIT_REQUEST_ACCEPT)){
+            if(args.size()==4){
+
+                //First I check the person trying to accept the citizenship request
+                if(StateFactions.db.checkIfStateExists(stateName)){
+                    if(sender instanceof Player){
+
+                        Player p = (Player) sender;
+
+                        if(StateFactions.loggedInPlayers.contains(p.getName())){
+
+                            if(StateFactions.db.checkIfPersonIsCitizen(stateName,p.getName())){
+
+                                String personName = args.get(3);
+
+                                //Then I check the person asking for the citizenship
+                                if(StateFactions.db.checkIfPersonExists(personName)){
+
+                                    if(!StateFactions.db.checkIfPersonIsCitizen(stateName,personName)){
+
+                                        if(StateFactions.db.checkIfCitRequestAlreadyExists(stateName,personName)){
+
+                                            StateFactions.db.acceptCitizenshipRequest(stateName,personName);
+
+                                            p.sendPlainMessage(Constants.ChatStyling.Colors.GREEN+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Success.CIT_REQ_ACCEPTED)+"\""+personName+"\"");
+
+                                            PluginPlayer newCit = StateFactions.getPlayer(personName);
+
+                                            //If the person that got accepted is online, they will receive a message telling them that they got accepted
+                                            if(newCit!=null){
+                                                newCit.getBukkitPlayer().sendPlainMessage(Constants.ChatStyling.Colors.GREEN+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Success.NEW_CIT)+"\""+stateName+"\"");
+                                            }
+                                        }else{
+                                            p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.PERSON_HAS_NO_CIT_REQ_SENT));
+                                        }
+
+                                    }else{
+                                        p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.PERSON_ALREADY_A_CITIZEN));
+                                    }
+
+                                }else{
+                                    p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.PERSON_DOESNT_EXISTS)+"\""+personName+"\"");
+                                }
+
+                            }else{
+                                p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_A_CITIZEN)+"\""+stateName+"\"");
+                            }
+
+                        }else{
+                            p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_LOGGEDIN));
+                        }
+
+                    }else{//The server is sending the command
+                        sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.YOU_MUST_BE_A_PLAYER));
+                    }
+                }else{
+                    sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.STATE_DOESNT_EXISTS));
+                }
+
+            }else{
+                sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_ENOUGH_ARGS));
+            }
+        }else if(args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CIT_REQUEST_DENY)){
+            if(args.size()==4){
+
+                //First I check the person trying to accept the citizenship request
+                if(StateFactions.db.checkIfStateExists(stateName)){
+                    if(sender instanceof Player){
+
+                        Player p = (Player) sender;
+
+                        if(StateFactions.loggedInPlayers.contains(p.getName())){
+
+                            if(StateFactions.db.checkIfPersonIsCitizen(stateName,p.getName())){
+
+                                String personName = args.get(3);
+
+                                //Then I check the person asking for the citizenship
+                                if(StateFactions.db.checkIfPersonExists(personName)){
+
+                                    if(!StateFactions.db.checkIfPersonIsCitizen(stateName,personName)){
+
+                                        if(StateFactions.db.checkIfCitRequestAlreadyExists(stateName,personName)){
+
+                                            StateFactions.db.refuseCitizenshipRequest(stateName,personName);
+
+                                            p.sendPlainMessage(Constants.ChatStyling.Colors.GREEN+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Success.CIT_REQ_DENIED)+"\""+personName+"\"");
+
+                                            PluginPlayer newCit = StateFactions.getPlayer(personName);
+
+                                            //If the person who got denied is online, they will receive a message telling them that they're denied the citizenship to the state
+                                            if(newCit!=null){
+                                                newCit.getBukkitPlayer().sendPlainMessage(Constants.ChatStyling.Colors.GREEN+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Success.CIT_DENIED)+"\""+stateName+"\"");
+                                            }
+                                        }else{
+                                            p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.PERSON_HAS_NO_CIT_REQ_SENT));
+                                        }
+
+                                    }else{
+                                        p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.PERSON_ALREADY_A_CITIZEN));
+                                    }
+
+                                }else{
+                                    p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.PERSON_DOESNT_EXISTS)+"\""+personName+"\"");
+                                }
+
+                            }else{
+                                p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_A_CITIZEN)+"\""+stateName+"\"");
+                            }
+
+                        }else{
+                            p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_LOGGEDIN));
+                        }
+
+                    }else{//The server is sending the command
+                        sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.YOU_MUST_BE_A_PLAYER));
+                    }
+                }else{
+                    sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.STATE_DOESNT_EXISTS));
+                }
+
+            }else{
+                sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_ENOUGH_ARGS));
             }
         }
 
@@ -172,7 +428,8 @@ public class SFCommands implements CommandExecutor {
         String[] temp;
         if(args_builder.toString().contains("\"")){
             String tempStr = args_builder.toString();
-            tempStr=tempStr.replaceAll("\"","\""+Constants.Utility.PARSING_CHARSET);
+            tempStr=tempStr.replaceAll(" \"","\""+Constants.Utility.PARSING_CHARSET);
+            tempStr=tempStr.replaceAll("\" ",Constants.Utility.PARSING_CHARSET+"\"");
 
             temp = tempStr.split("\"");
 

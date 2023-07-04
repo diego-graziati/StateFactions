@@ -54,6 +54,8 @@ CREATE TABLE IF NOT EXISTS sf_state_space(
     BlockX2 int,
     BlockZ2 int,
 
+    UNIQUE(BlockX1,BlockX2,BlockZ1,BlockZ2),
+
     FOREIGN KEY(StateId) REFERENCES sf_state(StateId)
 ) ENGINE=InnoDB;
 
