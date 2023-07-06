@@ -10,3 +10,10 @@ DBMS-pwd:
 
 #Supported lang: en-US (fallback/default), it-IT
 lang: en-US
+
+#It enables an anti-griefing protection for all claimed regions if the person is not from the state owning those regions.
+#This, however, right now doesn't protect from explosions. Default: false
+claim-protection: false
+
+#It disables explosions everywhere, even outside claimed regions. Default: false
+disable-explosions: false

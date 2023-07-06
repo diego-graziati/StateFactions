@@ -50,6 +50,8 @@ public final class Constants {
         public static final String REMOVE_CITIZENSHIP_REQUEST = "remove_citizenship_request";
         public static final String CHECK_IF_CITIZEN_EXISTS = "check_if_citizen_exists";
         public static final String CHECK_IF_CITIZENSHIP_REQUEST_ALREADY_EXISTS = "check_if_citizenship_request_already_exists";
+        public static final String REMOVE_CITIZEN = "remove_citizen";
+        public static final String GET_STATE_OWNER = "get_state_owner";
     }
     public static final class DB_Tables{
         public static final class SF_Person{
@@ -60,6 +62,7 @@ public final class Constants {
         public static final class SF_State{
             public static final String STATE_NAME = "StateName";
             public static final String STATE_ID = "StateId";
+            public static final String PERSON_ID = "PersonId";
         }
         public static final class SF_State_Space{
             public static final String STATE_ID = "StateId";
@@ -77,6 +80,8 @@ public final class Constants {
         public static final String CIT_REQUEST = "cit-request";
         public static final String CIT_REQUEST_ACCEPT = "cit-request-accept";
         public static final String CIT_REQUEST_DENY = "cit-request-deny";
+        public static final String CIT_KICK = "cit-kick";
+        public static final String INFO = "info";
     }
     public static final class Configs{
         public static final String LANG = "lang";
@@ -84,6 +89,8 @@ public final class Constants {
         public static final String DBMS_USER = "DBMS-user";
         public static final String DBMS_PWD = "DBMS-pwd";
         public static final String DB_PATH = "path-DB";
+        public static final String CLAIM_PROTECTION = "claim-protection";
+        public static final String DISABLE_EXPLOSIONS = "disable-explosions";
     }
 
     public static final class Languages{
@@ -107,6 +114,7 @@ public final class Constants {
                 public static final String LANG_LOGGER_CONFIG_STARTUP_OK = "string.log.lang-logger-config-startup.ok";
                 public static final String STARTUP_PROCESS_SUCCESSFUL = "string.log.startup-successful";
                 public static final String LOGGEDIN_PLAYERS_LIST_INIT= "string.log.loggedin-players-list-init";
+                public static final String ONLINE_PLAYERS_LIST_INIT = "string.log.online-players-list-init";
 
                 public static final class Db{
                     public static final class Startup{
@@ -131,6 +139,7 @@ public final class Constants {
             public static final class Command{
                 public static final class Error{
                     public static final String PWD_CONTAINS_BLANK_SPACES = "string.command.error.pwd-contains-blank-spaces";
+                    public static final String PWD_TOO_LONG = "string.command.error.pwd-too-long";
                     public static final String PWD_CONFIRMPWD_NOT_EQUAL= "string.command.error.pwd-confirmpwd-not-equal";
                     public static final String ALREADY_REGISTERED= "string.command.error.already-registered";
                     public static final String TOO_MANY_WORDS= "string.command.error.too-many-words";
@@ -153,6 +162,8 @@ public final class Constants {
                     public static final String PERSON_DOESNT_EXISTS = "string.command.error.person-doesnt-exists";
                     public static final String NOT_A_CITIZEN = "string.command.error.not-a-citizen";
                     public static final String PERSON_HAS_NO_CIT_REQ_SENT = "string.command.error.person-has-no-cit-req-sent";
+                    public static final String PERSON_NOT_STATE_OWNER = "string.command.error.person-not-state-owner";
+                    public static final String PERSON_IS_STATE_OWNER = "string.command.error.person-is-state-owner";
                 }
                 public static final class Success{
                     public static final String PLAYER_REGISTERED = "string.command.success.player-registered";
@@ -162,12 +173,21 @@ public final class Constants {
                     public static final String CIT_REQ_SENT= "string.command.success.cit-req-sent";
                     public static final String CIT_REQ_ACCEPTED = "string.command.success.cit-req-accepted";
                     public static final String CIT_REQ_DENIED = "string.command.success.cit-req-denied";
+                    public static final String CIT_KICKED = "string.command.success.cit-kicked";
                     public static final String NEW_CIT = "string.command.success.new-cit";
                     public static final String CIT_DENIED = "string.command.success.cit-denied";
+                    public static final String BEING_KICKED = "string.command.success.being-kicked";
                 }
             }
             public static final class Title{
                 public static final String EXITING_STATE = "string.title.exiting-state";
+            }
+            public static final class Event{
+                public static final class Error{
+                    public static final String BLOCK_PLACED_ON_OTHERS_CLAIM = "string.event.error.block-placed-on-others-claim";
+                    public static final String BREAKING_BLOCK_ON_OTHERS_CLAIM = "string.event.error.breaking-block-on-others-claim";
+                    public static final String BURNING_THINGS_ON_OTHERS_CLAIM= "string.event.error.burning-things-on-others-claim";
+                }
             }
         }
     }
@@ -195,6 +215,8 @@ public final class Constants {
             public static final String DB_REMOVE_CITIZENSHIP_REQUEST = DB_MYSQL_FOLDER+"/RemoveCitizenshipRequest_query_sql.sql";
             public static final String DB_CHECK_IF_CITIZEN_EXISTS = DB_MYSQL_FOLDER+"/CheckIfCitizenExists_query_sql.sql";
             public static final String DB_CHECK_IF_CITIZENSHIP_REQUEST_ALREADY_EXISTS = DB_MYSQL_FOLDER+"/CheckIfCitizenshipRequestAlreadyExists_query_sql.sql";
+            public static final String DB_REMOVE_CITIZEN = DB_MYSQL_FOLDER+"/RemoveCitizen_query_sql.sql";
+            public static final String DB_GET_STATE_OWNER = DB_MYSQL_FOLDER+"/GetStateOwner_query_sql.sql";
         }
     }
 }

@@ -5,6 +5,7 @@
   "string.log.db.no-db-specified": "No DB has been specified correctly. Please, check the syntax inside the config's file",
   "string.log.db.startup.ok": "The DB startup was successful",
   "string.log.loggedin-players-list-init": "The logged in player list has been initialized",
+  "string.log.online-players-list-init": "The online player list has been initialized",
   "string.log.startup-successful": "The plugin startup succeeded",
 
   "string.log.db.successful-check-if-person-exists": "Person existence successfully checked",
@@ -21,6 +22,7 @@
 
 
   "string.command.error.pwd-contains-blank-spaces": "The password can't contain blank spaces",
+  "string.command.error.pwd-too-long": "The password is too long",
   "string.command.error.pwd-confirmpwd-not-equal": "The password and the confirm password must be identical",
   "string.command.error.already-registered": "This user has already been registered",
   "string.command.error.wrong-pwd": "The inserted password is wrong",
@@ -40,6 +42,8 @@
   "string.command.error.person-doesnt-exists": "The following person doesn't exists (it may be a typo): ",
   "string.command.error.not-a-citizen": "You're not a citizen of the state: ",
   "string.command.error.person-has-no-cit-req-sent": "This person hasn't sent a citizenship request to this state",
+  "string.command.error.person-not-state-owner": "You're not the state owner. You can't kick a citizen of the state: ",
+  "string.command.error.person-is-state-owner": "This person is the state owner. You can't kick them",
 
   "string.command.success.player-registered": "You've been successfully registered",
   "string.command.success.player-loggedin": "You've successfully logged in",
@@ -48,12 +52,18 @@
   "string.command.success.cit-req-sent": "You've successfully sent a citizenship request to the state: ",
   "string.command.success.cit-req-accepted": "You've successfully accepted the citizenship request from: ",
   "string.command.success.cit-req-denied": "You've successfully denied the citizenship request from: ",
+  "string.command.success.cit-kicked": "You've successfully expelled ",
   "string.command.success.new-cit": "You're now a new citizen of the state ",
   "string.command.success.cit-denied": "Your citizenship request has been denied by the state ",
+  "string.command.success.being-kicked": "You've been kicked by the state ",
 
   "string.command.error.too-many-words": "You've typed too many words",
   "string.command.error.not-enough-args": "You're missing some arguments",
   "string.command.error.illegal-char": "Illegal char found inside the args: \"§&\"",
 
-  "string.title.exiting-state": "You're exiting "
+  "string.title.exiting-state": "You're exiting ",
+
+  "string.event.error.block-placed-on-others-claim": "You can't build here. This region is claimed by: ",
+  "string.event.error.breaking-block-on-others-claim": "You can't destroy anything here. This region is claimed by: ",
+  "string.event.error.burning-things-on-others-claim": "You can't burn anything here. This region is claimed by: "
 }

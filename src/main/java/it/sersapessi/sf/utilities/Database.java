@@ -88,6 +88,10 @@ public class Database {
                 StateFactions.logger.log(new LogRecord(Level.INFO,"Test16"));
                 queryMap.put(Constants.QueryMap.CHECK_IF_CITIZENSHIP_REQUEST_ALREADY_EXISTS,getSQL(Constants.Resources.MYSQL.DB_CHECK_IF_CITIZENSHIP_REQUEST_ALREADY_EXISTS));
                 StateFactions.logger.log(new LogRecord(Level.INFO,"Test17"));
+                queryMap.put(Constants.QueryMap.REMOVE_CITIZEN,getSQL(Constants.Resources.MYSQL.DB_REMOVE_CITIZEN));
+                StateFactions.logger.log(new LogRecord(Level.INFO,"Test18"));
+                queryMap.put(Constants.QueryMap.GET_STATE_OWNER,getSQL(Constants.Resources.MYSQL.DB_GET_STATE_OWNER));
+                StateFactions.logger.log(new LogRecord(Level.INFO,"Test19"));
 
                 break;
         }
@@ -839,6 +843,80 @@ public class Database {
             StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.ADD_CITIZENSHIP_REQUEST)));
             ps.setInt(1,stateId);
             ps.setInt(2,personId);
+
+            ps.execute();
+        }catch(SQLException e){
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean checkIfPersonIsStateOwner(String stateName, String personName){
+        try {
+            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
+            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
+            ps.setString(1,stateName);
+
+            ResultSet set = ps.executeQuery();
+
+            set.next();
+
+            int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
+
+            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_PERSON_ID));
+            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_PERSON_ID)));
+            ps.setString(1,personName);
+
+            set = ps.executeQuery();
+
+            set.next();
+
+            int personId=set.getInt(Constants.DB_Tables.SF_Person.PERSON_ID);
+
+            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_OWNER));
+            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_OWNER)));
+            ps.setInt(1,stateId);
+
+            set = ps.executeQuery();
+
+            set.next();
+
+            int ownerId=set.getInt(Constants.DB_Tables.SF_State.PERSON_ID);
+
+            return ownerId==personId;
+
+        }catch(SQLException e){
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void removeCitizen(String stateName, String personName){
+        try {
+            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
+            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
+            ps.setString(1,stateName);
+
+            ResultSet set = ps.executeQuery();
+
+            set.next();
+
+            int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
+
+            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_PERSON_ID));
+            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_PERSON_ID)));
+            ps.setString(1,personName);
+
+            set = ps.executeQuery();
+
+            set.next();
+
+            int personId=set.getInt(Constants.DB_Tables.SF_Person.PERSON_ID);
+
+            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.REMOVE_CITIZEN));
+            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.REMOVE_CITIZEN)));
+            ps.setInt(1,personId);
+            ps.setInt(2,stateId);
 
             ps.execute();
         }catch(SQLException e){

@@ -1,15 +1,13 @@
 package it.sersapessi.sf;
 
 import it.sersapessi.sf.commands.SFCommands;
+import it.sersapessi.sf.eventhandlers.NonPlayerEvents;
 import it.sersapessi.sf.eventhandlers.PlayerEvents;
 import it.sersapessi.sf.utilities.Constants;
 import it.sersapessi.sf.utilities.Database;
 import it.sersapessi.sf.utilities.TranslationManager;
 import it.sersapessi.sf.utilities.models.PluginPlayer;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.PluginLogger;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -46,6 +44,7 @@ public final class StateFactions extends JavaPlugin {
         Objects.requireNonNull(getCommand("sf")).setExecutor(commands);
 
         getServer().getPluginManager().registerEvents(new PlayerEvents(),this);
+        getServer().getPluginManager().registerEvents(new NonPlayerEvents(),this);
     }
 
     /**
@@ -117,6 +116,8 @@ public final class StateFactions extends JavaPlugin {
 
         //Online Players ArrayList<PluginPlayer> init
         onlinePlayers = new ArrayList<>();
+
+        logger.log(new LogRecord(Level.INFO,translationManager.getString(Constants.Localization.Str.Log.ONLINE_PLAYERS_LIST_INIT)));
     }
 
     public static void addOnlinePlayer(PluginPlayer player){

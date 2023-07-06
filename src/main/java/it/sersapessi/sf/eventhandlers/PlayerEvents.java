@@ -8,6 +8,9 @@ import it.sersapessi.sf.utilities.models.PluginPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockDamageEvent;
+import org.bukkit.event.block.BlockIgniteEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -91,5 +94,124 @@ public class PlayerEvents implements Listener {
         StateFactions.loggedInPlayers.remove(event.getPlayer().getName());
 
         StateFactions.removePlayer(event.getPlayer().getName());
+    }
+
+    @EventHandler
+    public void onPlayerBlockPlacement(BlockPlaceEvent event){
+        if(StateFactions.config.getBoolean(Constants.Configs.CLAIM_PROTECTION)){
+            Player player = event.getPlayer();
+
+            double bx=event.getBlockReplacedState().getLocation().x();
+            double bz=event.getBlockReplacedState().getLocation().z();
+
+            int x1= (int)bx;
+            int z1= (int)bz;
+
+            int x2;
+            int z2;
+            if(bx>=x1){
+                x2=x1+1;
+            }else{
+                x2=x1-1;
+            }
+
+            if(bz>=z1){
+                z2=z1+1;
+            }else{
+                z2=z1-1;
+            }
+            String statePosition = StateFactions.db.getStateNameByPosition(new ClaimSector(x1,z1,x2,z2));
+
+            if(!statePosition.isBlank()){
+                if(StateFactions.db.checkIfPersonIsCitizen(statePosition,player.getName())){
+                    event.setBuild(true);
+                    event.setCancelled(false);
+                }else{
+                    event.setBuild(false);
+                    event.setCancelled(true);
+
+                    player.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Event.Error.BLOCK_PLACED_ON_OTHERS_CLAIM)+"\""+statePosition+"\"");
+                }
+            }
+        }
+
+    }
+
+    @EventHandler
+    public void onPlayerDirectlyDamagingBlocks(BlockDamageEvent event){
+        if(StateFactions.config.getBoolean(Constants.Configs.CLAIM_PROTECTION)){
+            Player player = event.getPlayer();
+
+            double bx=event.getBlock().getLocation().x();
+            double bz=event.getBlock().getLocation().z();
+
+            int x1= (int)bx;
+            int z1= (int)bz;
+
+            int x2;
+            int z2;
+            if(bx>=x1){
+                x2=x1+1;
+            }else{
+                x2=x1-1;
+            }
+
+            if(bz>=z1){
+                z2=z1+1;
+            }else{
+                z2=z1-1;
+            }
+            String statePosition = StateFactions.db.getStateNameByPosition(new ClaimSector(x1,z1,x2,z2));
+
+            if(!statePosition.isBlank()){
+                if(StateFactions.db.checkIfPersonIsCitizen(statePosition,player.getName())){
+                    event.setCancelled(false);
+                }else{
+                    event.setCancelled(true);
+
+                    player.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Event.Error.BREAKING_BLOCK_ON_OTHERS_CLAIM)+"\""+statePosition+"\"");
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerSettingThingsOnFire(BlockIgniteEvent event){
+        if(StateFactions.config.getBoolean(Constants.Configs.CLAIM_PROTECTION)){
+            if(event.getPlayer()!=null){
+                Player player = event.getPlayer();
+
+                double bx=event.getBlock().getLocation().x();
+                double bz=event.getBlock().getLocation().z();
+
+                int x1= (int)bx;
+                int z1= (int)bz;
+
+                int x2;
+                int z2;
+                if(bx>=x1){
+                    x2=x1+1;
+                }else{
+                    x2=x1-1;
+                }
+
+                if(bz>=z1){
+                    z2=z1+1;
+                }else{
+                    z2=z1-1;
+                }
+                String statePosition = StateFactions.db.getStateNameByPosition(new ClaimSector(x1,z1,x2,z2));
+
+                if(!statePosition.isBlank()){
+                    if(StateFactions.db.checkIfPersonIsCitizen(statePosition,player.getName())){
+                        event.setCancelled(false);
+                    }else{
+                        event.setCancelled(true);
+
+                        player.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Event.Error.BURNING_THINGS_ON_OTHERS_CLAIM)+"\""+statePosition+"\"");
+                    }
+                }
+            }
+        }
     }
 }

@@ -5,6 +5,7 @@
   "string.log.db.no-db-specified": "Nessun DB è stato specificato correttamente. Per favore, controlla la sintassi nel file config",
   "string.log.db.startup.ok": "L'avvio del DB ha avuto successo",
   "string.log.loggedin-players-list-init": "La lista dei giocatori che hanno effettuato l'accesso è stata inizializzata",
+  "string.log.online-players-list-init": "La lista dei giocatori online è stata inizializzata",
   "string.log.startup-successful": "L'avvio del plugin ha avuto successo",
 
   "string.log.db.successful-check-if-person-exists": "L'esistenza della persona è stata controllata con successo",
@@ -21,6 +22,7 @@
 
 
   "string.command.error.pwd-contains-blank-spaces": "La password non può contenere spazi vuoti",
+  "string.command.error.pwd-too-long": "La password è troppo lunga",
   "string.command.error.pwd-confirmpwd-not-equal": "La password e la password di conferma devono essere identiche",
   "string.command.error.already-registered": "Questo utente risulta già registrato",
   "string.command.error.wrong-pwd": "La password inserita è sbagliata",
@@ -40,6 +42,8 @@
   "string.command.error.person-doesnt-exists": "La seguente persona non esiste (potrebbe essere un errore di battitura): ",
   "string.command.error.not-a-citizen": "Non sei un cittadino dello stato: ",
   "string.command.error.person-has-no-cit-req-sent": "Questa persona non ha mandato una richiesta di cittadinanza a questo stato",
+  "string.command.error.person-not-state-owner": "Non sei il proprietario dello stato. Non puoi espellere un cittadino dello stato: ",
+  "string.command.error.person-is-state-owner": "Questa persona è il proprietario dello stato. Non puoi espellerlo",
 
   "string.command.success.player-registered": "Sei stato registrato con successo",
   "string.command.success.player-loggedin": "Hai eseguito l'accesso con successo",
@@ -48,12 +52,18 @@
   "string.command.success.cit-req-sent": "Hai inviato con successo la richiesta di cittadinanza allo stato: ",
   "string.command.success.cit-req-accepted": "Hai accettato con successo la richiesta di cittadinanza di: ",
   "string.command.success.cit-req-denied": "Hai rifiutato con successo la richiesta di cittadinanza di: ",
+  "string.command.success.cit-kicked": "Hai espulso con successo ",
   "string.command.success.new-cit": "Ora sei un nuovo cittadino dello stato ",
   "string.command.success.cit-denied": "La tua richiesta di cittadinanza è stata rifiutata dallo stato ",
+  "string.command.success.being-kicked": "Sei stato espulso dallo stato ",
 
   "string.command.error.too-many-words": "Hai scritto troppe parole",
   "string.command.error.not-enough-args": "Mancano degli argomenti",
   "string.command.error.illegal-char": "Un carattere illegale è stato trovato all'interno degli argomenti: \"§&\"",
 
-  "string.title.exiting-state": "Stai lasciando "
+  "string.title.exiting-state": "Stai lasciando ",
+
+  "string.event.error.block-placed-on-others-claim": "Non puoi costruire qui. Questa regione è claimata da: ",
+  "string.event.error.breaking-block-on-others-claim": "Non puoi distruggere nulla qui. Questa regione è claimata da: ",
+  "string.event.error.burning-things-on-others-claim": "You can't burn anything here. This region is claimed by: "
 }
