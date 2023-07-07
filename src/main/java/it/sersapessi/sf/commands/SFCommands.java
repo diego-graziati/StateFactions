@@ -181,7 +181,7 @@ public class SFCommands implements CommandExecutor {
             }else{
                 sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_ENOUGH_ARGS));
             }
-        }else if(args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CIT_REQUEST)){
+        }else if(args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CIT_REQUEST) || args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CIT_REQUEST_SHORT) || args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CIT_REQUEST_SHORTEST)){
             if(args.size()==3){
 
                 if(StateFactions.db.checkIfStateExists(stateName)){
@@ -220,10 +220,10 @@ public class SFCommands implements CommandExecutor {
             }else{
                 sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_ENOUGH_ARGS));
             }
-        }else if(args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CIT_REQUEST_ACCEPT)){
+        }else if(args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CIT_REQUEST_ACCEPT) || args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CIT_REQUEST_ACCEPT_SHORT) || args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CIT_REQUEST_ACCEPT_SHORTEST)){
             if(args.size()==4){
 
-                //First I check the person trying to accept the citizenship request
+                //First, I check the person trying to accept the citizenship request
                 if(StateFactions.db.checkIfStateExists(stateName)){
                     if(sender instanceof Player){
 
@@ -282,10 +282,10 @@ public class SFCommands implements CommandExecutor {
             }else{
                 sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_ENOUGH_ARGS));
             }
-        }else if(args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CIT_REQUEST_DENY)){
+        }else if(args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CIT_REQUEST_DENY) || args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CIT_REQUEST_DENY_SHORT) || args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CIT_REQUEST_DENY_SHORTEST)){
             if(args.size()==4){
 
-                //First I check the person trying to accept the citizenship request
+                //First, I check the person trying to deny the citizenship request
                 if(StateFactions.db.checkIfStateExists(stateName)){
                     if(sender instanceof Player){
 
@@ -347,7 +347,7 @@ public class SFCommands implements CommandExecutor {
         }else if(args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CIT_KICK)){
 
             if(args.size()==4){
-                //First I check the person trying to accept the citizenship request
+                //First, I check the person trying to kick the citizen
                 if(StateFactions.db.checkIfStateExists(stateName)){
                     if(sender instanceof Player){
 
@@ -359,7 +359,7 @@ public class SFCommands implements CommandExecutor {
 
                                 String personName = args.get(3);
 
-                                //Then I check the person asking for the citizenship
+                                //Then I check the citizen
                                 if(StateFactions.db.checkIfPersonExists(personName)){
 
                                     if(!StateFactions.db.checkIfPersonIsStateOwner(stateName,personName)){

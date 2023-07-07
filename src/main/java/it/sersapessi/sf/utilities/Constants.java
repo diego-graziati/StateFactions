@@ -78,8 +78,14 @@ public final class Constants {
         public static final String FACTION = "faction";
         public static final String CLAIM = "claim";
         public static final String CIT_REQUEST = "cit-request";
+        public static final String CIT_REQUEST_SHORT = "cit-req";
+        public static final String CIT_REQUEST_SHORTEST = "cr";
         public static final String CIT_REQUEST_ACCEPT = "cit-request-accept";
+        public static final String CIT_REQUEST_ACCEPT_SHORT = "cit-req-accept";
+        public static final String CIT_REQUEST_ACCEPT_SHORTEST = "cra";
         public static final String CIT_REQUEST_DENY = "cit-request-deny";
+        public static final String CIT_REQUEST_DENY_SHORT = "cit-req-deny";
+        public static final String CIT_REQUEST_DENY_SHORTEST = "crd";
         public static final String CIT_KICK = "cit-kick";
         public static final String INFO = "info";
     }
