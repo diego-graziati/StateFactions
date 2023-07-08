@@ -1,2 +1,2 @@
-INSERT INTO sf_state(StateName, StateOwner, ClaimResponsible)
-VALUES (?,?,?);
+INSERT INTO sf_state(StateName, StateFounder)
+VALUES (?,?);

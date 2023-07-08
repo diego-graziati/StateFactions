@@ -52,6 +52,12 @@ public final class Constants {
         public static final String CHECK_IF_CITIZENSHIP_REQUEST_ALREADY_EXISTS = "check_if_citizenship_request_already_exists";
         public static final String REMOVE_CITIZEN = "remove_citizen";
         public static final String GET_STATE_OWNER = "get_state_owner";
+        public static final String SET_STATE_OWNER = "set_state_owner";
+        public static final String SET_STATE_CLAIM_RESPONSIBLE = "set_state_claim_responsible";
+        public static final String GET_STATE_CLAIM_RESPONSIBLE = "get_state_claim_responsible";
+        public static final String GET_STATE_INFO = "get_state_info";
+        public static final String GET_NUM_STATE_CLAIMS = "get_num_state_claims";
+        public static final String GET_NUM_STATE_CITIZENS = "get_num_state_citizens";
     }
     public static final class DB_Tables{
         public static final class SF_Person{
@@ -62,12 +68,20 @@ public final class Constants {
         public static final class SF_State{
             public static final String STATE_NAME = "StateName";
             public static final String STATE_ID = "StateId";
-            public static final String PERSON_ID = "PersonId";
+            public static final String STATE_FOUNDER = "StateFounder";
+            public static final String STATE_CREATION_DATE = "StateCreationDate";
         }
         public static final class SF_State_Space{
             public static final String STATE_ID = "StateId";
             public static final String BLOCK_X = "BlockX";
             public static final String BLOCK_Z = "BlockZ";
+        }
+        public static final class SF_Citizenship {
+            public static final String PERSON_ID = "PersonId";
+        }
+        public static final class Temp_Table{
+            public static final String NUM_STATE_CLAIMS = "NumStateClaims";
+            public static final String NUM_STATE_CITIZENS = "NumStateCitizens";
         }
     }
     public static final class CommandsArgs{
@@ -77,17 +91,26 @@ public final class Constants {
         public static final String LOGIN = "login";
         public static final String FACTION = "faction";
         public static final String CLAIM = "claim";
+        public static final String CLAIM_RESP = "claim-resp";
+        public static final String STATE_OWNER = "state-owner";
         public static final String CIT_REQUEST = "cit-request";
-        public static final String CIT_REQUEST_SHORT = "cit-req";
-        public static final String CIT_REQUEST_SHORTEST = "cr";
         public static final String CIT_REQUEST_ACCEPT = "cit-request-accept";
-        public static final String CIT_REQUEST_ACCEPT_SHORT = "cit-req-accept";
-        public static final String CIT_REQUEST_ACCEPT_SHORTEST = "cra";
         public static final String CIT_REQUEST_DENY = "cit-request-deny";
-        public static final String CIT_REQUEST_DENY_SHORT = "cit-req-deny";
-        public static final String CIT_REQUEST_DENY_SHORTEST = "crd";
         public static final String CIT_KICK = "cit-kick";
         public static final String INFO = "info";
+        public static final class SHORT{
+            public static final String CIT_REQUEST_SHORT = "cit-req";
+            public static final String CIT_REQUEST_ACCEPT_SHORT = "cit-req-accept";
+            public static final String CIT_REQUEST_DENY_SHORT = "cit-req-deny";
+        }
+
+        public static final class SHORTEST{
+            public static final String CLAIM_RESP_SHORTEST = "cresp";
+            public static final String STATE_OWNER_SHORTEST = "so";
+            public static final String CIT_REQUEST_SHORTEST = "cr";
+            public static final String CIT_REQUEST_ACCEPT_SHORTEST = "cra";
+            public static final String CIT_REQUEST_DENY_SHORTEST = "crd";
+        }
     }
     public static final class Configs{
         public static final String LANG = "lang";
@@ -167,9 +190,13 @@ public final class Constants {
                     public static final String CIT_REQ_ALREADY_SENT = "string.command.error.cit-req-already-sent";
                     public static final String PERSON_DOESNT_EXISTS = "string.command.error.person-doesnt-exists";
                     public static final String NOT_A_CITIZEN = "string.command.error.not-a-citizen";
+                    public static final String PERSON_NOT_A_CITIZEN = "string.command.error.person-not-a-citizen";
                     public static final String PERSON_HAS_NO_CIT_REQ_SENT = "string.command.error.person-has-no-cit-req-sent";
                     public static final String PERSON_NOT_STATE_OWNER = "string.command.error.person-not-state-owner";
                     public static final String PERSON_IS_STATE_OWNER = "string.command.error.person-is-state-owner";
+                    public static final String NOT_A_CLAIM_RESPONSIBLE = "string.command.error.not-a-claim-responsible";
+                    public static final String ALREADY_CLAIM_RESPONSIBLE= "string.command.error.already-claim-responsible";
+                    public static final String PERSON_ALREADY_STATE_OWNER = "string.command.error.person-already-state-owner";
                 }
                 public static final class Success{
                     public static final String PLAYER_REGISTERED = "string.command.success.player-registered";
@@ -180,9 +207,13 @@ public final class Constants {
                     public static final String CIT_REQ_ACCEPTED = "string.command.success.cit-req-accepted";
                     public static final String CIT_REQ_DENIED = "string.command.success.cit-req-denied";
                     public static final String CIT_KICKED = "string.command.success.cit-kicked";
+                    public static final String CIT_PROMOTED_CLAIM_RESPONSIBLE = "string.command.success.cit-promoted-claim-responsible";
+                    public static final String CIT_PROMOTED_STATE_OWNER = "string.command.success.cit-promoted-state-owner";
                     public static final String NEW_CIT = "string.command.success.new-cit";
                     public static final String CIT_DENIED = "string.command.success.cit-denied";
                     public static final String BEING_KICKED = "string.command.success.being-kicked";
+                    public static final String PROMOTED_CLAIM_RESPONSIBLE = "string.command.success.promoted-claim-responsible";
+                    public static final String PROMOTED_STATE_OWNER = "string.command.success.promoted-state-owner";
                 }
             }
             public static final class Title{
@@ -223,6 +254,12 @@ public final class Constants {
             public static final String DB_CHECK_IF_CITIZENSHIP_REQUEST_ALREADY_EXISTS = DB_MYSQL_FOLDER+"/CheckIfCitizenshipRequestAlreadyExists_query_sql.sql";
             public static final String DB_REMOVE_CITIZEN = DB_MYSQL_FOLDER+"/RemoveCitizen_query_sql.sql";
             public static final String DB_GET_STATE_OWNER = DB_MYSQL_FOLDER+"/GetStateOwner_query_sql.sql";
+            public static final String DB_SET_STATE_OWNER = DB_MYSQL_FOLDER+"/SetStateOwner_query_sql.sql";
+            public static final String DB_SET_STATE_CLAIM_RESPONSIBLE = DB_MYSQL_FOLDER+"/SetStateClaimResponsible_query_sql.sql";
+            public static final String DB_GET_STATE_CLAIM_RESPONSIBLE = DB_MYSQL_FOLDER+"/GetStateClaimResponsible_query_sql.sql";
+            public static final String DB_GET_STATE_INFO = DB_MYSQL_FOLDER+"/GetStateInfo_query_sql.sql";
+            public static final String DB_GET_NUM_STATE_CLAIMS = DB_MYSQL_FOLDER+"/GetNumStateClaims_query_sql.sql";
+            public static final String DB_GET_NUM_STATE_CITIZENS = DB_MYSQL_FOLDER+"/GetNumStateCitizens_query_sql.sql";
         }
     }
 }
