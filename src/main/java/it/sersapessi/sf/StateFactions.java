@@ -66,7 +66,7 @@ public final class StateFactions extends JavaPlugin {
         saveDefaultConfig();
         config = getConfig();
 
-        //File export
+        //Files export procedure
         try {
             ExportedFilesRoutine.exportFiles();
         } catch (Exception e) {
@@ -93,10 +93,10 @@ public final class StateFactions extends JavaPlugin {
             } catch (FileNotFoundException ex) {
                 //Return an exception since the files have been corrupted.
                 throw new RuntimeException(ex);
-            } catch (IOException ex) {
+            } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 

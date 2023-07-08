@@ -32,13 +32,24 @@ public final class TranslationManager {
      *                                  If that doesn't work, the <code>{@link StateFactions#startupProcess()}</code> method will
      *                                  return a {@link RuntimeException}.
      * */
-    public TranslationManager(@NotNull String lang) throws IOException {
+    public TranslationManager(@NotNull String lang) throws Exception {
         this.lang=lang;
         InputStream inStream = new FileInputStream(ExportedFilesRoutine.getPathToLocal()+Constants.Resources.ExportedResPaths.Lang.LANG_FOLDER+"/"+lang+".json");
         JsonElement fileElement = JsonParser.parseReader(new InputStreamReader(inStream, StandardCharsets.UTF_8));
         fileObject = fileElement.getAsJsonObject();
 
         inStream.close();
+        if(!integrityRoutine(fileObject)){
+
+            ExportedFilesRoutine.restoreExternalFile(Constants.Resources.ExportedResPaths.Lang.LANG_FOLDER+"/"+lang+".json");
+
+            inStream = new FileInputStream(ExportedFilesRoutine.getPathToLocal()+Constants.Resources.ExportedResPaths.Lang.LANG_FOLDER+"/"+lang+".json");
+
+            fileElement = JsonParser.parseReader(new InputStreamReader(inStream, StandardCharsets.UTF_8));
+            fileObject = fileElement.getAsJsonObject();
+        }
+
+
     }
 
     /**
@@ -52,7 +63,7 @@ public final class TranslationManager {
         return fileObject.get(stringId).getAsString();
     }
 
-    public boolean integrityRoutine(JsonObject fileObject, String lang) throws IOException {
+    public boolean integrityRoutine(JsonObject fileObject) throws IOException {
         Map<String,JsonElement> fileObjMap = fileObject.asMap();
         InputStream inStream = StateFactions.class.getResourceAsStream(Constants.Resources.InternalResPaths.Lang.LANG_FOLDER+"/"+lang+".json");
         //If "inStream"==null then the lang file is probably custom and made for a not officially supported language
@@ -86,7 +97,6 @@ public final class TranslationManager {
                 }
             }
         }
-
 
         return true;
     }
