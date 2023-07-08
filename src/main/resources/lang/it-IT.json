@@ -73,5 +73,11 @@
 
   "string.event.error.block-placed-on-others-claim": "Non puoi costruire qui. Questa regione è claimata da: ",
   "string.event.error.breaking-block-on-others-claim": "Non puoi distruggere nulla qui. Questa regione è claimata da: ",
-  "string.event.error.burning-things-on-others-claim": "You can't burn anything here. This region is claimed by: "
+  "string.event.error.burning-things-on-others-claim": "You can't burn anything here. This region is claimed by: ",
+
+  "string.state.info.id": "Id: ",
+  "string.state.info.founder": "Fondatore dello stato: ",
+  "string.state.info.creation-date": "Data creazione: ",
+  "string.state.info.claims-number": "Numero di regioni claimate: ",
+  "string.state.info.citizens-number": "Numero di cittadini: "
 }

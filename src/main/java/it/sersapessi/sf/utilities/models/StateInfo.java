@@ -1,11 +1,14 @@
 package it.sersapessi.sf.utilities.models;
 
+import it.sersapessi.sf.StateFactions;
+import it.sersapessi.sf.utilities.Constants;
+
 import java.sql.Timestamp;
 
 public class StateInfo {
     private int stateId;
     private String stateName;
-    public String stateFounder;
+    private String stateFounder;
     private Timestamp creationDate;
     private int numClaims;
     private int numCitizens;
@@ -35,5 +38,21 @@ public class StateInfo {
 
     public int getNumCitizens() {
         return numCitizens;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder str_builder = new StringBuilder();
+
+        str_builder.append(Constants.ChatStyling.Colors.BLUE).append(Constants.ChatStyling.Formatting.BOLD).append(Constants.ChatStyling.Templates.STATE_TITLE);
+        str_builder.append(stateName).append(Constants.ChatStyling.Formatting.RESET).append("\n");
+
+        str_builder.append(StateFactions.translationManager.getString(Constants.Localization.Str.State.Info.ID)).append(stateId).append("\n");
+        str_builder.append(StateFactions.translationManager.getString(Constants.Localization.Str.State.Info.FOUNDER)).append(stateFounder).append("\n");
+        str_builder.append(StateFactions.translationManager.getString(Constants.Localization.Str.State.Info.CREATION_DATE)).append(creationDate.toString()).append("\n");
+        str_builder.append(StateFactions.translationManager.getString(Constants.Localization.Str.State.Info.CLAIMS_NUMBER)).append(numClaims).append("\n");
+        str_builder.append(StateFactions.translationManager.getString(Constants.Localization.Str.State.Info.CITIZENS_NUMBER)).append(numCitizens).append("\n");
+
+        return str_builder.toString();
     }
 }

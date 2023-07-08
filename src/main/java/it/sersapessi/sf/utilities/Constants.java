@@ -3,6 +3,7 @@ package it.sersapessi.sf.utilities;
 public final class Constants {
     public static final class Utility{
         public static final String PARSING_CHARSET = "§&";
+        public static final String PLUGIN_NAME = "StateFactions";
     }
     public static final class ChatStyling{
         public static final class Colors{
@@ -30,6 +31,9 @@ public final class Constants {
             public static final String RANDOM = "§K";
             public static final String ITALIC = "§O";
             public static final String RESET = "§R";
+        }
+        public static final class Templates{
+            public static final String STATE_TITLE = "---";
         }
     }
     public static final class QueryMap{
@@ -226,10 +230,32 @@ public final class Constants {
                     public static final String BURNING_THINGS_ON_OTHERS_CLAIM= "string.event.error.burning-things-on-others-claim";
                 }
             }
+            public static final class State{
+                public static final class Info{
+                    public static final String ID = "string.state.info.id";
+                    public static final String FOUNDER = "string.state.info.founder";
+                    public static final String CREATION_DATE = "string.state.info.creation-date";
+                    public static final String CLAIMS_NUMBER = "string.state.info.claims-number";
+                    public static final String CITIZENS_NUMBER = "string.state.info.citizens-number";
+                }
+            }
         }
     }
 
     public static final class Resources{
+
+        public static final class InternalResPaths{
+            public static final class Lang{
+                public static final String LANG_FOLDER = "/lang";
+                public static final String EN_US = LANG_FOLDER+"/en-US.json";
+                public static final String IT_IT = LANG_FOLDER+"/it-IT.json";
+            }
+        }
+        public static final class ExportedResPaths{
+            public static final class Lang{
+                public static final String LANG_FOLDER ="/lang";
+            }
+        }
         public static final String DB_RESOURCES_FOLDER = "/db_resources";
 
         public static final String DB_STARTUP_MYSQL = DB_RESOURCES_FOLDER+"/StartupQuery_mysql.sql";

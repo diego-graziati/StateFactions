@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 /**
  * The <code>TranslationManager</code> handles all the strings' translations available inside the plugin.
@@ -33,8 +34,7 @@ public final class TranslationManager {
      * */
     public TranslationManager(@NotNull String lang) throws IOException {
         this.lang=lang;
-        InputStream inStream = StateFactions.class.getResourceAsStream("/lang/"+lang+".json");
-        assert inStream != null;
+        InputStream inStream = new FileInputStream(ExportedFilesRoutine.getPathToLocal()+Constants.Resources.ExportedResPaths.Lang.LANG_FOLDER+"/"+lang+".json");
         JsonElement fileElement = JsonParser.parseReader(new InputStreamReader(inStream, StandardCharsets.UTF_8));
         fileObject = fileElement.getAsJsonObject();
 
@@ -50,5 +50,44 @@ public final class TranslationManager {
      * */
     public String getString(@NotNull String stringId){
         return fileObject.get(stringId).getAsString();
+    }
+
+    public boolean integrityRoutine(JsonObject fileObject, String lang) throws IOException {
+        Map<String,JsonElement> fileObjMap = fileObject.asMap();
+        InputStream inStream = StateFactions.class.getResourceAsStream(Constants.Resources.InternalResPaths.Lang.LANG_FOLDER+"/"+lang+".json");
+        //If "inStream"==null then the lang file is probably custom and made for a not officially supported language
+        if(inStream != null){
+            JsonElement internalFileElement = JsonParser.parseReader(new InputStreamReader(inStream, StandardCharsets.UTF_8));
+            inStream.close();
+
+            Map<String,JsonElement> internalFileObjMap = internalFileElement.getAsJsonObject().asMap();
+
+            //I check every single key: if each key inside the internal lang file is present inside the external lang file,
+            //then it means everything is alright. Otherwise, the external file needs to be "fixed", which is a fancier word to say
+            //that it will be overwritten with the internal lang file, de facto resetting the lang file to its origin
+            Object[] keySet_obj = fileObjMap.keySet().toArray();
+            Object[] originalKeySet_obj = internalFileObjMap.keySet().toArray();
+
+            for(Object originalKey_obj : originalKeySet_obj){
+                String originalKey = (String) originalKey_obj;
+
+                boolean isKey=false;
+                for(Object key_obj : keySet_obj){
+                    String key = (String) key_obj;
+
+                    if(key.equals(originalKey)){
+                        isKey=true;
+                        break;
+                    }
+                }
+
+                if(!isKey){
+                    return false;
+                }
+            }
+        }
+
+
+        return true;
     }
 }

@@ -5,6 +5,7 @@ import it.sersapessi.sf.eventhandlers.NonPlayerEvents;
 import it.sersapessi.sf.eventhandlers.PlayerEvents;
 import it.sersapessi.sf.utilities.Constants;
 import it.sersapessi.sf.utilities.Database;
+import it.sersapessi.sf.utilities.ExportedFilesRoutine;
 import it.sersapessi.sf.utilities.TranslationManager;
 import it.sersapessi.sf.utilities.models.PluginPlayer;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -64,6 +65,16 @@ public final class StateFactions extends JavaPlugin {
 
         saveDefaultConfig();
         config = getConfig();
+
+        //File export
+        try {
+            ExportedFilesRoutine.exportFiles();
+        } catch (Exception e) {
+            logger.log(new LogRecord(Level.INFO,"Files export procedure failed"));
+            throw new RuntimeException(e);
+        }
+
+        logger.log(new LogRecord(Level.INFO,"Files exported"));
 
         //Lang selection
         String selectedLang;

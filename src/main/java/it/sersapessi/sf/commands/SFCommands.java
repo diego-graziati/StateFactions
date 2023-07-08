@@ -5,6 +5,7 @@ import it.sersapessi.sf.utilities.Constants;
 import it.sersapessi.sf.utilities.models.ClaimRegion;
 import it.sersapessi.sf.utilities.models.ClaimSector;
 import it.sersapessi.sf.utilities.models.PluginPlayer;
+import it.sersapessi.sf.utilities.models.StateInfo;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -404,6 +405,31 @@ public class SFCommands implements CommandExecutor {
             }
         }else if(args.get(2).equalsIgnoreCase(Constants.CommandsArgs.INFO)){
 
+            if(args.size()==3){
+                if(StateFactions.db.checkIfStateExists(stateName)){
+
+                    if(sender instanceof Player){
+
+                        Player p = (Player) sender;
+
+                        if(StateFactions.loggedInPlayers.contains(p.getName())){
+
+                            StateInfo info = StateFactions.db.getStateInfo(stateName);
+
+                            p.sendPlainMessage(info.toString());
+                        }else{
+                            p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_LOGGEDIN));
+                        }
+                    }else{
+                        sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.YOU_MUST_BE_A_PLAYER));
+                    }
+
+                }else{
+                    sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.STATE_DOESNT_EXISTS));
+                }
+            }else{
+                sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_ENOUGH_ARGS));
+            }
         }else if(args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CLAIM_RESP)||args.get(2).equalsIgnoreCase(Constants.CommandsArgs.SHORTEST.CLAIM_RESP_SHORTEST)){
 
             if(args.size()==4){
