@@ -48,6 +48,7 @@
   "string.command.error.not-a-claim-responsible": "Non puoi claimare alcuna regione per lo stato: ",
   "string.command.error.already-claim-responsible": "Questa persona è già un responsabile dei claim per questo stato",
   "string.command.error.person-already-state-owner": "Questa persona è di già un proprietario di questo stato",
+  "string.command.error.person-not-a-claim-responsible": "Questa persona non è un responsabile dei claim per questo stato: ",
 
   "string.command.success.player-registered": "Sei stato registrato con successo",
   "string.command.success.player-loggedin": "Hai eseguito l'accesso con successo",
@@ -64,6 +65,10 @@
   "string.command.success.being-kicked": "Sei stato espulso dallo stato ",
   "string.command.success.promoted-claim-responsible": "Sei stato promosso a responsabile dei claim per lo stato: ",
   "string.command.success.promoted-state-owner": "Sei stato promosso a proprietario dello stato: ",
+  "string.command.success.state-owner-resign": "Ti sei dimesso con successo dalla carica di proprietario dello stato: ",
+  "string.command.success.claim-responsible-resign": "Ti sei dimesso con successo dalla carica di responsabile dei claim dello stato: ",
+  "string.command.success.remove-claim-responsible": "Hai rimosso con successo il seguente responsabile dei claim: ",
+  "string.command.success.lost-claim-responsible": "Hai perso il tuo ruolo come responsabile dei claim per lo stato: ",
 
   "string.command.error.too-many-words": "Hai scritto troppe parole",
   "string.command.error.not-enough-args": "Mancano degli argomenti",

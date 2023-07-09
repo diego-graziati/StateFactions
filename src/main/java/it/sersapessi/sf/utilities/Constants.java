@@ -96,7 +96,10 @@ public final class Constants {
         public static final String FACTION = "faction";
         public static final String CLAIM = "claim";
         public static final String CLAIM_RESP = "claim-resp";
+        public static final String CLAIM_RESP_REMOVE = "claim-resp-remove";
+        public static final String CLAIM_RESP_RESIGN = "claim-resp-resign";
         public static final String STATE_OWNER = "state-owner";
+        public static final String STATE_OWNER_RESIGN = "state-owner-resign";
         public static final String CIT_REQUEST = "cit-request";
         public static final String CIT_REQUEST_ACCEPT = "cit-request-accept";
         public static final String CIT_REQUEST_DENY = "cit-request-deny";
@@ -106,11 +109,17 @@ public final class Constants {
             public static final String CIT_REQUEST_SHORT = "cit-req";
             public static final String CIT_REQUEST_ACCEPT_SHORT = "cit-req-accept";
             public static final String CIT_REQUEST_DENY_SHORT = "cit-req-deny";
+            public static final String CLAIM_RESP_REMOVE_SHORT = "cl-resp-rem";
+            public static final String CLAIM_RESP_RESIGN_SHORT = "cl-resp-res";
+            public static final String STATE_OWNER_RESIGN_SHORT = "st-owner-res";
         }
 
         public static final class SHORTEST{
             public static final String CLAIM_RESP_SHORTEST = "cresp";
+            public static final String CLAIM_RESP_REMOVE_SHORTEST = "crrem";
+            public static final String CLAIM_RESP_RESIGN_SHORTEST = "crres";
             public static final String STATE_OWNER_SHORTEST = "so";
+            public static final String STATE_OWNER_RESIGN_SHORTEST = "sores";
             public static final String CIT_REQUEST_SHORTEST = "cr";
             public static final String CIT_REQUEST_ACCEPT_SHORTEST = "cra";
             public static final String CIT_REQUEST_DENY_SHORTEST = "crd";
@@ -201,6 +210,7 @@ public final class Constants {
                     public static final String NOT_A_CLAIM_RESPONSIBLE = "string.command.error.not-a-claim-responsible";
                     public static final String ALREADY_CLAIM_RESPONSIBLE= "string.command.error.already-claim-responsible";
                     public static final String PERSON_ALREADY_STATE_OWNER = "string.command.error.person-already-state-owner";
+                    public static final String PERSON_NOT_A_CLAIM_RESPONSIBLE = "string.command.error.person-not-a-claim-responsible";
                 }
                 public static final class Success{
                     public static final String PLAYER_REGISTERED = "string.command.success.player-registered";
@@ -218,6 +228,10 @@ public final class Constants {
                     public static final String BEING_KICKED = "string.command.success.being-kicked";
                     public static final String PROMOTED_CLAIM_RESPONSIBLE = "string.command.success.promoted-claim-responsible";
                     public static final String PROMOTED_STATE_OWNER = "string.command.success.promoted-state-owner";
+                    public static final String STATE_OWNER_RESIGN = "string.command.success.state-owner-resign";
+                    public static final String CLAIM_RESPONSIBLE_RESIGN = "string.command.success.claim-responsible-resign";
+                    public static final String REMOVE_CLAIM_RESPONSIBLE = "string.command.success.remove-claim-responsible";
+                    public static final String LOST_CLAIM_RESPONSIBLE = "string.command.success.lost-claim-responsible";
                 }
             }
             public static final class Title{

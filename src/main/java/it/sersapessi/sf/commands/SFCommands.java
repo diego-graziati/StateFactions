@@ -490,7 +490,7 @@ public class SFCommands implements CommandExecutor {
         }else if(args.get(2).equalsIgnoreCase(Constants.CommandsArgs.STATE_OWNER)||args.get(2).equalsIgnoreCase(Constants.CommandsArgs.SHORTEST.STATE_OWNER_SHORTEST)){
 
             if(args.size()==4){
-                //First, I check the person trying to kick the citizen
+                //First, I check the person trying to promote the citizen
                 if(StateFactions.db.checkIfStateExists(stateName)){
                     if(sender instanceof Player){
 
@@ -514,13 +514,135 @@ public class SFCommands implements CommandExecutor {
 
                                         PluginPlayer newStateOwner = StateFactions.getPlayer(personName);
 
-                                        //If the person who got kicked is online, they will receive a message telling them that they've been kicked out of the state
+                                        //If the person who got promoted is online, they will receive a message telling them that they've been promoted to state owner
                                         if(newStateOwner!=null){
                                             newStateOwner.getBukkitPlayer().sendPlainMessage(Constants.ChatStyling.Colors.GREEN+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Success.PROMOTED_STATE_OWNER)+"\""+stateName+"\"");
                                         }
 
                                     }else{
                                         p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.PERSON_ALREADY_STATE_OWNER));
+                                    }
+
+                                }else{
+                                    p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.PERSON_NOT_A_CITIZEN)+"\""+stateName+"\"");
+                                }
+
+                            }else{
+                                p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.PERSON_NOT_STATE_OWNER)+"\""+stateName+"\"");
+                            }
+
+                        }else{
+                            p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_LOGGEDIN));
+                        }
+
+                    }else{//The server is sending the command
+                        sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.YOU_MUST_BE_A_PLAYER));
+                    }
+                }else{
+                    sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.STATE_DOESNT_EXISTS));
+                }
+            }else{
+                sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_ENOUGH_ARGS));
+            }
+        }else if(args.get(2).equalsIgnoreCase(Constants.CommandsArgs.STATE_OWNER_RESIGN)||args.get(2).equalsIgnoreCase(Constants.CommandsArgs.SHORT.STATE_OWNER_RESIGN_SHORT)||args.get(2).equalsIgnoreCase(Constants.CommandsArgs.SHORTEST.STATE_OWNER_RESIGN_SHORTEST)){
+
+            if(args.size()==3){
+                //I check the person trying to resign
+                if(StateFactions.db.checkIfStateExists(stateName)){
+                    if(sender instanceof Player){
+
+                        Player p = (Player) sender;
+
+                        if(StateFactions.loggedInPlayers.contains(p.getName())){
+
+                            if(StateFactions.db.checkIfPersonIsStateOwner(stateName,p.getName())){
+
+                                StateFactions.db.removeStateOwner(p.getName(), stateName);
+
+                                p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Success.STATE_OWNER_RESIGN));
+                            }else{
+                                p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.PERSON_NOT_STATE_OWNER)+"\""+stateName+"\"");
+                            }
+
+                        }else{
+                            p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_LOGGEDIN));
+                        }
+
+                    }else{//The server is sending the command
+                        sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.YOU_MUST_BE_A_PLAYER));
+                    }
+                }else{
+                    sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.STATE_DOESNT_EXISTS));
+                }
+            }else{
+                sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_ENOUGH_ARGS));
+            }
+        }else if(args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CLAIM_RESP_RESIGN)||args.get(2).equalsIgnoreCase(Constants.CommandsArgs.SHORT.CLAIM_RESP_RESIGN_SHORT)||args.get(2).equalsIgnoreCase(Constants.CommandsArgs.SHORTEST.CLAIM_RESP_RESIGN_SHORTEST)){
+
+            if(args.size()==3){
+                //I check the person trying to resign
+                if(StateFactions.db.checkIfStateExists(stateName)){
+                    if(sender instanceof Player){
+
+                        Player p = (Player) sender;
+
+                        if(StateFactions.loggedInPlayers.contains(p.getName())){
+
+                            if(StateFactions.db.checkIfPersonIsStateOwner(stateName,p.getName())){
+
+                                StateFactions.db.removeStateClaimResponsible(p.getName(), stateName);
+
+                                p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Success.CLAIM_RESPONSIBLE_RESIGN));
+                            }else{
+                                p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.PERSON_NOT_STATE_OWNER)+"\""+stateName+"\"");
+                            }
+
+                        }else{
+                            p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_LOGGEDIN));
+                        }
+
+                    }else{//The server is sending the command
+                        sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.YOU_MUST_BE_A_PLAYER));
+                    }
+                }else{
+                    sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.STATE_DOESNT_EXISTS));
+                }
+            }else{
+                sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.NOT_ENOUGH_ARGS));
+            }
+        }else if(args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CLAIM_RESP_REMOVE)||args.get(2).equalsIgnoreCase(Constants.CommandsArgs.SHORT.CLAIM_RESP_REMOVE_SHORT)||args.get(2).equalsIgnoreCase(Constants.CommandsArgs.SHORTEST.CLAIM_RESP_REMOVE_SHORTEST)){
+            if(args.size()==4){
+                //First, I check the person trying to remove the claim responsible
+                if(StateFactions.db.checkIfStateExists(stateName)){
+                    if(sender instanceof Player){
+
+                        Player p = (Player) sender;
+
+                        if(StateFactions.loggedInPlayers.contains(p.getName())){
+
+                            if(StateFactions.db.checkIfPersonIsStateOwner(stateName,p.getName())){
+
+                                String personName = args.get(3);
+
+                                //Then I check the citizen
+                                if(StateFactions.db.checkIfPersonIsCitizen(stateName,personName)){
+
+                                    if(StateFactions.db.checkIfPersonIsClaimResponsible(stateName,personName)){
+
+
+                                        StateFactions.db.removeStateOwner(personName,stateName);
+
+                                        p.sendPlainMessage(Constants.ChatStyling.Colors.GREEN+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Success.REMOVE_CLAIM_RESPONSIBLE)+"\""+personName+"\"");
+
+                                        PluginPlayer newStateOwner = StateFactions.getPlayer(personName);
+
+                                        //If the person who got demoted is online, they will receive a message telling them that they've lost the role of claim-responsible
+                                        if(newStateOwner!=null){
+                                            newStateOwner.getBukkitPlayer().sendPlainMessage(Constants.ChatStyling.Colors.GREEN+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Success.LOST_CLAIM_RESPONSIBLE)+"\""+stateName+"\"");
+                                        }
+
+                                    }else{
+                                        p.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.PERSON_NOT_A_CLAIM_RESPONSIBLE));
                                     }
 
                                 }else{

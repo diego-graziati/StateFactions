@@ -48,6 +48,7 @@
   "string.command.error.not-a-claim-responsible": "You can't claim any region for the state: ",
   "string.command.error.already-claim-responsible": "This person is already a claim responsible for this state",
   "string.command.error.person-already-state-owner": "This person is already a state owner for this state",
+  "string.command.error.person-not-a-claim-responsible": "This person is not a claim responsible for the state: ",
 
   "string.command.success.player-registered": "You've been successfully registered",
   "string.command.success.player-loggedin": "You've successfully logged in",
@@ -64,6 +65,10 @@
   "string.command.success.being-kicked": "You've been kicked by the state ",
   "string.command.success.promoted-claim-responsible": "You've been promoted to claim responsible for the state: ",
   "string.command.success.promoted-state-owner": "You've been promoted to owner of the state: ",
+  "string.command.success.state-owner-resign": "You've successfully resigned as owner of the state: ",
+  "string.command.success.claim-responsible-resign": "You've successfully resigned as claim responsible of the state: ",
+  "string.command.success.remove-claim-responsible": "You've successfully removed the following claim-responsible: ",
+  "string.command.success.lost-claim-responsible": "You've lost your role as claim-responsible for the state: ",
 
   "string.command.error.too-many-words": "You've typed too many words",
   "string.command.error.not-enough-args": "You're missing some arguments",

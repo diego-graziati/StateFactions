@@ -705,10 +705,7 @@ public class Database {
 
             set = ps.executeQuery();
 
-            if(set!=null && set.next()){
-                return true;
-            }
-            return false;
+            return set != null && set.next();
         }catch(SQLException e){
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -744,10 +741,7 @@ public class Database {
 
             set = ps.executeQuery();
 
-            if(set!=null && set.next()){
-                return true;
-            }
-            return false;
+            return set != null && set.next();
         }catch(SQLException e){
             e.printStackTrace();
             throw new RuntimeException(e);
