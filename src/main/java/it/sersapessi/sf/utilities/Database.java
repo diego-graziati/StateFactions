@@ -1,10 +1,7 @@
 package it.sersapessi.sf.utilities;
 
 import it.sersapessi.sf.StateFactions;
-import it.sersapessi.sf.utilities.models.ClaimRegion;
-import it.sersapessi.sf.utilities.models.ClaimSector;
-import it.sersapessi.sf.utilities.models.StateInfo;
-import org.bukkit.command.CommandSender;
+import it.sersapessi.sf.utilities.models.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
@@ -55,256 +52,484 @@ public class Database {
 
                 StateFactions.logger.log(new LogRecord(Level.INFO,"QueryMap: "+((queryMap==null)?"null":"Not null")));
 
-                queryMap.put(Constants.QueryMap.CHECK_IF_PERSON_EXISTS,getSQL(Constants.Resources.MYSQL.DB_CHECK_IF_PERSON_EXISTS));
+                queryMap.put(Constants.QueryMap.GET_STATES,getSQL(Constants.Resources.MYSQL.DB_GET_STATES));
                 StateFactions.logger.log(new LogRecord(Level.INFO,"Test1"));
-                queryMap.put(Constants.QueryMap.INSERT_NEW_PERSON,getSQL(Constants.Resources.MYSQL.DB_INSERT_NEW_PERSON));
+                queryMap.put(Constants.QueryMap.GET_CITIZENS,getSQL(Constants.Resources.MYSQL.DB_GET_CITIZENS));
                 StateFactions.logger.log(new LogRecord(Level.INFO,"Test2"));
-                queryMap.put(Constants.QueryMap.GET_PERSON_CREDENTIALS,getSQL(Constants.Resources.MYSQL.DB_GET_PERSON_CREDENTIALS));
+                queryMap.put(Constants.QueryMap.GET_CITIZENSHIPS_REQUESTS,getSQL(Constants.Resources.MYSQL.DB_GET_CITIZENSHIPS_REQUESTS));
                 StateFactions.logger.log(new LogRecord(Level.INFO,"Test3"));
-                queryMap.put(Constants.QueryMap.GET_PERSON_ID,getSQL(Constants.Resources.MYSQL.DB_GET_PERSON_ID));
+                queryMap.put(Constants.QueryMap.GET_STATE_NUM_CLAIMS,getSQL(Constants.Resources.MYSQL.DB_GET_STATE_NUM_CLAIMS));
                 StateFactions.logger.log(new LogRecord(Level.INFO,"Test4"));
-                queryMap.put(Constants.QueryMap.INSERT_NEW_STATE,getSQL(Constants.Resources.MYSQL.DB_INSERT_NEW_STATE));
+                queryMap.put(Constants.QueryMap.GET_REGISTERED_PLAYERS,getSQL(Constants.Resources.MYSQL.DB_GET_REGISTERED_PLAYERS));
                 StateFactions.logger.log(new LogRecord(Level.INFO,"Test5"));
-                queryMap.put(Constants.QueryMap.CHECK_IF_STATE_EXISTS,getSQL(Constants.Resources.MYSQL.DB_CHECK_IF_STATE_EXISTS));
+                queryMap.put(Constants.QueryMap.GET_CLAIMS,getSQL(Constants.Resources.MYSQL.DB_GET_CLAIMS));
                 StateFactions.logger.log(new LogRecord(Level.INFO,"Test6"));
-                queryMap.put(Constants.QueryMap.CREATE_CLAIM,getSQL(Constants.Resources.MYSQL.DB_CREATE_CLAIM));
+                queryMap.put(Constants.QueryMap.SAVE_PLAYERS,getSQL(Constants.Resources.MYSQL.DB_SAVE_PLAYERS));
                 StateFactions.logger.log(new LogRecord(Level.INFO,"Test7"));
-                queryMap.put(Constants.QueryMap.GET_CLAIM_OWNER,getSQL(Constants.Resources.MYSQL.DB_GET_CLAIM_OWNER));
+                queryMap.put(Constants.QueryMap.SAVE_CITIZENS,getSQL(Constants.Resources.MYSQL.DB_SAVE_CITIZENS));
                 StateFactions.logger.log(new LogRecord(Level.INFO,"Test8"));
-                queryMap.put(Constants.QueryMap.GET_STATE_NAME_BY_ID,getSQL(Constants.Resources.MYSQL.DB_GET_STATE_NAME_BY_ID));
+                queryMap.put(Constants.QueryMap.SAVE_CIT_REQUESTS,getSQL(Constants.Resources.MYSQL.DB_SAVE_CIT_REQUESTS));
                 StateFactions.logger.log(new LogRecord(Level.INFO,"Test9"));
-                queryMap.put(Constants.QueryMap.GET_STATE_ID_BY_NAME,getSQL(Constants.Resources.MYSQL.DB_GET_STATE_ID_BY_NAME));
+                queryMap.put(Constants.QueryMap.DELETE_ALL_CIT_REQUESTS,getSQL(Constants.Resources.MYSQL.DB_DELETE_ALL_CIT_REQUESTS));
                 StateFactions.logger.log(new LogRecord(Level.INFO,"Test10"));
-                queryMap.put(Constants.QueryMap.GET_MULTIPLE_SECTORS_CLAIM_OWNER,getSQL(Constants.Resources.MYSQL.DB_GET_MULTIPLE_SECTORS_CLAIM_OWNER));
+                queryMap.put(Constants.QueryMap.SAVE_CLAIMS,getSQL(Constants.Resources.MYSQL.DB_SAVE_CLAIMS));
                 StateFactions.logger.log(new LogRecord(Level.INFO,"Test11"));
-                queryMap.put(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM,getSQL(Constants.Resources.MYSQL.DB_INTELLIGENT_MULTIREGION_CLAIM));
+                queryMap.put(Constants.QueryMap.SAVE_STATES,getSQL(Constants.Resources.MYSQL.DB_SAVE_STATES));
                 StateFactions.logger.log(new LogRecord(Level.INFO,"Test12"));
-                queryMap.put(Constants.QueryMap.ADD_CITIZEN,getSQL(Constants.Resources.MYSQL.DB_ADD_CITIZEN));
-                StateFactions.logger.log(new LogRecord(Level.INFO,"Test13"));
-                queryMap.put(Constants.QueryMap.ADD_CITIZENSHIP_REQUEST,getSQL(Constants.Resources.MYSQL.DB_ADD_CITIZENSHIP_REQUEST));
-                StateFactions.logger.log(new LogRecord(Level.INFO,"Test14"));
-                queryMap.put(Constants.QueryMap.REMOVE_CITIZENSHIP_REQUEST,getSQL(Constants.Resources.MYSQL.DB_REMOVE_CITIZENSHIP_REQUEST));
-                StateFactions.logger.log(new LogRecord(Level.INFO,"Test15"));
-                queryMap.put(Constants.QueryMap.CHECK_IF_CITIZEN_EXISTS,getSQL(Constants.Resources.MYSQL.DB_CHECK_IF_CITIZEN_EXISTS));
-                StateFactions.logger.log(new LogRecord(Level.INFO,"Test16"));
-                queryMap.put(Constants.QueryMap.CHECK_IF_CITIZENSHIP_REQUEST_ALREADY_EXISTS,getSQL(Constants.Resources.MYSQL.DB_CHECK_IF_CITIZENSHIP_REQUEST_ALREADY_EXISTS));
-                StateFactions.logger.log(new LogRecord(Level.INFO,"Test17"));
-                queryMap.put(Constants.QueryMap.REMOVE_CITIZEN,getSQL(Constants.Resources.MYSQL.DB_REMOVE_CITIZEN));
-                StateFactions.logger.log(new LogRecord(Level.INFO,"Test18"));
-                queryMap.put(Constants.QueryMap.GET_STATE_OWNER,getSQL(Constants.Resources.MYSQL.DB_GET_STATE_OWNER));
-                StateFactions.logger.log(new LogRecord(Level.INFO,"Test19"));
-                queryMap.put(Constants.QueryMap.SET_STATE_OWNER,getSQL(Constants.Resources.MYSQL.DB_SET_STATE_OWNER));
-                StateFactions.logger.log(new LogRecord(Level.INFO,"Test20"));
-                queryMap.put(Constants.QueryMap.SET_STATE_CLAIM_RESPONSIBLE,getSQL(Constants.Resources.MYSQL.DB_SET_STATE_CLAIM_RESPONSIBLE));
-                StateFactions.logger.log(new LogRecord(Level.INFO,"Test21"));
-                queryMap.put(Constants.QueryMap.GET_STATE_CLAIM_RESPONSIBLE,getSQL(Constants.Resources.MYSQL.DB_GET_STATE_CLAIM_RESPONSIBLE));
-                StateFactions.logger.log(new LogRecord(Level.INFO,"Test22"));
-                queryMap.put(Constants.QueryMap.GET_STATE_INFO,getSQL(Constants.Resources.MYSQL.DB_GET_STATE_INFO));
-                StateFactions.logger.log(new LogRecord(Level.INFO,"Test23"));
-                queryMap.put(Constants.QueryMap.GET_NUM_STATE_CLAIMS,getSQL(Constants.Resources.MYSQL.DB_GET_NUM_STATE_CLAIMS));
-                StateFactions.logger.log(new LogRecord(Level.INFO,"Test24"));
-                queryMap.put(Constants.QueryMap.GET_NUM_STATE_CITIZENS,getSQL(Constants.Resources.MYSQL.DB_GET_NUM_STATE_CITIZENS));
-                StateFactions.logger.log(new LogRecord(Level.INFO,"Test25"));
 
                 break;
         }
     }
 
-    public boolean checkIfPersonExists(@NotNull String personName) {
-        StateFactions.logger.log(new LogRecord(Level.INFO,"checkIfPersonExists test 1"));
+    public HashMap<Person,String> retrievePlayersData(){
         try{
-            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.CHECK_IF_PERSON_EXISTS));
-            StateFactions.logger.log(new LogRecord(Level.INFO,"checkIfPersonExists test 2. PreparedStatement ps: "+((ps==null)?"null":"Not null")));
-            assert ps != null;
-            ps.setString(1,personName);
-            StateFactions.logger.log(new LogRecord(Level.INFO,"checkIfPersonExists test 3"));
-            try{
-                ResultSet set = ps.executeQuery();
-                StateFactions.logger.log(new LogRecord(Level.INFO,"checkIfPersonExists test 4"));
+            HashMap<Person,String> players = new HashMap<>();
 
-                set.next();
+            Statement stmt = db.createStatement();
+            ResultSet players_set = stmt.executeQuery(queryMap.get(Constants.QueryMap.GET_REGISTERED_PLAYERS));
 
-                try {
-                    String user=set.getString(Constants.DB_Tables.SF_Person.PERSON_NAME);
+            if(players_set!=null && players_set.next()){ //Se ci sono giocatori salvati, estraggo le loro informazioni. Altrimenti ignoro.
+                //Salvo il primo giocatore.
+                players.put(new Person(players_set.getInt(Constants.DB_Tables.SF_Person.PERSON_ID),
+                                        players_set.getString(Constants.DB_Tables.SF_Person.PERSON_NAME),
+                                        players_set.getTimestamp(Constants.DB_Tables.SF_Person.REGISTRATION_DATE)),
+                            players_set.getString(Constants.DB_Tables.SF_Person.PERSON_CREDENTIALS));
 
-                    StateFactions.logger.log(new LogRecord(Level.INFO,StateFactions.translationManager.getString(Constants.Localization.Str.Log.Db.SUCCESSFUL_CHECK_IF_PERSON_EXISTS)));
-                    return personName.equals(user);
-                }catch (SQLException exception){
-                    return false;
+                //Salvo tutti gli altri giocatori.
+                while(players_set.next()){
+                    players.put(new Person(players_set.getInt(Constants.DB_Tables.SF_Person.PERSON_ID),
+                                    players_set.getString(Constants.DB_Tables.SF_Person.PERSON_NAME),
+                                    players_set.getTimestamp(Constants.DB_Tables.SF_Person.REGISTRATION_DATE)),
+                            players_set.getString(Constants.DB_Tables.SF_Person.PERSON_CREDENTIALS));
                 }
-            }catch(SQLException exception){
-                return false;
+
+                players_set.close();
             }
-        }catch (SQLException exception){
-            StateFactions.logger.log(new LogRecord(Level.SEVERE,StateFactions.translationManager.getString(Constants.Localization.Str.Log.Db.FAILED_TO_CHECK_IF_PERSON_EXISTS)));
-            throw new RuntimeException(exception.getMessage());
+
+            return players;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
-    public void registerNewPerson(@NotNull String personName, String pwd) {
+    //This method retrieves all data saved inside the database and loads them into the respective handlers.
+    public ArrayList<State> retrieveStateData() {
         try{
-            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.INSERT_NEW_PERSON));
-            ps.setString(1,personName);
-            ps.setString(2,pwd);
+            ArrayList<State> states = new ArrayList<>();
 
-            ps.execute();
+            Statement stateStmt = db.createStatement();
+            Statement citStmt = db.createStatement();
+            Statement citReqStmt = db.createStatement();
+            ResultSet states_set = stateStmt.executeQuery(queryMap.get(Constants.QueryMap.GET_STATES));
+            ResultSet citizens_set = citStmt.executeQuery(queryMap.get(Constants.QueryMap.GET_CITIZENS));
+            ResultSet citizenships_req_set = citReqStmt.executeQuery(queryMap.get(Constants.QueryMap.GET_CITIZENSHIPS_REQUESTS));
 
-            StateFactions.logger.log(new LogRecord(Level.INFO,StateFactions.translationManager.getString(Constants.Localization.Str.Log.Db.SUCCESSFUL_PERSON_REGISTRATION)));
-        }catch(SQLException exception){
-            StateFactions.logger.log(new LogRecord(Level.SEVERE,StateFactions.translationManager.getString(Constants.Localization.Str.Log.Db.FAILED_TO_REGISTER_PERSON)));
-            throw new RuntimeException(exception.getMessage());
-        }
-    }
+            if(states_set!=null && states_set.next()){ //esiste almeno uno stato
 
-    public boolean checkPwd(@NotNull String personName, @NotNull String pwd){
-        try{
-            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_PERSON_CREDENTIALS));
-            StateFactions.logger.log(new LogRecord(Level.INFO,"Person Name: "+personName+"\tPwd: "+pwd));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_PERSON_CREDENTIALS)));
-            ps.setString(1,personName);
+                if(citizens_set!=null && citizens_set.next()){ //esiste almeno un cittadino per uno stato
+                    HashMap<Integer, ArrayList<Citizen>> citizens = new HashMap<>();
 
-            try {
-                ResultSet set = ps.executeQuery();
+                    ArrayList<Citizen> tempCitizens = new ArrayList<>();
+                    tempCitizens.add(new Citizen(citizens_set.getInt(Constants.DB_Tables.SF_Citizenship.PERSON_ID),
+                                    StateFactions.peopleHandler.getPlayerName(citizens_set.getInt(Constants.DB_Tables.SF_Citizenship.PERSON_ID)),
+                                    citizens_set.getBoolean(Constants.DB_Tables.SF_Citizenship.IS_STATE_OWNER),
+                                    citizens_set.getBoolean(Constants.DB_Tables.SF_Citizenship.IS_CLAIM_RESPONSIBLE),
+                                    citizens_set.getTimestamp(Constants.DB_Tables.SF_Citizenship.STATE_JOIN_DATE)));
+                    citizens.put(citizens_set.getInt(Constants.DB_Tables.SF_Citizenship.STATE_ID),
+                                tempCitizens);
 
-                set.next();
-
-                try{
-                    String pCredentials = set.getString(Constants.DB_Tables.SF_Person.PERSON_CREDENTIALS);
-
-                    StateFactions.logger.log(new LogRecord(Level.INFO,StateFactions.translationManager.getString(Constants.Localization.Str.Log.Db.SUCCESSFUL_PWD_CHECK)));
-                    return pwd.equals(pCredentials);
-                }catch(SQLException exception){
-                    exception.printStackTrace();
-                    StateFactions.logger.log(new LogRecord(Level.SEVERE,StateFactions.translationManager.getString(Constants.Localization.Str.Log.Db.FAILED_PWD_CHECK)));
-                    throw new RuntimeException(exception.getMessage());
-                }
-            }catch(SQLException exception){
-                exception.printStackTrace();
-                StateFactions.logger.log(new LogRecord(Level.INFO,"No "+personName+" found. Set: "));
-                return false;
-            }
-        }catch(SQLException exception){
-            StateFactions.logger.log(new LogRecord(Level.SEVERE,StateFactions.translationManager.getString(Constants.Localization.Str.Log.Db.FAILED_PWD_CHECK)));
-            throw new RuntimeException(exception.getMessage());
-        }
-    }
-
-    public boolean checkIfStateExists(@NotNull String stateName) {
-        try{
-            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.CHECK_IF_STATE_EXISTS));
-            assert ps != null;
-            ps.setString(1,stateName);
-            try{
-                ResultSet set = ps.executeQuery();
-
-                set.next();
-
-                try {
-                    String state=set.getString(Constants.DB_Tables.SF_State.STATE_NAME);
-
-                    StateFactions.logger.log(new LogRecord(Level.INFO,StateFactions.translationManager.getString(Constants.Localization.Str.Log.Db.SUCCESSFUL_CHECK_IF_STATE_EXISTS)));
-                    return stateName.equals(state);
-                }catch (SQLException exception){
-                    return false;
-                }
-            }catch(SQLException exception){
-                return false;
-            }
-        }catch (SQLException exception){
-            StateFactions.logger.log(new LogRecord(Level.SEVERE,StateFactions.translationManager.getString(Constants.Localization.Str.Log.Db.FAILED_TO_CHECK_IF_PERSON_EXISTS)));
-            throw new RuntimeException(exception.getMessage());
-        }
-    }
-
-    public void createState(@NotNull String stateName, @NotNull String stateFounder){
-        try{
-            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_PERSON_ID));
-            StateFactions.logger.log(new LogRecord(Level.INFO,"State Founder: "+stateFounder));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_PERSON_CREDENTIALS)));
-            ps.setString(1,stateFounder);
-
-            ResultSet set = ps.executeQuery();
-
-            set.next();
-
-            int founderId = set.getInt(Constants.DB_Tables.SF_Person.PERSON_ID);
-
-            try{
-                ps = db.prepareStatement(queryMap.get(Constants.QueryMap.INSERT_NEW_STATE));
-                StateFactions.logger.log(new LogRecord(Level.INFO,"State Name: "+stateName));
-                StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.INSERT_NEW_STATE)));
-                ps.setString(1,stateName);
-                ps.setInt(2,founderId);
-
-                ps.execute();
-                StateFactions.logger.log(new LogRecord(Level.INFO,StateFactions.translationManager.getString(Constants.Localization.Str.Log.Db.SUCCESSFUL_STATE_CREATION)));
-            }catch (SQLException e){
-                StateFactions.logger.log(new LogRecord(Level.SEVERE,StateFactions.translationManager.getString(Constants.Localization.Str.Log.Db.FAILED_STATE_CREATION)));
-                throw new RuntimeException(e.getMessage());
-            }
-        }catch (SQLException e) {
-            StateFactions.logger.log(new LogRecord(Level.SEVERE,StateFactions.translationManager.getString(Constants.Localization.Str.Log.Db.FAILED_ID_CHECK)));
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
-    public ArrayList<String> getClaimOwners(@NotNull ClaimRegion region){
-        ArrayList<String> claimOwners=new ArrayList<>();
-
-        try {
-            if(region.isSingularMode()){
-                PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_CLAIM_OWNER));
-                StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_CLAIM_OWNER)));
-                ps.setInt(1,region.getSector1().getX1());
-                ps.setInt(2,region.getSector1().getZ1());
-                ps.setInt(3,region.getSector1().getX2());
-                ps.setInt(4,region.getSector1().getZ2());
-
-                ResultSet set = ps.executeQuery();
-
-                StateFactions.logger.log(new LogRecord(Level.INFO,"ResultSet set = "+(set==null?"null":set)));
-                if(set!=null && set.next()){
-
-                    int stateId = set.getInt(Constants.DB_Tables.SF_State_Space.STATE_ID);
-
-                    StateFactions.logger.log(new LogRecord(Level.INFO, "StateId: "+stateId));
-
-                    ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_NAME_BY_ID));
-                    StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_NAME_BY_ID)));
-                    ps.setInt(1,stateId);
-                    set = ps.executeQuery();
-
-                    set.next();
-
-                    claimOwners.add(set.getString(Constants.DB_Tables.SF_State.STATE_NAME));
-                }
-            }else{
-                PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_MULTIPLE_SECTORS_CLAIM_OWNER));
-                StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_MULTIPLE_SECTORS_CLAIM_OWNER)));
-                ps.setInt(1,region.getSector1().getX1());
-                ps.setInt(2,region.getSector2().getX2());
-                ps.setInt(3,region.getSector1().getZ1());
-                ps.setInt(4,region.getSector2().getZ2());
-
-                ResultSet set = ps.executeQuery();
-
-                StateFactions.logger.log(new LogRecord(Level.INFO,"ResultSet set = "+(set==null?"null":set)));
-                if(set!=null){
-
-                    while(set.next()){
-                        int stateId = set.getInt(Constants.DB_Tables.SF_State_Space.STATE_ID);
-
-                        StateFactions.logger.log(new LogRecord(Level.INFO, "StateId: "+stateId));
-
-                        ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_NAME_BY_ID));
-                        StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_NAME_BY_ID)));
-                        ps.setInt(1,stateId);
-                        set = ps.executeQuery();
-
-                        set.next();
-
-                        claimOwners.add(set.getString(Constants.DB_Tables.SF_State.STATE_NAME));
+                    while(citizens_set.next()){
+                        //Se esiste di già lo StateId vuol dire che esiste di già un cittadino e, pertanto, bisogna semplicemente aggiungerne un altro.
+                        if(citizens.containsKey(citizens_set.getInt(Constants.DB_Tables.SF_Citizenship.STATE_ID))){
+                            citizens.get(citizens_set.getInt(Constants.DB_Tables.SF_Citizenship.STATE_ID))
+                                    .add(new Citizen(citizens_set.getInt(Constants.DB_Tables.SF_Citizenship.PERSON_ID),
+                                            StateFactions.peopleHandler.getPlayerName(citizens_set.getInt(Constants.DB_Tables.SF_Citizenship.PERSON_ID)),
+                                            citizens_set.getBoolean(Constants.DB_Tables.SF_Citizenship.IS_STATE_OWNER),
+                                            citizens_set.getBoolean(Constants.DB_Tables.SF_Citizenship.IS_CLAIM_RESPONSIBLE),
+                                            citizens_set.getTimestamp(Constants.DB_Tables.SF_Citizenship.STATE_JOIN_DATE)));
+                        }else{ //Se lo stato non esiste, allora vuol dire che non c'è alcun cittadino e bisogna ricreare tutto.
+                            tempCitizens = new ArrayList<>();
+                            tempCitizens.add(new Citizen(citizens_set.getInt(Constants.DB_Tables.SF_Citizenship.PERSON_ID),
+                                    StateFactions.peopleHandler.getPlayerName(citizens_set.getInt(Constants.DB_Tables.SF_Citizenship.PERSON_ID)),
+                                    citizens_set.getBoolean(Constants.DB_Tables.SF_Citizenship.IS_STATE_OWNER),
+                                    citizens_set.getBoolean(Constants.DB_Tables.SF_Citizenship.IS_CLAIM_RESPONSIBLE),
+                                    citizens_set.getTimestamp(Constants.DB_Tables.SF_Citizenship.STATE_JOIN_DATE)));
+                            citizens.put(citizens_set.getInt(Constants.DB_Tables.SF_Citizenship.STATE_ID),
+                                    tempCitizens);
+                        }
                     }
+
+                    //Ottengo i cittadini del primo stato del set stati, il numero dei suoi claim e le informazioni necessarie.
+                    if(citizens.containsKey(states_set.getInt(Constants.DB_Tables.SF_State.STATE_ID))){
+                        tempCitizens = citizens.get(states_set.getInt(Constants.DB_Tables.SF_State.STATE_ID));
+                    }else{
+                        tempCitizens = new ArrayList<>();
+                    }
+
+                    PreparedStatement pStmt = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_NUM_CLAIMS));
+                    pStmt.setInt(1,states_set.getInt(Constants.DB_Tables.SF_State_Space.STATE_ID));
+
+                    ResultSet stateClaims = pStmt.executeQuery();
+
+                    int numStateClaims=0;
+                    if(stateClaims.next()){
+                        numStateClaims = stateClaims.getInt(Constants.DB_Tables.Temp_Table.NUM_STATE_CLAIMS);
+                    }
+
+                    states.add(new State(states_set.getInt(Constants.DB_Tables.SF_State.STATE_ID),
+                            states_set.getString(Constants.DB_Tables.SF_State.STATE_NAME),
+                            StateFactions.peopleHandler.getPlayerName(states_set.getInt(Constants.DB_Tables.SF_State.STATE_FOUNDER)),
+                            states_set.getTimestamp(Constants.DB_Tables.SF_State.STATE_CREATION_DATE),
+                            numStateClaims, tempCitizens));
+
+                    //Ottengo tutti gli altri stati
+                    while(states_set.next()){
+                        if(citizens.containsKey(states_set.getInt(Constants.DB_Tables.SF_State.STATE_ID))){
+                            tempCitizens = citizens.get(states_set.getInt(Constants.DB_Tables.SF_State.STATE_ID));
+                        }else{
+                            tempCitizens = new ArrayList<>();
+                        }
+
+                        pStmt = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_NUM_CLAIMS));
+                        pStmt.setInt(1,states_set.getInt(Constants.DB_Tables.SF_State_Space.STATE_ID));
+
+                        stateClaims = pStmt.executeQuery();
+
+                        numStateClaims=0;
+                        if(stateClaims.next()){
+                            numStateClaims = stateClaims.getInt(Constants.DB_Tables.Temp_Table.NUM_STATE_CLAIMS);
+                        }
+
+                        states.add(new State(states_set.getInt(Constants.DB_Tables.SF_State.STATE_ID),
+                                states_set.getString(Constants.DB_Tables.SF_State.STATE_NAME),
+                                StateFactions.peopleHandler.getPlayerName(states_set.getInt(Constants.DB_Tables.SF_State.STATE_FOUNDER)),
+                                states_set.getTimestamp(Constants.DB_Tables.SF_State.STATE_CREATION_DATE),
+                                numStateClaims, tempCitizens));
+                    }
+
+                    citizens_set.close();
+                }else{ //Non esiste alcun cittadino per nessuno stato
+                    ArrayList<Citizen> citizens = new ArrayList<>();
+
+                    PreparedStatement pStmt = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_NUM_CLAIMS));
+                    pStmt.setInt(1,states_set.getInt(Constants.DB_Tables.SF_State_Space.STATE_ID));
+
+                    ResultSet stateClaims = pStmt.executeQuery();
+
+                    int numStateClaims=0;
+                    if(stateClaims.next()){
+                        numStateClaims = stateClaims.getInt(Constants.DB_Tables.Temp_Table.NUM_STATE_CLAIMS);
+                    }
+
+                    states.add(new State(states_set.getInt(Constants.DB_Tables.SF_State.STATE_ID),
+                            states_set.getString(Constants.DB_Tables.SF_State.STATE_NAME),
+                            StateFactions.peopleHandler.getPlayerName(states_set.getInt(Constants.DB_Tables.SF_State.STATE_FOUNDER)),
+                            states_set.getTimestamp(Constants.DB_Tables.SF_State.STATE_CREATION_DATE),
+                            numStateClaims, citizens));
+                    while(states_set.next()){
+                        pStmt = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_NUM_CLAIMS));
+                        pStmt.setInt(1,states_set.getInt(Constants.DB_Tables.SF_State_Space.STATE_ID));
+
+                        stateClaims = pStmt.executeQuery();
+
+                        numStateClaims=0;
+                        if(stateClaims.next()){
+                            numStateClaims = stateClaims.getInt(Constants.DB_Tables.Temp_Table.NUM_STATE_CLAIMS);
+                        }
+
+                        states.add(new State(states_set.getInt(Constants.DB_Tables.SF_State.STATE_ID),
+                                states_set.getString(Constants.DB_Tables.SF_State.STATE_NAME),
+                                StateFactions.peopleHandler.getPlayerName(states_set.getInt(Constants.DB_Tables.SF_State.STATE_FOUNDER)),
+                                states_set.getTimestamp(Constants.DB_Tables.SF_State.STATE_CREATION_DATE),
+                                numStateClaims, citizens));
+                    }
+                }
+                states_set.close();
+            }
+
+            if(!states.isEmpty()){//Se non ci sono stati tanto vale non andare a riempire le richieste di cittadinanza. È inutile.
+                if(citizenships_req_set!=null && citizenships_req_set.next()){//Se ci sono richieste di cittadinanza bene, controllo, altrimenti ignoro.
+                    HashMap<Integer,ArrayList<CitizenshipRequest>> citRequests = new HashMap<>();
+
+                    ArrayList<CitizenshipRequest> tempCitRequests = new ArrayList<>();
+                    tempCitRequests.add(new CitizenshipRequest(citizenships_req_set.getInt(Constants.DB_Tables.SF_Citizenship_Request.PERSON_ID),
+                                        StateFactions.peopleHandler.getPlayerName(citizenships_req_set.getInt(Constants.DB_Tables.SF_Citizenship_Request.PERSON_ID)),
+                                        citizenships_req_set.getTimestamp(Constants.DB_Tables.SF_Citizenship_Request.REQUEST_DATE)));
+                    citRequests.put(citizenships_req_set.getInt(Constants.DB_Tables.SF_Citizenship_Request.STATE_ID),
+                            tempCitRequests);
+
+                    while(citizenships_req_set.next()){
+                        if(citRequests.containsKey(citizenships_req_set.getInt(Constants.DB_Tables.SF_Citizenship_Request.STATE_ID))){
+                            citRequests.get(citizenships_req_set.getInt(Constants.DB_Tables.SF_Citizenship_Request.STATE_ID))
+                                    .add(new CitizenshipRequest(citizenships_req_set.getInt(Constants.DB_Tables.SF_Citizenship_Request.PERSON_ID),
+                                                                StateFactions.peopleHandler.getPlayerName(citizenships_req_set.getInt(Constants.DB_Tables.SF_Citizenship_Request.PERSON_ID)),
+                                            citizenships_req_set.getTimestamp(Constants.DB_Tables.SF_Citizenship_Request.REQUEST_DATE)));
+                        }else{
+                            tempCitRequests = new ArrayList<>();
+                            tempCitRequests.add(new CitizenshipRequest(citizenships_req_set.getInt(Constants.DB_Tables.SF_Citizenship_Request.PERSON_ID),
+                                    StateFactions.peopleHandler.getPlayerName(citizenships_req_set.getInt(Constants.DB_Tables.SF_Citizenship_Request.PERSON_ID)),
+                                    citizenships_req_set.getTimestamp(Constants.DB_Tables.SF_Citizenship_Request.REQUEST_DATE)));
+                            citRequests.put(citizenships_req_set.getInt(Constants.DB_Tables.SF_Citizenship_Request.STATE_ID),
+                                    tempCitRequests);
+                        }
+                    }
+
+                    //Riempiamo gli stati con le richieste di cittadinanza, se ci sono.
+                    for(State state : states){
+                        if(citRequests.containsKey(state.getStateId())){
+                            tempCitRequests = citRequests.get(state.getStateId());
+
+                            state.setCitRequests(tempCitRequests);
+                        }
+                    }
+
+                    citizenships_req_set.close();
+                }
+            }
+
+            return states;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public HashMap<ClaimSector,Integer> retrieveClaimsData(){
+        try{
+            HashMap<ClaimSector,Integer> claims = new HashMap<>();
+
+            Statement stmt = db.createStatement();
+            ResultSet claims_set = stmt.executeQuery(queryMap.get(Constants.QueryMap.GET_CLAIMS));
+
+            //Se ci sono claims salvati procedo. Altrimenti ignoro.
+            if(claims_set!=null && claims_set.next()){
+                //Salvo il primo claim.
+                claims.put(new ClaimSector(claims_set.getInt(Constants.DB_Tables.SF_State_Space.BLOCK_X1),
+                                            claims_set.getInt(Constants.DB_Tables.SF_State_Space.BLOCK_Z1),
+                                            claims_set.getInt(Constants.DB_Tables.SF_State_Space.BLOCK_X2),
+                                            claims_set.getInt(Constants.DB_Tables.SF_State_Space.BLOCK_Z2),
+                                            claims_set.getTimestamp(Constants.DB_Tables.SF_State_Space.CLAIM_DATE)),
+                            claims_set.getInt(Constants.DB_Tables.SF_State_Space.STATE_ID));
+
+                //Salvo tutti gli altri claim.
+                while(claims_set.next()){
+                    claims.put(new ClaimSector(claims_set.getInt(Constants.DB_Tables.SF_State_Space.BLOCK_X1),
+                                    claims_set.getInt(Constants.DB_Tables.SF_State_Space.BLOCK_Z1),
+                                    claims_set.getInt(Constants.DB_Tables.SF_State_Space.BLOCK_X2),
+                                    claims_set.getInt(Constants.DB_Tables.SF_State_Space.BLOCK_Z2),
+                                    claims_set.getTimestamp(Constants.DB_Tables.SF_State_Space.CLAIM_DATE)),
+                            claims_set.getInt(Constants.DB_Tables.SF_State_Space.STATE_ID));
+                }
+
+                claims_set.close();
+            }
+
+            return claims;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void savePlayersData(HashMap<Person, String> registeredPlayers){
+        try{
+            int numValues = registeredPlayers.size();
+
+            if(numValues>0){
+                StringBuilder querySql = new StringBuilder(queryMap.get(Constants.QueryMap.SAVE_PLAYERS));
+
+                for(int i=0; i<numValues; ){
+                    if(i==0){
+                        querySql.append("\nVALUES(?,?,?,?)");
+                    }else{
+                        querySql.append("\n(?,?,?,?)");
+                    }
+
+                    i++;
+                    if(i==numValues){
+                        querySql.append(";");
+                    }else{
+                        querySql.append(",");
+                    }
+                }
+
+                Object[] players_obj = registeredPlayers.keySet().toArray();
+
+                PreparedStatement pStmt = db.prepareStatement(querySql.toString());
+
+                for(int i=0, y=1; i<numValues; i++){
+                    Person player = (Person) players_obj[i];
+
+                    String pwd = registeredPlayers.get(player);
+
+                    pStmt.setInt(y,player.getPersonId());
+                    y++;
+
+                    pStmt.setString(y,player.getName());
+                    y++;
+
+                    pStmt.setString(y,pwd);
+                    y++;
+
+                    pStmt.setTimestamp(y,player.getJoinDate());
+                    y++;
+                }
+
+                pStmt.execute();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void saveStatesData(ArrayList<State> states){
+        try{
+            int numStates = states.size();
+
+            if(numStates>0){
+                StringBuilder querySql = new StringBuilder(queryMap.get(Constants.QueryMap.SAVE_STATES));
+
+                for(int i=0; i<numStates; ){
+
+                    if(i==0){
+                        querySql.append("\nVALUES(?,?,?,?)");
+                    }else{
+                        querySql.append("\n(?,?,?,?)");
+                    }
+
+                    i++;
+                    if(i==numStates){
+                        querySql.append(";");
+                    }else{
+                        querySql.append(",");
+                    }
+                }
+
+                PreparedStatement pStmt = db.prepareStatement(querySql.toString());
+
+                for(int i=0, y=1; i<numStates; i++){
+
+                    pStmt.setInt(y,states.get(i).getStateId());
+                    y++;
+
+                    pStmt.setString(y,states.get(i).getStateName());
+                    y++;
+
+                    pStmt.setInt(y,StateFactions.peopleHandler.getPlayerId(states.get(i).getStateFounder()));
+                    y++;
+
+                    pStmt.setTimestamp(y,states.get(i).getCreationDate());
+                    y++;
+                }
+
+                pStmt.execute();
+
+                querySql = new StringBuilder(queryMap.get(Constants.QueryMap.SAVE_CITIZENS));
+
+                for(int i=0; i<numStates; ){
+                    State state = states.get(i);
+
+                    for(int y=0; y<state.getNumCitizens(); y++){
+
+                        if(i==0){
+                            querySql.append("\nVALUES(?,?,?,?,?)");
+                        }else{
+                            querySql.append("\n(?,?,?,?,?)");
+                        }
+
+                        if(i<numStates-1 && y<state.getNumCitizens()-1){
+                            querySql.append(",");
+                        }
+                    }
+
+                    i++;
+                    if(i==numStates){
+                        querySql.append(";");
+                    }
+                }
+
+                if(!querySql.toString().equals(queryMap.get(Constants.QueryMap.SAVE_CITIZENS)) && !querySql.toString().equals(queryMap.get(Constants.QueryMap.SAVE_CITIZENS)+";")){
+
+
+                    pStmt = db.prepareStatement(querySql.toString());
+
+                    for(int i=0, y=1; i<numStates; i++){
+
+                        State state = states.get(i);
+
+                        for(int k=0; k<state.getNumCitizens(); k++){
+                            pStmt.setInt(y,states.get(i).getStateId());
+                            y++;
+
+                            pStmt.setInt(y,StateFactions.peopleHandler.getPlayerId(states.get(i).getCitizens().get(k).getName()));
+                            y++;
+
+                            pStmt.setBoolean(y,states.get(i).getCitizens().get(k).isStateOwner());
+                            y++;
+
+                            pStmt.setBoolean(y,states.get(i).getCitizens().get(k).isClaimResponsible());
+                            y++;
+
+                            pStmt.setTimestamp(y,states.get(i).getCitizens().get(k).getJoinDate());
+                            y++;
+                        }
+                    }
+
+                    pStmt.execute();
+                }
+
+                querySql = new StringBuilder(queryMap.get(Constants.QueryMap.DELETE_ALL_CIT_REQUESTS));
+
+                Statement stmt = db.createStatement();
+                stmt.execute(querySql.toString());
+
+                querySql = new StringBuilder(queryMap.get(Constants.QueryMap.SAVE_CIT_REQUESTS));
+
+                for(int i=0; i<numStates; ){
+                    State state = states.get(i);
+
+                    for(int y=0; y<state.getCitRequests().size(); y++){
+
+                        if(i==0){
+                            querySql.append("\nVALUES(?,?,?)");
+                        }else{
+                            querySql.append("\n(?,?,?)");
+                        }
+
+                        if(i<numStates-1 && y<state.getCitRequests().size()-1){
+                            querySql.append(",");
+                        }
+                    }
+
+                    i++;
+                    if(i==numStates){
+                        querySql.append(";");
+                    }
+                }
+
+                if(!querySql.toString().equals(queryMap.get(Constants.QueryMap.SAVE_CIT_REQUESTS)) && !querySql.toString().equals(queryMap.get(Constants.QueryMap.SAVE_CIT_REQUESTS)+";")){
+
+                    pStmt = db.prepareStatement(querySql.toString());
+
+                    for(int i=0, y=1; i<numStates; i++){
+
+                        State state = states.get(i);
+
+                        for(int k=0; k<state.getCitRequests().size(); k++){
+                            pStmt.setInt(y,states.get(i).getStateId());
+                            y++;
+
+                            pStmt.setInt(y,StateFactions.peopleHandler.getPlayerId(states.get(i).getCitRequests().get(k).getPersonName()));
+                            y++;
+
+                            pStmt.setTimestamp(y,states.get(i).getCitRequests().get(k).getRequestDate());
+                            y++;
+                        }
+                    }
+
+                    pStmt.execute();
                 }
             }
 
@@ -312,863 +537,59 @@ public class Database {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-
-        return claimOwners;
     }
 
-    public void createClaim(CommandSender sender, String stateName, ClaimRegion region) {
-
+    public void saveClaimsData(HashMap<ClaimSector, Integer> claims){
         try{
-            ArrayList<String> claimOwners = getClaimOwners(region);
+            int numClaims = claims.size();
 
-            if(claimOwners.isEmpty()){ //single region claim
-                PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
-                StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
-                ps.setString(1,stateName);
+            if(numClaims>0){
+                StringBuilder querySql = new StringBuilder(queryMap.get(Constants.QueryMap.SAVE_CLAIMS));
 
-                ResultSet set = ps.executeQuery();
-
-                set.next();
-
-                int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
-
-                if(region.isSingularMode()){
-                    ps = db.prepareStatement(queryMap.get(Constants.QueryMap.CREATE_CLAIM));
-                    StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.CREATE_CLAIM)));
-                    ps.setInt(1,region.getSector1().getX1());
-                    ps.setInt(2,region.getSector1().getZ1());
-                    ps.setInt(3,region.getSector1().getX2());
-                    ps.setInt(4,region.getSector1().getZ2());
-                    ps.setInt(5,stateId);
-
-                    ps.execute();
-
-                    sender.sendPlainMessage(Constants.ChatStyling.Colors.GREEN+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Success.CLAIM_CREATED));
-                }else{ //multiregion claim
-
-                    if(region.getSector1().getX1()<region.getSector2().getX2() && region.getSector1().getZ1()<region.getSector2().getZ2()){
-                        StateFactions.logger.log(new LogRecord(Level.INFO,"Case 1"));
-
-                        ClaimSector claimSector = new ClaimSector(region.getSector1().getX1(),region.getSector1().getZ1(),region.getSector1().getX2(),region.getSector1().getZ2());
-
-                        while(claimSector.getZ2()!=region.getSector2().getZ2()+1){
-
-                            int originalX1=claimSector.getX1();
-
-                            while(claimSector.getX2()!=region.getSector2().getX2()+1){
-                                ps = db.prepareStatement(queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM));
-                                StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM)));
-                                ps.setInt(1,stateId);
-                                ps.setInt(2,claimSector.getX1());
-                                ps.setInt(3,claimSector.getZ1());
-                                ps.setInt(4,claimSector.getX2());
-                                ps.setInt(5,claimSector.getZ2());
-
-                                ps.execute();
-
-                                int x1=claimSector.getX1();
-                                int x2=claimSector.getX2();
-                                claimSector.setX1(++x1);
-                                claimSector.setX2(++x2);
-                            }
-
-                            claimSector.setX1(originalX1);
-                            claimSector.setX2(++originalX1);
-
-                            int z1=claimSector.getZ1();
-                            int z2=claimSector.getZ2();
-                            claimSector.setZ1(++z1);
-                            claimSector.setZ2(++z2);
-                        }
-                    }else if(region.getSector1().getX1()<region.getSector2().getX2() && region.getSector1().getZ1()>region.getSector2().getZ2()){
-                        StateFactions.logger.log(new LogRecord(Level.INFO,"Case 2"));
-
-                        ClaimSector claimSector = new ClaimSector(region.getSector1().getX1(),region.getSector1().getZ1(),region.getSector1().getX2(),region.getSector1().getZ2());
-
-                        while(claimSector.getZ2()!=region.getSector2().getZ2()-1){
-
-                            int originalX1=claimSector.getX1();
-
-                            while(claimSector.getX2()!=region.getSector2().getX2()+1){
-                                ps = db.prepareStatement(queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM));
-                                StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM)));
-                                ps.setInt(1,stateId);
-                                ps.setInt(2,claimSector.getX1());
-                                ps.setInt(3,claimSector.getZ1());
-                                ps.setInt(4,claimSector.getX2());
-                                ps.setInt(5,claimSector.getZ2());
-
-                                ps.execute();
-
-                                int x1=claimSector.getX1();
-                                int x2=claimSector.getX2();
-                                claimSector.setX1(++x1);
-                                claimSector.setX2(++x2);
-                            }
-
-                            claimSector.setX1(originalX1);
-                            claimSector.setX2(++originalX1);
-
-                            int z1=claimSector.getZ1();
-                            int z2=claimSector.getZ2();
-                            claimSector.setZ1(--z1);
-                            claimSector.setZ2(--z2);
-                        }
-                    }else if(region.getSector1().getX1()>region.getSector2().getX2() && region.getSector1().getZ1()<region.getSector2().getZ2()){
-                        StateFactions.logger.log(new LogRecord(Level.INFO,"Case 3"));
-
-                        ClaimSector claimSector = new ClaimSector(region.getSector1().getX1(),region.getSector1().getZ1(),region.getSector1().getX2(),region.getSector1().getZ2());
-
-                        while(claimSector.getZ2()!=region.getSector2().getZ2()+1){
-
-                            int originalX1=claimSector.getX1();
-
-                            while(claimSector.getX2()!=region.getSector2().getX2()-1){
-                                ps = db.prepareStatement(queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM));
-                                StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM)));
-                                ps.setInt(1,stateId);
-                                ps.setInt(2,claimSector.getX1());
-                                ps.setInt(3,claimSector.getZ1());
-                                ps.setInt(4,claimSector.getX2());
-                                ps.setInt(5,claimSector.getZ2());
-
-                                ps.execute();
-
-                                int x1=claimSector.getX1();
-                                int x2=claimSector.getX2();
-                                claimSector.setX1(--x1);
-                                claimSector.setX2(--x2);
-                            }
-
-                            claimSector.setX1(originalX1);
-                            claimSector.setX2(--originalX1);
-
-                            int z1=claimSector.getZ1();
-                            int z2=claimSector.getZ2();
-                            claimSector.setZ1(++z1);
-                            claimSector.setZ2(++z2);
-                        }
+                for(int i=0; i<numClaims; ){
+                    if(i==0){
+                        querySql.append("\nVALUES(?,?,?,?,?,?)");
                     }else{
-                        StateFactions.logger.log(new LogRecord(Level.INFO,"Case 4"));
+                        querySql.append("\n(?,?,?,?,?,?)");
+                    }
 
-                        ClaimSector claimSector = new ClaimSector(region.getSector1().getX1(),region.getSector1().getZ1(),region.getSector1().getX2(),region.getSector1().getZ2());
-
-                        while(claimSector.getZ2()!=region.getSector2().getZ2()-1){
-
-                            int originalX1=claimSector.getX1();
-
-                            while(claimSector.getX2()!=region.getSector2().getX2()-1){
-                                ps = db.prepareStatement(queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM));
-                                StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM)));
-                                ps.setInt(1,stateId);
-                                ps.setInt(2,claimSector.getX1());
-                                ps.setInt(3,claimSector.getZ1());
-                                ps.setInt(4,claimSector.getX2());
-                                ps.setInt(5,claimSector.getZ2());
-
-                                ps.execute();
-
-                                int x1=claimSector.getX1();
-                                int x2=claimSector.getX2();
-                                claimSector.setX1(--x1);
-                                claimSector.setX2(--x2);
-                            }
-
-                            claimSector.setX1(originalX1);
-                            claimSector.setX2(--originalX1);
-
-                            int z1=claimSector.getZ1();
-                            int z2=claimSector.getZ2();
-                            claimSector.setZ1(--z1);
-                            claimSector.setZ2(--z2);
-                        }
+                    i++;
+                    if(i==numClaims){
+                        querySql.append(";");
+                    }else{
+                        querySql.append(",");
                     }
                 }
-            }else{ //If all or a single sector of the region is claimed, then if it's singular mode it will return the claim owner, otherwise it will use an intelligent claim method
-                if(region.isSingularMode()){
-                    sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.AREA_ALREADY_CLAIMED_SINGLE_STATE)+claimOwners.get(0));
-                }else{
-                    PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
-                    StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
-                    ps.setString(1,stateName);
 
-                    ResultSet set = ps.executeQuery();
+                Object[] claims_obj = claims.keySet().toArray();
 
-                    set.next();
+                PreparedStatement pStmt = db.prepareStatement(querySql.toString());
 
-                    int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
+                for(int i=0, y=1; i<claims_obj.length; i++){
+                    ClaimSector claim = (ClaimSector) claims_obj[i];
 
-                    if(region.getSector1().getX1()<region.getSector2().getX2() && region.getSector1().getZ1()<region.getSector2().getZ2()){
-                        StateFactions.logger.log(new LogRecord(Level.INFO,"Case 1"));
+                    pStmt.setInt(y,claims.get(claim));
+                    y++;
 
-                        ClaimSector claimSector = new ClaimSector(region.getSector1().getX1(),region.getSector1().getZ1(),region.getSector1().getX2(),region.getSector1().getZ2());
+                    pStmt.setInt(y,claim.getX1());
+                    y++;
 
-                        while(claimSector.getZ2()!=region.getSector2().getZ2()+1){
+                    pStmt.setInt(y,claim.getZ1());
+                    y++;
 
-                            int originalX1=claimSector.getX1();
+                    pStmt.setInt(y,claim.getX2());
+                    y++;
 
-                            while(claimSector.getX2()!=region.getSector2().getX2()+1){
-                                ps = db.prepareStatement(queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM));
-                                StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM)));
-                                ps.setInt(1,stateId);
-                                ps.setInt(2,claimSector.getX1());
-                                ps.setInt(3,claimSector.getZ1());
-                                ps.setInt(4,claimSector.getX2());
-                                ps.setInt(5,claimSector.getZ2());
+                    pStmt.setInt(y,claim.getZ2());
+                    y++;
 
-                                ps.execute();
-
-                                int x1=claimSector.getX1();
-                                int x2=claimSector.getX2();
-                                claimSector.setX1(++x1);
-                                claimSector.setX2(++x2);
-                            }
-
-                            claimSector.setX1(originalX1);
-                            claimSector.setX2(++originalX1);
-
-                            int z1=claimSector.getZ1();
-                            int z2=claimSector.getZ2();
-                            claimSector.setZ1(++z1);
-                            claimSector.setZ2(++z2);
-                        }
-                    }else if(region.getSector1().getX1()<region.getSector2().getX2() && region.getSector1().getZ1()>region.getSector2().getZ2()){
-                        StateFactions.logger.log(new LogRecord(Level.INFO,"Case 2"));
-
-                        ClaimSector claimSector = new ClaimSector(region.getSector1().getX1(),region.getSector1().getZ1(),region.getSector1().getX2(),region.getSector1().getZ2());
-
-                        while(claimSector.getZ2()!=region.getSector2().getZ2()-1){
-
-                            int originalX1=claimSector.getX1();
-
-                            while(claimSector.getX2()!=region.getSector2().getX2()+1){
-                                ps = db.prepareStatement(queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM));
-                                StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM)));
-                                ps.setInt(1,stateId);
-                                ps.setInt(2,claimSector.getX1());
-                                ps.setInt(3,claimSector.getZ1());
-                                ps.setInt(4,claimSector.getX2());
-                                ps.setInt(5,claimSector.getZ2());
-
-                                ps.execute();
-
-                                int x1=claimSector.getX1();
-                                int x2=claimSector.getX2();
-                                claimSector.setX1(++x1);
-                                claimSector.setX2(++x2);
-                            }
-
-                            claimSector.setX1(originalX1);
-                            claimSector.setX2(++originalX1);
-
-                            int z1=claimSector.getZ1();
-                            int z2=claimSector.getZ2();
-                            claimSector.setZ1(--z1);
-                            claimSector.setZ2(--z2);
-                        }
-                    }else if(region.getSector1().getX1()>region.getSector2().getX2() && region.getSector1().getZ1()<region.getSector2().getZ2()){
-                        StateFactions.logger.log(new LogRecord(Level.INFO,"Case 3"));
-
-                        ClaimSector claimSector = new ClaimSector(region.getSector1().getX1(),region.getSector1().getZ1(),region.getSector1().getX2(),region.getSector1().getZ2());
-
-                        while(claimSector.getZ2()!=region.getSector2().getZ2()+1){
-
-                            int originalX1=claimSector.getX1();
-
-                            while(claimSector.getX2()!=region.getSector2().getX2()-1){
-                                ps = db.prepareStatement(queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM));
-                                StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM)));
-                                ps.setInt(1,stateId);
-                                ps.setInt(2,claimSector.getX1());
-                                ps.setInt(3,claimSector.getZ1());
-                                ps.setInt(4,claimSector.getX2());
-                                ps.setInt(5,claimSector.getZ2());
-
-                                ps.execute();
-
-                                int x1=claimSector.getX1();
-                                int x2=claimSector.getX2();
-                                claimSector.setX1(--x1);
-                                claimSector.setX2(--x2);
-                            }
-
-                            claimSector.setX1(originalX1);
-                            claimSector.setX2(--originalX1);
-
-                            int z1=claimSector.getZ1();
-                            int z2=claimSector.getZ2();
-                            claimSector.setZ1(++z1);
-                            claimSector.setZ2(++z2);
-                        }
-                    }else{
-                        StateFactions.logger.log(new LogRecord(Level.INFO,"Case 4"));
-
-                        ClaimSector claimSector = new ClaimSector(region.getSector1().getX1(),region.getSector1().getZ1(),region.getSector1().getX2(),region.getSector1().getZ2());
-
-                        while(claimSector.getZ2()!=region.getSector2().getZ2()-1){
-
-                            int originalX1=claimSector.getX1();
-
-                            while(claimSector.getX2()!=region.getSector2().getX2()-1){
-                                ps = db.prepareStatement(queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM));
-                                StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.INTELLIGENT_MULTIREGION_CLAIM)));
-                                ps.setInt(1,stateId);
-                                ps.setInt(2,claimSector.getX1());
-                                ps.setInt(3,claimSector.getZ1());
-                                ps.setInt(4,claimSector.getX2());
-                                ps.setInt(5,claimSector.getZ2());
-
-                                ps.execute();
-
-                                int x1=claimSector.getX1();
-                                int x2=claimSector.getX2();
-                                claimSector.setX1(--x1);
-                                claimSector.setX2(--x2);
-                            }
-
-                            claimSector.setX1(originalX1);
-                            claimSector.setX2(--originalX1);
-
-                            int z1=claimSector.getZ1();
-                            int z2=claimSector.getZ2();
-                            claimSector.setZ1(--z1);
-                            claimSector.setZ2(--z2);
-                        }
-                    }
+                    pStmt.setTimestamp(y,claim.getClaimDate());
+                    y++;
                 }
+
+                pStmt.execute();
             }
-
-        }catch (SQLException e){
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    public String getStateNameByPosition(ClaimSector sector){
-        String stateClaimOwner="";
-
-        try{
-            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_CLAIM_OWNER));
-            ps.setInt(1,sector.getX1());
-            ps.setInt(2,sector.getZ1());
-            ps.setInt(3,sector.getX2());
-            ps.setInt(4,sector.getZ2());
-
-            ResultSet set = ps.executeQuery();
-
-            if(set!=null && set.next()){
-                int stateId = set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
-
-                ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_NAME_BY_ID));
-                ps.setInt(1,stateId);
-
-                set = ps.executeQuery();
-
-                set.next();
-
-                stateClaimOwner=set.getString(Constants.DB_Tables.SF_State.STATE_NAME);
-            }
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-
-        return stateClaimOwner;
-    }
-
-    public boolean checkIfCitRequestAlreadyExists(String stateName, String personName){
-        try {
-            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_PERSON_ID));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_PERSON_ID)));
-            ps.setString(1,personName);
-
-            ResultSet set = ps.executeQuery();
-
-            set.next();
-
-            int personId=set.getInt(Constants.DB_Tables.SF_Person.PERSON_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
-            ps.setString(1,stateName);
-
-            set = ps.executeQuery();
-
-            set.next();
-
-            int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.CHECK_IF_CITIZENSHIP_REQUEST_ALREADY_EXISTS));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.CHECK_IF_CITIZENSHIP_REQUEST_ALREADY_EXISTS)));
-            ps.setInt(1,personId);
-            ps.setInt(2,stateId);
-
-            set = ps.executeQuery();
-
-            return set != null && set.next();
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    public boolean checkIfPersonIsCitizen(String stateName, String personName){
-        try {
-            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_PERSON_ID));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_PERSON_ID)));
-            ps.setString(1,personName);
-
-            ResultSet set = ps.executeQuery();
-
-            set.next();
-
-            int personId=set.getInt(Constants.DB_Tables.SF_Person.PERSON_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
-            ps.setString(1,stateName);
-
-            set = ps.executeQuery();
-
-            set.next();
-
-            int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.CHECK_IF_CITIZEN_EXISTS));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.CHECK_IF_CITIZEN_EXISTS)));
-            ps.setInt(1,personId);
-            ps.setInt(2,stateId);
-
-            set = ps.executeQuery();
-
-            return set != null && set.next();
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void refuseCitizenshipRequest(String stateName, String personName){
-        try {
-            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
-            ps.setString(1,stateName);
-
-            ResultSet set = ps.executeQuery();
-
-            set.next();
-
-            int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_PERSON_ID));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_PERSON_ID)));
-            ps.setString(1,personName);
-
-            set = ps.executeQuery();
-
-            set.next();
-
-            int personId=set.getInt(Constants.DB_Tables.SF_Person.PERSON_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.REMOVE_CITIZENSHIP_REQUEST));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.REMOVE_CITIZENSHIP_REQUEST)));
-            ps.setInt(1,stateId);
-            ps.setInt(2,personId);
-
-            ps.execute();
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void acceptCitizenshipRequest(String stateName, String personName){
-        try {
-            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
-            ps.setString(1,stateName);
-
-            ResultSet set = ps.executeQuery();
-
-            set.next();
-
-            int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_PERSON_ID));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_PERSON_ID)));
-            ps.setString(1,personName);
-
-            set = ps.executeQuery();
-
-            set.next();
-
-            int personId=set.getInt(Constants.DB_Tables.SF_Person.PERSON_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.ADD_CITIZEN));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.ADD_CITIZEN)));
-            ps.setInt(1,stateId);
-            ps.setInt(2,personId);
-
-            ps.execute();
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.REMOVE_CITIZENSHIP_REQUEST));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.REMOVE_CITIZENSHIP_REQUEST)));
-            ps.setInt(1,stateId);
-            ps.setInt(2,personId);
-
-            ps.execute();
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void addCitizenshipRequest(String stateName, String personName){
-        try {
-            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
-            ps.setString(1,stateName);
-
-            ResultSet set = ps.executeQuery();
-
-            set.next();
-
-            int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_PERSON_ID));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_PERSON_ID)));
-            ps.setString(1,personName);
-
-            set = ps.executeQuery();
-
-            set.next();
-
-            int personId=set.getInt(Constants.DB_Tables.SF_Person.PERSON_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.ADD_CITIZENSHIP_REQUEST));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.ADD_CITIZENSHIP_REQUEST)));
-            ps.setInt(1,stateId);
-            ps.setInt(2,personId);
-
-            ps.execute();
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    public boolean checkIfPersonIsStateOwner(String stateName, String personName){
-        try {
-            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
-            ps.setString(1,stateName);
-
-            ResultSet set = ps.executeQuery();
-
-            set.next();
-
-            int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_PERSON_ID));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_PERSON_ID)));
-            ps.setString(1,personName);
-
-            set = ps.executeQuery();
-
-            set.next();
-
-            int personId=set.getInt(Constants.DB_Tables.SF_Person.PERSON_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_OWNER));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_OWNER)));
-            ps.setInt(1,stateId);
-
-            set = ps.executeQuery();
-
-            while(set.next()){
-
-                int ownerId=set.getInt(Constants.DB_Tables.SF_Citizenship.PERSON_ID);
-
-                if(ownerId==personId){
-                    return true;
-                }
-            }
-
-            return false;
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    public boolean checkIfPersonIsClaimResponsible(String stateName, String personName){
-        try {
-            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
-            ps.setString(1,stateName);
-
-            ResultSet set = ps.executeQuery();
-
-            set.next();
-
-            int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_PERSON_ID));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_PERSON_ID)));
-            ps.setString(1,personName);
-
-            set = ps.executeQuery();
-
-            set.next();
-
-            int personId=set.getInt(Constants.DB_Tables.SF_Person.PERSON_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_CLAIM_RESPONSIBLE));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_CLAIM_RESPONSIBLE)));
-            ps.setInt(1,stateId);
-
-            set = ps.executeQuery();
-
-            while(set.next()){
-
-                int claimRespId=set.getInt(Constants.DB_Tables.SF_Citizenship.PERSON_ID);
-
-                if(claimRespId==personId){
-                    return true;
-                }
-            }
-
-            return false;
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void removeCitizen(String stateName, String personName){
-        try {
-            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
-            ps.setString(1,stateName);
-
-            ResultSet set = ps.executeQuery();
-
-            set.next();
-
-            int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_PERSON_ID));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_PERSON_ID)));
-            ps.setString(1,personName);
-
-            set = ps.executeQuery();
-
-            set.next();
-
-            int personId=set.getInt(Constants.DB_Tables.SF_Person.PERSON_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.REMOVE_CITIZEN));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.REMOVE_CITIZEN)));
-            ps.setInt(1,personId);
-            ps.setInt(2,stateId);
-
-            ps.execute();
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void setStateOwner(String personName, String stateName){
-        try {
-            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
-            ps.setString(1,stateName);
-
-            ResultSet set = ps.executeQuery();
-
-            set.next();
-
-            int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_PERSON_ID));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_PERSON_ID)));
-            ps.setString(1,personName);
-
-            set = ps.executeQuery();
-
-            set.next();
-
-            int personId=set.getInt(Constants.DB_Tables.SF_Person.PERSON_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.SET_STATE_OWNER));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.SET_STATE_OWNER)));
-            ps.setBoolean(1,true);
-            ps.setBoolean(2,true);
-            ps.setInt(3,personId);
-            ps.setInt(4,stateId);
-
-            ps.execute();
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void setStateClaimResponsible(String personName, String stateName){
-        try {
-            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
-            ps.setString(1,stateName);
-
-            ResultSet set = ps.executeQuery();
-
-            set.next();
-
-            int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_PERSON_ID));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_PERSON_ID)));
-            ps.setString(1,personName);
-
-            set = ps.executeQuery();
-
-            set.next();
-
-            int personId=set.getInt(Constants.DB_Tables.SF_Person.PERSON_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.SET_STATE_CLAIM_RESPONSIBLE));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.SET_STATE_CLAIM_RESPONSIBLE)));
-            ps.setBoolean(1,true);
-            ps.setInt(2,personId);
-            ps.setInt(3,stateId);
-
-            ps.execute();
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void removeStateOwner(String personName, String stateName){
-        try {
-            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
-            ps.setString(1,stateName);
-
-            ResultSet set = ps.executeQuery();
-
-            set.next();
-
-            int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_PERSON_ID));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_PERSON_ID)));
-            ps.setString(1,personName);
-
-            set = ps.executeQuery();
-
-            set.next();
-
-            int personId=set.getInt(Constants.DB_Tables.SF_Person.PERSON_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.SET_STATE_OWNER));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.SET_STATE_OWNER)));
-            ps.setBoolean(1,false);
-            ps.setBoolean(2,false);
-            ps.setInt(3,personId);
-            ps.setInt(4,stateId);
-
-            ps.execute();
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void removeStateClaimResponsible(String personName, String stateName){
-        try {
-            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
-            ps.setString(1,stateName);
-
-            ResultSet set = ps.executeQuery();
-
-            set.next();
-
-            int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_PERSON_ID));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_PERSON_ID)));
-            ps.setString(1,personName);
-
-            set = ps.executeQuery();
-
-            set.next();
-
-            int personId=set.getInt(Constants.DB_Tables.SF_Person.PERSON_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.SET_STATE_CLAIM_RESPONSIBLE));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.SET_STATE_CLAIM_RESPONSIBLE)));
-            ps.setBoolean(1,false);
-            ps.setInt(2,personId);
-            ps.setInt(3,stateId);
-
-            ps.execute();
-        }catch(SQLException e){
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    public StateInfo getStateInfo(String stateName){
-        try {
-            PreparedStatement ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_ID_BY_NAME)));
-            ps.setString(1,stateName);
-
-            ResultSet set = ps.executeQuery();
-
-            set.next();
-
-            int stateId=set.getInt(Constants.DB_Tables.SF_State.STATE_ID);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_STATE_INFO));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_STATE_INFO)));
-
-            ps.setInt(1,stateId);
-
-            set = ps.executeQuery();
-
-            set.next();
-
-            String stateFounder = set.getString(Constants.DB_Tables.SF_State.STATE_FOUNDER);
-            Timestamp stateCreationDate = set.getTimestamp(Constants.DB_Tables.SF_State.STATE_CREATION_DATE);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_NUM_STATE_CLAIMS));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_NUM_STATE_CLAIMS)));
-
-            ps.setInt(1,stateId);
-
-            set = ps.executeQuery();
-
-            set.next();
-
-            int numStateClaims = set.getInt(Constants.DB_Tables.Temp_Table.NUM_STATE_CLAIMS);
-
-            ps = db.prepareStatement(queryMap.get(Constants.QueryMap.GET_NUM_STATE_CITIZENS));
-            StateFactions.logger.log(new LogRecord(Level.INFO, queryMap.get(Constants.QueryMap.GET_NUM_STATE_CITIZENS)));
-
-            ps.setInt(1,stateId);
-
-            set = ps.executeQuery();
-
-            set.next();
-
-            int numStateCitizens = set.getInt(Constants.DB_Tables.Temp_Table.NUM_STATE_CITIZENS);
-
-            return new StateInfo(stateId,stateName,stateFounder,stateCreationDate,numStateClaims,numStateCitizens);
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }

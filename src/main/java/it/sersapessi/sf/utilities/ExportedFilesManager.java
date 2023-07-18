@@ -6,7 +6,7 @@ import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
-public class ExportedFilesRoutine {
+public class ExportedFilesManager {
 
     private static String jarFolder;
 

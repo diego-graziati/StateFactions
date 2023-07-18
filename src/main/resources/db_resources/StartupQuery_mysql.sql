@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS sf_person(
-	PersonId INT AUTO_INCREMENT,
+	PersonId INT NOT NULL,
     PersonName VARCHAR(17) NOT NULL,
     PersonCredentials VARCHAR(10) NOT NULL,
     RegistrationDate DATETIME DEFAULT CURRENT_TIMESTAMP(),
@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS sf_person(
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS sf_state (
-    StateId int AUTO_INCREMENT,
+    StateId int NOT NULL,
     StateName VARCHAR(100) NOT NULL,
     StateFounder int NOT NULL,
     StateCreationDate DATETIME DEFAULT CURRENT_TIMESTAMP(),
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS sf_state (
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS sf_faction(
-	FactionId int AUTO_INCREMENT,
+	FactionId int NOT NULL,
     FactionName TEXT NOT NULL,
     FactionFounder int NOT NULL,
     FactionCreationDate DATETIME DEFAULT CURRENT_TIMESTAMP(),
@@ -32,8 +32,8 @@ CREATE TABLE IF NOT EXISTS sf_faction(
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS sf_citizenship(
-	StateId INT,
-    PersonId INT,
+	StateId INT NOT NULL,
+    PersonId INT NOT NULL,
     IsStateOwner BOOLEAN DEFAULT false,
     IsClaimResponsible BOOLEAN DEFAULT false,
     StateJoinDate DATETIME DEFAULT CURRENT_TIMESTAMP(),
@@ -45,8 +45,8 @@ CREATE TABLE IF NOT EXISTS sf_citizenship(
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS sf_membership(
-	PersonId INT,
-    FactionId INT,
+	PersonId INT NOT NULL,
+    FactionId INT NOT NULL,
     MembershipDate DATETIME DEFAULT CURRENT_TIMESTAMP(),
 
     primary key(PersonId,FactionId),
@@ -57,20 +57,20 @@ CREATE TABLE IF NOT EXISTS sf_membership(
 
 CREATE TABLE IF NOT EXISTS sf_state_space(
 	StateId int NOT NULL,
-    BlockX1 int,
-    BlockZ1 int,
-    BlockX2 int,
-    BlockZ2 int,
+    BlockX1 int NOT NULL,
+    BlockZ1 int NOT NULL,
+    BlockX2 int NOT NULL,
+    BlockZ2 int NOT NULL,
     ClaimDate DATETIME DEFAULT CURRENT_TIMESTAMP(),
 
-    UNIQUE(BlockX1,BlockX2,BlockZ1,BlockZ2),
+    primary key(BlockX1,BlockX2,BlockZ1,BlockZ2),
 
     FOREIGN KEY(StateId) REFERENCES sf_state(StateId)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS sf_citizenship_requests(
-	StateId int,
-    PersonId int,
+	StateId int NOT NULL,
+    PersonId int NOT NULL,
     RequestDate DATETIME DEFAULT CURRENT_TIMESTAMP(),
 
     primary key(StateId,PersonId),
@@ -80,8 +80,8 @@ CREATE TABLE IF NOT EXISTS sf_citizenship_requests(
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS sf_membership_requests(
-	FactionId int,
-    PersonId int,
+	FactionId int NOT NULL,
+    PersonId int NOT NULL,
     RequestDate DATETIME DEFAULT CURRENT_TIMESTAMP(),
 
 	primary key(FactionId,PersonId),

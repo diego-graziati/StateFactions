@@ -11,6 +11,16 @@ DBMS-pwd:
 #Supported lang: en-US (fallback/default), it-IT
 lang: en-US
 
+#It establishes how the dates will be shown to the players.
+#Formats available: AGF (American style Gregorian date Format, "MM/DD/YYYY"), EGF (European style Gregorian date Format, "DD/MM/YYYY"),
+#                   IDF (ISO Date Format, "YYYY/MM/DD", fallback/default), JDF (Julian Date Format, "YYYY-DDDD").
+date-format: IDF
+
+#It serves to determine how many blocks a claimer can claim at a time. Default: 10000 (fallback). Numbers < 0 are used to say "unlimited".
+#Be careful: how many blocks a player can claim at a time depends by how powerful is your server. It is likely that you'll need to lower the default number, not
+#increase it. A higher number means a faster computation needed and, therefore, a more powerful CPU etc...
+claim-tax: 10000
+
 #It enables an anti-griefing protection for all claimed regions if the person is not from the state owning those regions.
 #This, however, right now doesn't protect from explosions. Default: false
 claim-protection: false

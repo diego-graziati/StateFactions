@@ -34,16 +34,16 @@ public final class TranslationManager {
      * */
     public TranslationManager(@NotNull String lang) throws Exception {
         this.lang=lang;
-        InputStream inStream = new FileInputStream(ExportedFilesRoutine.getPathToLocal()+Constants.Resources.ExportedResPaths.Lang.LANG_FOLDER+"/"+lang+".json");
+        InputStream inStream = new FileInputStream(ExportedFilesManager.getPathToLocal()+Constants.Resources.ExportedResPaths.Lang.LANG_FOLDER+"/"+lang+".json");
         JsonElement fileElement = JsonParser.parseReader(new InputStreamReader(inStream, StandardCharsets.UTF_8));
         fileObject = fileElement.getAsJsonObject();
 
         inStream.close();
         if(!integrityRoutine(fileObject)){
 
-            ExportedFilesRoutine.restoreExternalFile(Constants.Resources.ExportedResPaths.Lang.LANG_FOLDER+"/"+lang+".json");
+            ExportedFilesManager.restoreExternalFile(Constants.Resources.ExportedResPaths.Lang.LANG_FOLDER+"/"+lang+".json");
 
-            inStream = new FileInputStream(ExportedFilesRoutine.getPathToLocal()+Constants.Resources.ExportedResPaths.Lang.LANG_FOLDER+"/"+lang+".json");
+            inStream = new FileInputStream(ExportedFilesManager.getPathToLocal()+Constants.Resources.ExportedResPaths.Lang.LANG_FOLDER+"/"+lang+".json");
 
             fileElement = JsonParser.parseReader(new InputStreamReader(inStream, StandardCharsets.UTF_8));
             fileObject = fileElement.getAsJsonObject();

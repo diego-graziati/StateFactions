@@ -49,6 +49,7 @@
   "string.command.error.already-claim-responsible": "Questa persona è già un responsabile dei claim per questo stato",
   "string.command.error.person-already-state-owner": "Questa persona è di già un proprietario di questo stato",
   "string.command.error.person-not-a-claim-responsible": "Questa persona non è un responsabile dei claim per questo stato: ",
+  "string.command.error.too-many-claims": "Stai cercando di claimare troppi blocchi alla volta. Limite attuale: ",
 
   "string.command.success.player-registered": "Sei stato registrato con successo",
   "string.command.success.player-loggedin": "Hai eseguito l'accesso con successo",

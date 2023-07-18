@@ -4,6 +4,13 @@ public final class Constants {
     public static final class Utility{
         public static final String PARSING_CHARSET = "§&";
         public static final String PLUGIN_NAME = "StateFactions";
+
+        public static final class DateFormats{
+            public static final String AGF = "AGF";
+            public static final String EGF = "EGF";
+            public static final String IDF = "IDF";
+            public static final String JDF = "JDF";
+        }
     }
     public static final class ChatStyling{
         public static final class Colors{
@@ -37,37 +44,25 @@ public final class Constants {
         }
     }
     public static final class QueryMap{
-        public static final String INSERT_NEW_STATE = "insert_new_state";
-        public static final String GET_PERSON_ID = "get_person_id";
-        public static final String CHECK_IF_PERSON_EXISTS = "check_if_person_exists";
-        public static final String INSERT_NEW_PERSON = "insert_new_person";
-        public static final String GET_PERSON_CREDENTIALS = "get_person_credentials";
-        public static final String CHECK_IF_STATE_EXISTS = "check_if_state_exists";
-        public static final String CREATE_CLAIM = "create_claim";
-        public static final String GET_CLAIM_OWNER = "get_claim_owner";
-        public static final String GET_STATE_NAME_BY_ID = "get_state_name_by_id";
-        public static final String GET_STATE_ID_BY_NAME = "get_state_id_by_name";
-        public static final String GET_MULTIPLE_SECTORS_CLAIM_OWNER = "get_multiple_sectors_claim_owner";
-        public static final String INTELLIGENT_MULTIREGION_CLAIM = "intelligent_multiregion_claim";
-        public static final String ADD_CITIZEN = "add_citizen";
-        public static final String ADD_CITIZENSHIP_REQUEST = "add_citizenship_request";
-        public static final String REMOVE_CITIZENSHIP_REQUEST = "remove_citizenship_request";
-        public static final String CHECK_IF_CITIZEN_EXISTS = "check_if_citizen_exists";
-        public static final String CHECK_IF_CITIZENSHIP_REQUEST_ALREADY_EXISTS = "check_if_citizenship_request_already_exists";
-        public static final String REMOVE_CITIZEN = "remove_citizen";
-        public static final String GET_STATE_OWNER = "get_state_owner";
-        public static final String SET_STATE_OWNER = "set_state_owner";
-        public static final String SET_STATE_CLAIM_RESPONSIBLE = "set_state_claim_responsible";
-        public static final String GET_STATE_CLAIM_RESPONSIBLE = "get_state_claim_responsible";
-        public static final String GET_STATE_INFO = "get_state_info";
-        public static final String GET_NUM_STATE_CLAIMS = "get_num_state_claims";
-        public static final String GET_NUM_STATE_CITIZENS = "get_num_state_citizens";
+        public static final String GET_STATES = "get_states";
+        public static final String GET_CITIZENS = "get_citizens";
+        public static final String GET_CITIZENSHIPS_REQUESTS = "get_citizenships_requests";
+        public static final String GET_STATE_NUM_CLAIMS = "get_state_num_claims";
+        public static final String GET_REGISTERED_PLAYERS = "get_registered_players";
+        public static final String GET_CLAIMS = "get_claims";
+        public static final String SAVE_PLAYERS = "save_players";
+        public static final String SAVE_CITIZENS = "save_citizens";
+        public static final String SAVE_CIT_REQUESTS = "save_cit_requests";
+        public static final String DELETE_ALL_CIT_REQUESTS = "delete_all_cit_requests";
+        public static final String SAVE_CLAIMS = "save_claims";
+        public static final String SAVE_STATES = "save_states";
     }
     public static final class DB_Tables{
         public static final class SF_Person{
             public static final String PERSON_ID = "PersonId";
             public static final String PERSON_NAME = "PersonName";
             public static final String PERSON_CREDENTIALS = "PersonCredentials";
+            public static final String REGISTRATION_DATE = "RegistrationDate";
         }
         public static final class SF_State{
             public static final String STATE_NAME = "StateName";
@@ -77,11 +72,23 @@ public final class Constants {
         }
         public static final class SF_State_Space{
             public static final String STATE_ID = "StateId";
-            public static final String BLOCK_X = "BlockX";
-            public static final String BLOCK_Z = "BlockZ";
+            public static final String BLOCK_X1 = "BlockX1";
+            public static final String BLOCK_Z1 = "BlockZ1";
+            public static final String BLOCK_X2 = "BlockX2";
+            public static final String BLOCK_Z2 = "BlockZ2";
+            public static final String CLAIM_DATE = "ClaimDate";
         }
         public static final class SF_Citizenship {
             public static final String PERSON_ID = "PersonId";
+            public static final String STATE_ID = "StateId";
+            public static final String IS_STATE_OWNER = "IsStateOwner";
+            public static final String IS_CLAIM_RESPONSIBLE = "IsClaimResponsible";
+            public static final String STATE_JOIN_DATE = "StateJoinDate";
+        }
+        public static final class SF_Citizenship_Request{
+            public static final String PERSON_ID = "PersonId";
+            public static final String STATE_ID = "StateId";
+            public static final String REQUEST_DATE = "RequestDate";
         }
         public static final class Temp_Table{
             public static final String NUM_STATE_CLAIMS = "NumStateClaims";
@@ -131,8 +138,15 @@ public final class Constants {
         public static final String DBMS_USER = "DBMS-user";
         public static final String DBMS_PWD = "DBMS-pwd";
         public static final String DB_PATH = "path-DB";
+        public static final String DATE_FORMAT = "date-format";
+        public static final String CLAIM_TAX = "claim-tax";
         public static final String CLAIM_PROTECTION = "claim-protection";
         public static final String DISABLE_EXPLOSIONS = "disable-explosions";
+
+        public static class Fallback{
+            public static final int CLAIM_TAX = 10000;
+            public static final String DATE_FORMAT = Utility.DateFormats.IDF;
+        }
     }
 
     public static final class Languages{
@@ -211,6 +225,7 @@ public final class Constants {
                     public static final String ALREADY_CLAIM_RESPONSIBLE= "string.command.error.already-claim-responsible";
                     public static final String PERSON_ALREADY_STATE_OWNER = "string.command.error.person-already-state-owner";
                     public static final String PERSON_NOT_A_CLAIM_RESPONSIBLE = "string.command.error.person-not-a-claim-responsible";
+                    public static final String TOO_MANY_CLAIMS = "string.command.error.too-many-claims";
                 }
                 public static final class Success{
                     public static final String PLAYER_REGISTERED = "string.command.success.player-registered";
@@ -275,31 +290,18 @@ public final class Constants {
         public static final String DB_STARTUP_MYSQL = DB_RESOURCES_FOLDER+"/StartupQuery_mysql.sql";
         public static final class MYSQL{
             public static final String DB_MYSQL_FOLDER = DB_RESOURCES_FOLDER+"/mysql";
-            public static final String DB_CHECK_IF_PERSON_EXISTS = DB_MYSQL_FOLDER+"/CheckIfPersonExists_query_sql.sql";
-            public static final String DB_INSERT_NEW_PERSON = DB_MYSQL_FOLDER+"/InsertNewPerson_query_sql.sql";
-            public static final String DB_GET_PERSON_CREDENTIALS = DB_MYSQL_FOLDER+"/GetPersonCredentials_query_sql.sql";
-            public static final String DB_GET_PERSON_ID = DB_MYSQL_FOLDER+"/GetPersonId_query_sql.sql";
-            public static final String DB_INSERT_NEW_STATE = DB_MYSQL_FOLDER+"/InsertNewState_query_sql.sql";
-            public static final String DB_CHECK_IF_STATE_EXISTS = DB_MYSQL_FOLDER+"/CheckIfStateExists_query_sql.sql";
-            public static final String DB_CREATE_CLAIM = DB_MYSQL_FOLDER+"/CreateClaim_query_sql.sql";
-            public static final String DB_GET_CLAIM_OWNER = DB_MYSQL_FOLDER+"/GetClaimOwner_query_sql.sql";
-            public static final String DB_GET_STATE_NAME_BY_ID = DB_MYSQL_FOLDER+"/GetStateNameById_query_sql.sql";
-            public static final String DB_GET_STATE_ID_BY_NAME = DB_MYSQL_FOLDER+"/GetStateIdByName_query_sql.sql";
-            public static final String DB_GET_MULTIPLE_SECTORS_CLAIM_OWNER = DB_MYSQL_FOLDER+"/GetMultipleSectorsClaimOwner_query_sql.sql";
-            public static final String DB_INTELLIGENT_MULTIREGION_CLAIM = DB_MYSQL_FOLDER+"/IntelligentMultiregionClaim_query_sql.sql";
-            public static final String DB_ADD_CITIZEN = DB_MYSQL_FOLDER+"/AddCitizen_query_sql.sql";
-            public static final String DB_ADD_CITIZENSHIP_REQUEST = DB_MYSQL_FOLDER+"/AddCitizenshipRequest_query_sql.sql";
-            public static final String DB_REMOVE_CITIZENSHIP_REQUEST = DB_MYSQL_FOLDER+"/RemoveCitizenshipRequest_query_sql.sql";
-            public static final String DB_CHECK_IF_CITIZEN_EXISTS = DB_MYSQL_FOLDER+"/CheckIfCitizenExists_query_sql.sql";
-            public static final String DB_CHECK_IF_CITIZENSHIP_REQUEST_ALREADY_EXISTS = DB_MYSQL_FOLDER+"/CheckIfCitizenshipRequestAlreadyExists_query_sql.sql";
-            public static final String DB_REMOVE_CITIZEN = DB_MYSQL_FOLDER+"/RemoveCitizen_query_sql.sql";
-            public static final String DB_GET_STATE_OWNER = DB_MYSQL_FOLDER+"/GetStateOwner_query_sql.sql";
-            public static final String DB_SET_STATE_OWNER = DB_MYSQL_FOLDER+"/SetStateOwner_query_sql.sql";
-            public static final String DB_SET_STATE_CLAIM_RESPONSIBLE = DB_MYSQL_FOLDER+"/SetStateClaimResponsible_query_sql.sql";
-            public static final String DB_GET_STATE_CLAIM_RESPONSIBLE = DB_MYSQL_FOLDER+"/GetStateClaimResponsible_query_sql.sql";
-            public static final String DB_GET_STATE_INFO = DB_MYSQL_FOLDER+"/GetStateInfo_query_sql.sql";
-            public static final String DB_GET_NUM_STATE_CLAIMS = DB_MYSQL_FOLDER+"/GetNumStateClaims_query_sql.sql";
-            public static final String DB_GET_NUM_STATE_CITIZENS = DB_MYSQL_FOLDER+"/GetNumStateCitizens_query_sql.sql";
+            public static final String DB_GET_STATES = DB_MYSQL_FOLDER+"/GetStates_query_sql.sql";
+            public static final String DB_GET_CITIZENS = DB_MYSQL_FOLDER+"/GetCitizens_query_sql.sql";
+            public static final String DB_GET_CITIZENSHIPS_REQUESTS = DB_MYSQL_FOLDER+"/GetCitizenshipsRequests_query_sql.sql";
+            public static final String DB_GET_STATE_NUM_CLAIMS = DB_MYSQL_FOLDER+"/GetStateNumClaims_query_sql.sql";
+            public static final String DB_GET_REGISTERED_PLAYERS = DB_MYSQL_FOLDER+"/GetRegisteredPlayers_query_sql.sql";
+            public static final String DB_GET_CLAIMS = DB_MYSQL_FOLDER+"/GetClaims_query_sql.sql";
+            public static final String DB_SAVE_PLAYERS = DB_MYSQL_FOLDER+"/SavePlayers_query_sql.sql";
+            public static final String DB_SAVE_CITIZENS = DB_MYSQL_FOLDER+"/SaveCitizens_query_sql.sql";
+            public static final String DB_SAVE_CIT_REQUESTS = DB_MYSQL_FOLDER+"/SaveCitRequests_query_sql.sql";
+            public static final String DB_DELETE_ALL_CIT_REQUESTS = DB_MYSQL_FOLDER+"/DeleteAllCitRequests_query_sql.sql";
+            public static final String DB_SAVE_CLAIMS = DB_MYSQL_FOLDER+"/SaveClaims_query_sql.sql";
+            public static final String DB_SAVE_STATES = DB_MYSQL_FOLDER+"/SaveStates_query_sql.sql";
         }
     }
 }

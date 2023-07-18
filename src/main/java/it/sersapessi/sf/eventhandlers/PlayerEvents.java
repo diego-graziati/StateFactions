@@ -45,10 +45,8 @@ public class PlayerEvents implements Listener {
         }else{
             z2=z1-1;
         }
-        String statePosition = StateFactions.db.getStateNameByPosition(new ClaimSector(x1,z1,x2,z2));
+        String statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1, z1, x2, z2));
         PluginPlayer pluginPlayer = StateFactions.getPlayer(player.getName());
-
-        StateFactions.logger.log(new LogRecord(Level.INFO,"Player position: "+x1+"\t"+z1+"\t"+x2+"\t"+z2));
 
         if(pluginPlayer!=null){
             if(!pluginPlayer.getStatePosition().equals(statePosition)){
@@ -70,7 +68,7 @@ public class PlayerEvents implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
 
-        String statePosition = StateFactions.db.getStateNameByPosition(new ClaimSector(player.getLocation().getBlockX(),player.getLocation().getBlockZ(),player.getLocation().getBlockX()+1,player.getLocation().getBlockZ()+1));
+        String statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(player.getLocation().getBlockX(), player.getLocation().getBlockZ(), player.getLocation().getBlockX() + 1, player.getLocation().getBlockZ() + 1));
 
         StateFactions.addOnlinePlayer(new PluginPlayer(player,statePosition));
     }
@@ -120,10 +118,10 @@ public class PlayerEvents implements Listener {
             }else{
                 z2=z1-1;
             }
-            String statePosition = StateFactions.db.getStateNameByPosition(new ClaimSector(x1,z1,x2,z2));
+            String statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1, z1, x2, z2));
 
             if(!statePosition.isBlank()){
-                if(StateFactions.db.checkIfPersonIsCitizen(statePosition,player.getName())){
+                if(StateFactions.statesHandler.checkIfPersonIsCitizen(statePosition,player.getName())){
                     event.setBuild(true);
                     event.setCancelled(false);
                 }else{
@@ -161,10 +159,10 @@ public class PlayerEvents implements Listener {
             }else{
                 z2=z1-1;
             }
-            String statePosition = StateFactions.db.getStateNameByPosition(new ClaimSector(x1,z1,x2,z2));
+            String statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1, z1, x2, z2));
 
             if(!statePosition.isBlank()){
-                if(StateFactions.db.checkIfPersonIsCitizen(statePosition,player.getName())){
+                if(StateFactions.statesHandler.checkIfPersonIsCitizen(statePosition,player.getName())){
                     event.setCancelled(false);
                 }else{
                     event.setCancelled(true);
@@ -200,10 +198,10 @@ public class PlayerEvents implements Listener {
                 }else{
                     z2=z1-1;
                 }
-                String statePosition = StateFactions.db.getStateNameByPosition(new ClaimSector(x1,z1,x2,z2));
+                String statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1, z1, x2, z2));
 
                 if(!statePosition.isBlank()){
-                    if(StateFactions.db.checkIfPersonIsCitizen(statePosition,player.getName())){
+                    if(StateFactions.statesHandler.checkIfPersonIsCitizen(statePosition,player.getName())){
                         event.setCancelled(false);
                     }else{
                         event.setCancelled(true);
