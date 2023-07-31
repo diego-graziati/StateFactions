@@ -11,8 +11,6 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
 
 /**
  * <code>SFCommands</code> handles all the commands that can be found inside the SF Plugin.
@@ -25,14 +23,12 @@ public class SFCommands implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String @NotNull [] args) {
 
-        StateFactions.logger.log(new LogRecord(Level.INFO,"Args length: "+args.length));//TODO: rimuovere
 
         if(checkIllegalChars(args)){
             sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+Constants.Localization.Str.Command.Error.ILLEGAL_CHAR);
         }else{
             ArrayList<String> actualArgs = parseCommandArgs(args);
 
-            StateFactions.logger.log(new LogRecord(Level.INFO,"Actual args: "+actualArgs.size()+" \""+actualArgs+"\""));//TODO: rimuovere
             if(actualArgs.size()>=2){
                 if(actualArgs.get(0).equalsIgnoreCase(Constants.CommandsArgs.STATE)){
                     parseStateCommands(sender, actualArgs);

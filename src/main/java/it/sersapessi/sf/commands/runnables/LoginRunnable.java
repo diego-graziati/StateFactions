@@ -25,8 +25,6 @@ public class LoginRunnable extends BukkitRunnable {
         if(args.size()==2){
             String pwd = args.get(1);
 
-            StateFactions.logger.log(new LogRecord(Level.INFO,"Password: "+pwd));
-
             if(StateFactions.peopleHandler.checkIfPlayerIsRegistered(sender.getName())){
                 if(StateFactions.peopleHandler.checkPwd(sender.getName(),pwd)){
                     if(StateFactions.loggedInPlayers.contains(sender.getName())){

@@ -110,9 +110,6 @@ public class StateRunnable extends BukkitRunnable {
                                         int sec2x2=Integer.parseInt(args.get(5));
                                         int sec2z2=Integer.parseInt(args.get(6));
 
-                                        StateFactions.logger.log(new LogRecord(Level.INFO, "Claim coordinates: sec1x1->"+sec1x1
-                                                +"\tsec1z1->"+sec1z1+"\tsec2x2->"+sec2x2+"\tsec2z2->"+sec2z2));
-
                                         if(sec1x1==sec2x2 || sec1z1==sec2z2){
                                             sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.YOU_MUST_CLAIM_ONE_BLOCK));
                                         }else{

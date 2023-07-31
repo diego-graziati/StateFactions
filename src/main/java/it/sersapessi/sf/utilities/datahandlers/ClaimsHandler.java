@@ -27,8 +27,6 @@ public class ClaimsHandler {
     public String getClaimOwner(ClaimSector sector){
         String claimOwner="";
 
-        StateFactions.logger.log(new LogRecord(Level.INFO,"Player's position: "+sector));
-
         Integer stateId=claims.get(sector);
 
         if(stateId!=null){

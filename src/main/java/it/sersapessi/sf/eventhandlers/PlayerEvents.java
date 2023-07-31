@@ -128,7 +128,17 @@ public class PlayerEvents implements Listener {
             int x1= (int)bx;
             int z1= (int)bz;
 
-            String statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1, z1, x1+1, z1+1));
+            String statePosition;
+
+            if(bx<0 && bz<0){
+                statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1-1,z1-1, x1, z1));
+            }else if(bx<0 && bz>=0){
+                statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1-1,z1, x1, z1+1));
+            }else if(bx>=0 && bz<0){
+                statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1,z1-1, x1+1, z1));
+            }else{
+                statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1,z1, x1+1, z1+1));
+            }
 
             if(!statePosition.isBlank()){
                 if(StateFactions.statesHandler.checkIfPersonIsCitizen(statePosition,player.getName())){
@@ -154,7 +164,17 @@ public class PlayerEvents implements Listener {
                 int x1= (int)bx;
                 int z1= (int)bz;
 
-                String statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1, z1, x1+1, z1+1));
+                String statePosition;
+
+                if(bx<0 && bz<0){
+                    statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1-1,z1-1, x1, z1));
+                }else if(bx<0 && bz>=0){
+                    statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1-1,z1, x1, z1+1));
+                }else if(bx>=0 && bz<0){
+                    statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1,z1-1, x1+1, z1));
+                }else{
+                    statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1,z1, x1+1, z1+1));
+                }
 
                 if(!statePosition.isBlank()){
                     if(StateFactions.statesHandler.checkIfPersonIsCitizen(statePosition,player.getName())){
