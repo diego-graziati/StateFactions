@@ -2,6 +2,7 @@ package it.sersapessi.sf.commands.runnables;
 
 import it.sersapessi.sf.StateFactions;
 import it.sersapessi.sf.utilities.Constants;
+import it.sersapessi.sf.utilities.exceptions.TooManyClaimsException;
 import it.sersapessi.sf.utilities.models.ClaimRegion;
 import it.sersapessi.sf.utilities.models.ClaimSector;
 import it.sersapessi.sf.utilities.models.PluginPlayer;
@@ -66,21 +67,16 @@ public class StateRunnable extends BukkitRunnable {
                                     int x1= (int)px;
                                     int z1= (int)pz;
 
-                                    int x2;
-                                    int z2;
-                                    if(px>=x1){
-                                        x2=x1+1;
+                                    ClaimRegion region;
+                                    if(px<0 && pz<0){
+                                        region = new ClaimRegion(new ClaimSector(x1-1,z1-1, x1, z1));
+                                    }else if(px<0 && pz>=0){
+                                        region = new ClaimRegion(new ClaimSector(x1-1,z1, x1, z1+1));
+                                    }else if(px>=0 && pz<0){
+                                        region = new ClaimRegion(new ClaimSector(x1,z1-1, x1+1, z1));
                                     }else{
-                                        x2=x1-1;
+                                        region = new ClaimRegion(new ClaimSector(x1,z1, x1+1, z1+1));
                                     }
-
-                                    if(pz>=z1){
-                                        z2=z1+1;
-                                    }else{
-                                        z2=z1-1;
-                                    }
-
-                                    ClaimRegion region = new ClaimRegion(new ClaimSector(x1,z1,x2,z2));
 
                                     StateFactions.claimsHandler.createClaims(sender,stateName,region);
                                 }else{
@@ -117,32 +113,18 @@ public class StateRunnable extends BukkitRunnable {
                                         StateFactions.logger.log(new LogRecord(Level.INFO, "Claim coordinates: sec1x1->"+sec1x1
                                                 +"\tsec1z1->"+sec1z1+"\tsec2x2->"+sec2x2+"\tsec2z2->"+sec2z2));
 
-                                        if(sec1x1==sec2x2 && sec1z1==sec2z2){
+                                        if(sec1x1==sec2x2 || sec1z1==sec2z2){
                                             sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.YOU_MUST_CLAIM_ONE_BLOCK));
                                         }else{
-                                            ClaimRegion region;
 
-                                            if(sec1x1<sec2x2 && sec1z1<sec2z2){
-                                                region = new ClaimRegion(new ClaimSector(sec1x1,sec1z1,sec1x1+1,sec1z1+1),
-                                                        new ClaimSector(sec2x2-1,sec2z2-1,sec2x2,sec2z2));
-                                            }else if(sec1x1>sec2x2 && sec1z1<=sec2z2){
-                                                region = new ClaimRegion(new ClaimSector(sec1x1,sec1z1,sec1x1-1,sec1z1+1),
-                                                        new ClaimSector(sec2x2+1,sec2z2-1,sec2x2,sec2z2));
-                                            }else if(sec1x1<sec2x2){
-                                                region = new ClaimRegion(new ClaimSector(sec1x1,sec1z1,sec1x1+1,sec1z1-1),
-                                                        new ClaimSector(sec2x2-1,sec2z2+1,sec2x2,sec2z2));
-                                            }else{
-                                                region = new ClaimRegion(new ClaimSector(sec1x1,sec1z1,sec1x1-1,sec1z1-1),
-                                                        new ClaimSector(sec2x2+1,sec2z2+1,sec2x2,sec2z2));
-                                            }
+                                            try{
+                                                ClaimRegion claimRegion = StateFactions.claimsHandler.getClaimingRegion(sec1x1,sec1z1,sec2x2,sec2z2);
 
-                                            int currentNumClaims = (region.getSector2().getX1()-region.getSector1().getX1())*(region.getSector2().getZ1()-region.getSector1().getZ1());
+                                                StateFactions.claimsHandler.createClaims(sender,stateName,claimRegion);
 
-                                            if(currentNumClaims<=StateFactions.claimsHandler.getMaxClaims() && StateFactions.claimsHandler.getMaxClaims()>0){
-                                                StateFactions.claimsHandler.createClaims(sender,stateName,region);
                                                 sender.sendPlainMessage(Constants.ChatStyling.Colors.GREEN+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Success.CLAIM_CREATED));
-                                            }else{
-                                                sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.TOO_MANY_CLAIMS)+StateFactions.claimsHandler.getMaxClaims());
+                                            }catch (TooManyClaimsException exception){
+                                                sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.TOO_MANY_CLAIMS));
                                             }
                                         }
                                     }catch(NumberFormatException e){

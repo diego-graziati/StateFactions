@@ -13,7 +13,7 @@ lang: en-US
 
 #It establishes how the dates will be shown to the players.
 #Formats available: AGF (American style Gregorian date Format, "MM/DD/YYYY"), EGF (European style Gregorian date Format, "DD/MM/YYYY"),
-#                   IDF (ISO Date Format, "YYYY/MM/DD", fallback/default), JDF (Julian Date Format, "YYYY-DDDD").
+#                   IDF (ISO Date Format, "YYYY/MM/DD", fallback/default), JDF (Julian Date Format, "YYYY-DDD").
 date-format: IDF
 
 #It serves to determine how many blocks a claimer can claim at a time. Default: 10000 (fallback). Numbers < 0 are used to say "unlimited".

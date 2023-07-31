@@ -2,8 +2,8 @@ package it.sersapessi.sf.utilities.models;
 
 public class ClaimRegion {
 
-    private ClaimSector sector1;
-    private ClaimSector sector2;
+    private ClaimSector sector1;    //In a multiregion claim, sector 1 is always the minor sector.
+    private ClaimSector sector2;    //In a multiregion claim, sector 2 is always the bigger sector.
 
     private boolean isSingularMode; //It means if the claim is on a singular block/sector, or if it is on a much larger area.
 
@@ -33,5 +33,10 @@ public class ClaimRegion {
 
     public boolean isSingularMode(){
         return isSingularMode;
+    }
+
+    @Override
+    public String toString() {
+        return "{ "+ getSector1()+","+getSector2()+"}";
     }
 }

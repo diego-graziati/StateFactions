@@ -93,6 +93,6 @@ public class ClaimSector {
 
     @Override
     public String toString() {
-        return "BlockX1: "+x1+"\tBlockZ1: "+z1+"\tBlockX2: "+x2+"\tBlockZ2: "+z2+"\tClaimDate: "+claimDate;
+        return "[("+x1+","+z1+");("+x2+","+z2+"); "+claimDate+"]";
     }
 }

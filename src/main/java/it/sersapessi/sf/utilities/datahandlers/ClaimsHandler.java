@@ -2,10 +2,13 @@ package it.sersapessi.sf.utilities.datahandlers;
 
 import it.sersapessi.sf.StateFactions;
 import it.sersapessi.sf.utilities.Constants;
+import it.sersapessi.sf.utilities.exceptions.TooManyClaimsException;
 import it.sersapessi.sf.utilities.models.ClaimRegion;
 import it.sersapessi.sf.utilities.models.ClaimSector;
 import org.bukkit.command.CommandSender;
+import org.checkerframework.checker.units.qual.C;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -23,6 +26,8 @@ public class ClaimsHandler {
 
     public String getClaimOwner(ClaimSector sector){
         String claimOwner="";
+
+        StateFactions.logger.log(new LogRecord(Level.INFO,"Player's position: "+sector));
 
         Integer stateId=claims.get(sector);
 
@@ -48,6 +53,8 @@ public class ClaimsHandler {
 
                 claims.put(new ClaimSector(region.getSector1()),stateId);
 
+                StateFactions.statesHandler.incrementClaims(stateName);
+
                 sender.sendPlainMessage(Constants.ChatStyling.Colors.GREEN+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Success.CLAIM_CREATED));
             }else{
                 sender.sendPlainMessage(Constants.ChatStyling.Colors.RED+StateFactions.translationManager.getString(Constants.Localization.Str.Command.Error.AREA_ALREADY_CLAIMED_SINGLE_STATE)+claimOwner);
@@ -56,127 +63,45 @@ public class ClaimsHandler {
 
             int stateId = StateFactions.statesHandler.getStateId(stateName);
 
-            if(region.getSector1().getX1()<region.getSector2().getX2() && region.getSector1().getZ1()<region.getSector2().getZ2()){
-                //case:1
+            ClaimSector claimInstance = region.getSector1();
 
-                ClaimSector claimSector = new ClaimSector(region.getSector1().getX1(),region.getSector1().getZ1(),region.getSector1().getX2(),region.getSector1().getZ2());
+            do{
 
-                while(claimSector.getZ2()!=region.getSector2().getZ2()+1){
+                int originalX1=claimInstance.getX1();
 
-                    int originalX1=claimSector.getX1();
+                do{
+                    if(getClaimOwner(claimInstance).isBlank()){
+                        claims.put(new ClaimSector(claimInstance),stateId);
 
-                    while(claimSector.getX2()!=region.getSector2().getX2()+1){
-
-                        if(getClaimOwner(claimSector).isBlank()){
-                            claims.put(new ClaimSector(claimSector),stateId);
-                            StateFactions.statesHandler.incrementClaims(stateName);
-                        }
-
-                        int x1=claimSector.getX1();
-                        int x2=claimSector.getX2();
-                        claimSector.setX1(++x1);
-                        claimSector.setX2(++x2);
+                        StateFactions.statesHandler.incrementClaims(stateName);
                     }
 
-                    claimSector.setX1(originalX1);
-                    claimSector.setX2(++originalX1);
+                    claimInstance.setX1(claimInstance.getX1()+1);
+                    claimInstance.setX2(claimInstance.getX2()+1);
+                }while(claimInstance.getX2()<=region.getSector2().getX2());
 
-                    int z1=claimSector.getZ1();
-                    int z2=claimSector.getZ2();
-                    claimSector.setZ1(++z1);
-                    claimSector.setZ2(++z2);
-                }
-            }else if(region.getSector1().getX1()<region.getSector2().getX2() && region.getSector1().getZ1()>region.getSector2().getZ2()){
-                //case:2
+                claimInstance.setX1(originalX1);
+                claimInstance.setX2(originalX1+1);
 
-                ClaimSector claimSector = new ClaimSector(region.getSector1().getX1(),region.getSector1().getZ1(),region.getSector1().getX2(),region.getSector1().getZ2());
+                claimInstance.setZ1(claimInstance.getZ1()+1);
+                claimInstance.setZ2(claimInstance.getZ2()+1);
 
-                while(claimSector.getZ2()!=region.getSector2().getZ2()-1){
+            }while(claimInstance.getZ2()<=region.getSector2().getZ2());
+        }
+    }
 
-                    int originalX1=claimSector.getX1();
+    public ClaimRegion getClaimingRegion( int x1, int z1, int x2, int z2){
 
-                    while(claimSector.getX2()!=region.getSector2().getX2()+1){
+        int xMax = Math.max(x1, x2);
+        int xMin = Math.min(x1, x2);
 
-                        if(getClaimOwner(claimSector).isBlank()){
-                            claims.put(new ClaimSector(claimSector),stateId);
-                            StateFactions.statesHandler.incrementClaims(stateName);
-                        }
+        int zMax = Math.max(z1, z2);
+        int zMin = Math.min(z1, z2);
 
-                        int x1=claimSector.getX1();
-                        int x2=claimSector.getX2();
-                        claimSector.setX1(++x1);
-                        claimSector.setX2(++x2);
-                    }
-
-                    claimSector.setX1(originalX1);
-                    claimSector.setX2(++originalX1);
-
-                    int z1=claimSector.getZ1();
-                    int z2=claimSector.getZ2();
-                    claimSector.setZ1(--z1);
-                    claimSector.setZ2(--z2);
-                }
-            }else if(region.getSector1().getX1()>region.getSector2().getX2() && region.getSector1().getZ1()<region.getSector2().getZ2()){
-                //case:3
-
-                ClaimSector claimSector = new ClaimSector(region.getSector1().getX1(),region.getSector1().getZ1(),region.getSector1().getX2(),region.getSector1().getZ2());
-
-                while(claimSector.getZ2()!=region.getSector2().getZ2()+1){
-
-                    int originalX1=claimSector.getX1();
-
-                    while(claimSector.getX2()!=region.getSector2().getX2()-1){
-
-                        if(getClaimOwner(claimSector).isBlank()){
-                            claims.put(new ClaimSector(claimSector),stateId);
-                            StateFactions.statesHandler.incrementClaims(stateName);
-                        }
-
-                        int x1=claimSector.getX1();
-                        int x2=claimSector.getX2();
-                        claimSector.setX1(--x1);
-                        claimSector.setX2(--x2);
-                    }
-
-                    claimSector.setX1(originalX1);
-                    claimSector.setX2(--originalX1);
-
-                    int z1=claimSector.getZ1();
-                    int z2=claimSector.getZ2();
-                    claimSector.setZ1(++z1);
-                    claimSector.setZ2(++z2);
-                }
-            }else{
-                //Case:4
-
-                ClaimSector claimSector = new ClaimSector(region.getSector1().getX1(),region.getSector1().getZ1(),region.getSector1().getX2(),region.getSector1().getZ2());
-
-                while(claimSector.getZ2()!=region.getSector2().getZ2()-1){
-
-                    int originalX1=claimSector.getX1();
-
-                    while(claimSector.getX2()!=region.getSector2().getX2()-1){
-
-                        if(getClaimOwner(claimSector).isBlank()){
-                            claims.put(new ClaimSector(claimSector),stateId);
-                            StateFactions.statesHandler.incrementClaims(stateName);
-                        }
-
-                        int x1=claimSector.getX1();
-                        int x2=claimSector.getX2();
-                        claimSector.setX1(--x1);
-                        claimSector.setX2(--x2);
-                    }
-
-                    claimSector.setX1(originalX1);
-                    claimSector.setX2(--originalX1);
-
-                    int z1=claimSector.getZ1();
-                    int z2=claimSector.getZ2();
-                    claimSector.setZ1(--z1);
-                    claimSector.setZ2(--z2);
-                }
-            }
+        if((xMax-xMin)*(zMax-zMin)>maxClaims){
+            throw new TooManyClaimsException();
+        }else{
+            return new ClaimRegion(new ClaimSector(xMin,zMin,xMin+1,zMin+1),new ClaimSector(xMax-1,zMax-1,xMax,zMax));
         }
     }
 

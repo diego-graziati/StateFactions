@@ -16,9 +16,6 @@ import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-
 public class PlayerEvents implements Listener {
 
     @EventHandler
@@ -32,20 +29,18 @@ public class PlayerEvents implements Listener {
         int x1= (int)px;
         int z1= (int)pz;
 
-        int x2;
-        int z2;
-        if(px>=x1){
-            x2=x1+1;
+        String statePosition;
+        if(px<0 && pz<0){
+            statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1-1,z1-1, x1, z1));
+        }else if(px<0 && pz>=0){
+            statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1-1,z1, x1, z1+1));
+        }else if(px>=0 && pz<0){
+            statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1,z1-1, x1+1, z1));
         }else{
-            x2=x1-1;
+            statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1,z1, x1+1, z1+1));
         }
 
-        if(pz>=z1){
-            z2=z1+1;
-        }else{
-            z2=z1-1;
-        }
-        String statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1, z1, x2, z2));
+
         PluginPlayer pluginPlayer = StateFactions.getPlayer(player.getName());
 
         if(pluginPlayer!=null){
@@ -105,20 +100,7 @@ public class PlayerEvents implements Listener {
             int x1= (int)bx;
             int z1= (int)bz;
 
-            int x2;
-            int z2;
-            if(bx>=x1){
-                x2=x1+1;
-            }else{
-                x2=x1-1;
-            }
-
-            if(bz>=z1){
-                z2=z1+1;
-            }else{
-                z2=z1-1;
-            }
-            String statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1, z1, x2, z2));
+            String statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1, z1, x1+1, z1+1));
 
             if(!statePosition.isBlank()){
                 if(StateFactions.statesHandler.checkIfPersonIsCitizen(statePosition,player.getName())){
@@ -146,20 +128,7 @@ public class PlayerEvents implements Listener {
             int x1= (int)bx;
             int z1= (int)bz;
 
-            int x2;
-            int z2;
-            if(bx>=x1){
-                x2=x1+1;
-            }else{
-                x2=x1-1;
-            }
-
-            if(bz>=z1){
-                z2=z1+1;
-            }else{
-                z2=z1-1;
-            }
-            String statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1, z1, x2, z2));
+            String statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1, z1, x1+1, z1+1));
 
             if(!statePosition.isBlank()){
                 if(StateFactions.statesHandler.checkIfPersonIsCitizen(statePosition,player.getName())){
@@ -185,20 +154,7 @@ public class PlayerEvents implements Listener {
                 int x1= (int)bx;
                 int z1= (int)bz;
 
-                int x2;
-                int z2;
-                if(bx>=x1){
-                    x2=x1+1;
-                }else{
-                    x2=x1-1;
-                }
-
-                if(bz>=z1){
-                    z2=z1+1;
-                }else{
-                    z2=z1-1;
-                }
-                String statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1, z1, x2, z2));
+                String statePosition = StateFactions.claimsHandler.getClaimOwner(new ClaimSector(x1, z1, x1+1, z1+1));
 
                 if(!statePosition.isBlank()){
                     if(StateFactions.statesHandler.checkIfPersonIsCitizen(statePosition,player.getName())){
