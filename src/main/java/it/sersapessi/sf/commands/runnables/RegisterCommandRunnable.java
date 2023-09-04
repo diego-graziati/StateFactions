@@ -8,12 +8,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class RegisterRunnable extends BukkitRunnable {
+public class RegisterCommandRunnable extends BukkitRunnable {
 
     private CommandSender sender;
     private ArrayList<String> args;
 
-    public RegisterRunnable(@NotNull CommandSender sender, @NotNull ArrayList<String> args){
+    public RegisterCommandRunnable(@NotNull CommandSender sender, @NotNull ArrayList<String> args){
         this.sender=sender;
         this.args=args;
     }

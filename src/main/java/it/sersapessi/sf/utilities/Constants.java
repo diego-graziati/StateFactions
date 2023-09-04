@@ -226,6 +226,7 @@ public final class Constants {
                     public static final String PERSON_ALREADY_STATE_OWNER = "string.command.error.person-already-state-owner";
                     public static final String PERSON_NOT_A_CLAIM_RESPONSIBLE = "string.command.error.person-not-a-claim-responsible";
                     public static final String TOO_MANY_CLAIMS = "string.command.error.too-many-claims";
+                    public static final String YET_TO_BE_IMPLEMENTED = "string.command.error.yet-to-be-implemented";
                 }
                 public static final class Success{
                     public static final String PLAYER_REGISTERED = "string.command.success.player-registered";

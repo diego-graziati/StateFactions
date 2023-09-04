@@ -50,6 +50,7 @@
   "string.command.error.person-already-state-owner": "This person is already a state owner for this state",
   "string.command.error.person-not-a-claim-responsible": "This person is not a claim responsible for the state: ",
   "string.command.error.too-many-claims": "You're trying to claim too many blocks at once. Current limit: ",
+  "string.command.error.yet-to-be-implemented": "This feature will be implemented in the future, maybe...",
 
   "string.command.success.player-registered": "You've been successfully registered",
   "string.command.success.player-loggedin": "You've successfully logged in",

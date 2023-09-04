@@ -13,15 +13,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
 
-public class StateRunnable extends BukkitRunnable {
+public class StateCommandRunnable extends BukkitRunnable {
 
     private CommandSender sender;
     private ArrayList<String> args;
 
-    public StateRunnable(@NotNull CommandSender sender, @NotNull ArrayList<String> args){
+    public StateCommandRunnable(@NotNull CommandSender sender, @NotNull ArrayList<String> args){
         this.sender=sender;
         this.args=args;
     }
@@ -29,7 +27,7 @@ public class StateRunnable extends BukkitRunnable {
     @Override
     public void run() {
         String stateName= args.get(1);
-        if(args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CREATE) && args.size()==3){
+        if(args.size()==3 && args.get(2).equalsIgnoreCase(Constants.CommandsArgs.CREATE)){
             if(sender instanceof Player){
 
                 Player p = (Player) sender;

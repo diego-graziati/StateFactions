@@ -51,6 +51,7 @@ public final class StateFactions extends JavaPlugin {
         startupProcess();
         SFCommands commands = new SFCommands();
         Objects.requireNonNull(getCommand("sf")).setExecutor(commands);
+        Objects.requireNonNull(getCommand("sf")).setTabCompleter(commands);
 
         getServer().getPluginManager().registerEvents(new PlayerEvents(),this);
         getServer().getPluginManager().registerEvents(new NonPlayerEvents(),this);

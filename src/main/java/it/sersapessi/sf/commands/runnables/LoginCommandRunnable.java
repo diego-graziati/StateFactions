@@ -7,15 +7,13 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
 
-public class LoginRunnable extends BukkitRunnable {
+public class LoginCommandRunnable extends BukkitRunnable {
 
     private CommandSender sender;
     private ArrayList<String> args;
 
-    public LoginRunnable(@NotNull CommandSender sender, @NotNull ArrayList<String> args){
+    public LoginCommandRunnable(@NotNull CommandSender sender, @NotNull ArrayList<String> args){
         this.sender=sender;
         this.args=args;
     }
